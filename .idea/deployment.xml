@@ -14,6 +14,8 @@
             <excludedPath path="/vendor" />
             <excludedPath path="/www" />
             <excludedPath path="/melnev" />
+            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+            <excludedPath path="/node_modules" />
           </excludedPaths>
         </serverdata>
       </paths>
