@@ -4,10 +4,32 @@
     <section class="container first-section">
         <div class="row">
             <div class="col-12">
-                <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
+                <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-white featured-border  rounded shadow-lg">
                     <div class="media-body d-inline-block align-self-center">
-                        <div class="col-sm-12 my-2">
-                            <h1>Здесь будет поиск по сайту</h1>
+                        <div class="my-2 mx-2">
+                            <h3><i class="pr-3 far fa-comment text-secondary">Результаты поиска</i></h3>
+                            <hr>
+                            <div class="col-12 mt-2 mb-4">
+                                {% apply markdown_to_html %}
+                                    **Глазной кабинет Валицкого И.С.**
+
+
+                                    ***располагается***
+
+
+                                    *на пересечении*
+
+                                    улицы Фрунзе и улицы
+
+
+                                    Л.Толстого. Вход в глазной кабинет
+
+                                    со стороны улицы Фрунзе напротив
+
+                                    17-й школы. Если
+
+                                {% endapply %}
+                            </div>
                         </div>
                     </div>
                 </div>
