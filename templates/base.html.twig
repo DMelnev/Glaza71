@@ -1,45 +1,75 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <title>{% block title %}{% endblock %}</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Valitskii I.S.">
-    <meta name="yandex-verification" content="4117025a9084702a">
+    {# <meta name="yandex-verification" content="4117025a9084702a"> #}
     <meta name="description" content="Глазной кабинет Валицкого И.С.">
     <link rel="icon" type="image/ico" sizes="16x16" href="favicon.ico">
     {% block css %}
-    <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     {% endblock %}
-    <link rel="canonical" href="{{ url(app.request.get('_route')) }}" />
+    <link rel="canonical" href="{{ url(app.request.get('_route')) }}"/>
 </head>
-
 <body>
-
-<nav class="navbar navbar-expand-md navbar-dark navbar-bg fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark navbar-bg{% if not is_granted('IS_IMPERSONATOR') %} fixed-top{% endif %}">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{ url('app_index') }}"><img class="img-logo" src="{{ asset('img/eye.png') }}" alt="Глазной кабинет"></a>
+        <a class="navbar-brand" href="{{ url('app_index') }}"><img class="img-logo" src="{{ asset('img/eye.png') }}"
+                                                                   alt="Глазной кабинет"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_index" %} active{% endif %}" aria-current="page" href="{{ path('app_index') }}">Глазной&#160;кабинет</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_index" %} active{% endif %}"
+                       aria-current="page" href="{{ path('app_index') }}">Глазной&#160;кабинет</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_optic" %} active{% endif %}" href="{{ path('app_optic') }}">Оптика</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_optic" %} active{% endif %}"
+                       href="{{ path('app_optic') }}">Оптика</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_tomography" %} active{% endif %}" href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_tomography" %} active{% endif %}"
+                       href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_contacts" %} active{% endif %}" href="{{ path('app_contacts') }}">Контакты</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_contacts" %} active{% endif %}"
+                       href="{{ path('app_contacts') }}">Контакты</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav me-3">
+                <li class="nav-item dropdown">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Пользователь</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li><a class="dropdown-item" href="#">Панель администратора</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="#">Кабинет</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Выйти</a></li>
+                        </ul>
+                    {% else %}
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">Войти</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="#">Войти</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Зарегистрироваться</a></li>
+                        </ul>
+                    {% endif %}
                 </li>
             </ul>
             <form role="search" action="{{ url('app_search') }}">
@@ -48,23 +78,33 @@
         </div>
     </div>
 </nav>
+{% if is_granted('IS_IMPERSONATOR') %}
+    <div class="alert alert-warning mb-0">
+        <div class="container-fluid">
+            <span><strong>ИМПЕРСАНОЛИЗАЦИЯ ВКЛЮЧЕНА</strong></span>
+            <a class="my-auto float-end" href="{{ path('app_index', {'_switch_user': '_exit'}) }}">Выйти</a>
+        </div>
+    </div>
+{% endif %}
 {% block body %}
 {% endblock %}
 
 <footer class="navbar navbar-expand-lg navbar-dark navbar-bg">
     <div class="container-fluid text-white">
         <div class="col-md-4 d-flex align-items-center">
-            <span class="mb-3 mb-md-0">©2018-2023 Валицкий И.С.</span>
+            <span class="mb-3 mb-md-0">©2018 - {{ 'now' | date('Y') }} Валицкий И.С.</span>
         </div>
 
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-        <li class=" nav-item"><a href="{{ url('app_sitemap') }}" class="nav-link px-2 text-white">Карта сайта</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-white ms-4">Версия для слабовидящих</a></li>
+            <li class=" nav-item"><a href="{{ url('app_sitemap') }}" class="nav-link px-2 text-white">Карта сайта</a>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-white ms-4">Версия для слабовидящих</a></li>
         </ul>
     </div>
 </footer>
-
-<script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+{% block script %}
+    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+{% endblock %}
 </body>
 
 </html>
