@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     {% endblock %}
-    <link rel="canonical" href="./index.html" />
+    <link rel="canonical" href="{{ url(app.request.get('_route')) }}" />
 </head>
 
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark navbar-bg fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/"><img class="img-logo" src="{{ asset('img/eye.png') }}"></a>
+        <a class="navbar-brand" href="{{ url('app_index') }}"><img class="img-logo" src="{{ asset('img/eye.png') }}" alt="Глазной кабинет"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -30,19 +30,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('app_index') }}">Глазной&#160;кабинет</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_index" %} active{% endif %}" aria-current="page" href="{{ path('app_index') }}">Глазной&#160;кабинет</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_optic') }}">Оптика</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_optic" %} active{% endif %}" href="{{ path('app_optic') }}">Оптика</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_tomography" %} active{% endif %}" href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_contacts') }}">Контакты</a>
+                    <a class="nav-link{% if app.request.get('_route') == "app_contacts" %} active{% endif %}" href="{{ path('app_contacts') }}">Контакты</a>
                 </li>
             </ul>
-            <form role="search">
+            <form role="search" action="{{ url('app_search') }}">
                 <input class="form-control" type="search" placeholder="Поиск по сайту" aria-label="Search">
             </form>
         </div>
@@ -54,11 +54,11 @@
 <footer class="navbar navbar-expand-lg navbar-dark navbar-bg">
     <div class="container-fluid text-white">
         <div class="col-md-4 d-flex align-items-center">
-            <span class="mb-3 mb-md-0">©2023 Валицкий И.С.</span>
+            <span class="mb-3 mb-md-0">©2018-2023 Валицкий И.С.</span>
         </div>
 
-        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex"">
-        <li class=" nav-item"><a href="#" class="nav-link px-2 text-white">Карта сайта</a></li>
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+        <li class=" nav-item"><a href="{{ url('app_sitemap') }}" class="nav-link px-2 text-white">Карта сайта</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-white ms-4">Версия для слабовидящих</a></li>
         </ul>
     </div>

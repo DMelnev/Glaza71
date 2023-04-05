@@ -37,12 +37,33 @@ class MainController extends AbstractController
 
         ]);
     }
+
     /**
      * @Route("/contacts", name="app_contacts")
      */
     public function contacts(): Response
     {
         return $this->render('main/contacts.html.twig', [
+
+        ]);
+    }
+
+    /**
+     * @Route("/sitemap", name="app_sitemap")
+     */
+    public function sitemap(): Response
+    {
+        return $this->render('main/sitemap.html.twig', [
+
+        ]);
+    }
+
+    /**
+     * @Route("/search", name="app_search")
+     */
+    public function search(): Response
+    {
+        return $this->render('main/search.html.twig', [
 
         ]);
     }

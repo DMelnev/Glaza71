@@ -1,5 +1,6 @@
 body {
-    background: url(../../../img/fon.jpg)
+    background: rgb(240 240 240);
+    font-size: 1.1rem;
 }
 
 .navbar {

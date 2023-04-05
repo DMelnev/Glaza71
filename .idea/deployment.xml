@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="melnev.ru" createEmptyFolders="true" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="melnev.ru" createEmptyFolders="true" autoUploadExternalChanges="true">
     <serverData>
       <paths name="melnev.ru">
         <serverdata>
@@ -22,6 +22,6 @@
         </serverdata>
       </paths>
     </serverData>
-    <option name="myAutoUpload" value="ALWAYS" />
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>
