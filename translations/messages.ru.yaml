@@ -1,0 +1,15 @@
+### registration form ###
+#labels:
+"* Enter E-mail address:": "* Введите адрес электронной почты:"
+"* Enter your name:": "* Введите ваше имя:"
+"Enter your patronymic:": "Введите ваше отчество:"
+"* Enter your surname:": "* Введите вашу фамилию:"
+"Enter your birthday:": "Введите дату вашего рождения:"
+"* Enter password:": "* Введите пароль:"
+#placeholders:
+"E-mail address": "Адрес электронной почты"
+"Name": "Имя"
+"Patronymic": "Отчество"
+"Surname": "Фамилия"
+"Password": "Пароль"
+"Consent to the processing of personal data": "Согласие на обработку персональных данных"

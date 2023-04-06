@@ -27,7 +27,7 @@ class ArticleVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::MANAGE, self::MANAGE_API])
+        return in_array($attribute, [self::MANAGE])
             && $subject instanceof Article;
     }
 
@@ -44,9 +44,6 @@ class ArticleVoter extends Voter
         switch ($attribute) {
             case self::MANAGE:
                 return $subject->getAuthor() === $user || $this->security->isGranted('ROLE_ADMIN_ARTICLE');
-
-            case self::MANAGE_API:
-                return $subject->getAuthor() === $user || $this->security->isGranted('ROLE_API');
         }
 
         return false;

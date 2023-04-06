@@ -53,10 +53,13 @@ class SecurityController extends AbstractController
                 ->setPassword($passwordHash->hashPassword(
                     $user,
                     $userModel->getPlainPassword()
-                ));
-
+                ))
+                ->setRoles(['ROLE_USER'])
+                ->setBirthDate($userModel->getBirthDate())
+                ->setSurname($userModel->getSurname() ?? null)
+                ->setPatronymic($userModel->getPatronymic()?? null);
             $em->persist($user);
-            $em->flush();;
+            $em->flush();
 
 //            $dispatcher->dispatch(new UserRegisteredEvent($user));
 

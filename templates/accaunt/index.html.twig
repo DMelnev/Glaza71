@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ app.user.firstName }} {{ app.user.surname }}{% endblock %}
+
+{% block body %}
+    <section class="container first-section">
+        <div class="row">
+            <div class="col-8">
+                <table class="table table-striped">
+                    <tr>
+                        <th scope="row">Имя</th>
+                        <td>{{ app.user.firstName }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Отчество</th>
+                        <td>{{ app.user.patronymic }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Фамилия</th>
+                        <td>{{ app.user.surname }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Дата рождения</th>
+                        <td>{% if (app.user.birthDate ?? null) %}{{ app.user.birthDate|date('d.m.Y') }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Дата регистрации</th>
+                        <td>{{ app.user.createdAt|date('H:i:s d.m.Y') }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Дата последного изменения</th>
+                        <td>{{ app.user.updatedAt|date('H:i:s d.m.Y') }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block footer %}
+{% endblock %}

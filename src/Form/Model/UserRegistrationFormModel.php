@@ -18,8 +18,8 @@ class UserRegistrationFormModel
     /**
      * @Assert\NotBlank(message="Введите Email")
      * @Assert\Email(message="Email введен не корректно")
-     * @UniqueUser()
      * @RegistrationSpam()
+     * @UniqueUser()
      */
     private string $email;
 
@@ -35,9 +35,61 @@ class UserRegistrationFormModel
     private string $plainPassword;
 
     /**
-     * @Assert\IsTrue(message="Вы не можете зарегистрироваться, если не согласны с условиями")
+     * @Assert\IsTrue(message="Вы не можете зарегистрироваться, если не согласны на обработку персональных данных")
      */
     private string $agreeTerms;
+
+    /**
+     * @Assert\NotBlank(message="Введите Фамилию")
+     */
+    private string $surname;
+
+    private $patronymic;
+
+    private $birthDate;
+
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+
+    public function setBirthDate($birthDate): void
+    {
+        $this->birthDate = $birthDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPatronymic()
+    {
+        return $this->patronymic;
+    }
+
+    /**
+     * @param string $patronymic
+     */
+    public function setPatronymic(string $patronymic): void
+    {
+        $this->patronymic = $patronymic;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname(): string
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @param string $surname
+     */
+    public function setSurname(string $surname): void
+    {
+        $this->surname = $surname;
+    }
 
     /**
      * @return string

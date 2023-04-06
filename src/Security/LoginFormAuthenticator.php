@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
@@ -25,7 +24,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
-    public const HOME_PAGE = 'app_homepage';
+    public const HOME_PAGE = 'app_index';
 
     private UrlGeneratorInterface $urlGenerator;
     private UserPasswordHasherInterface $passwordHash;
@@ -44,11 +43,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 
         return new Passport(
             new UserBadge($email),
-//            new PasswordCredentials($password),
             new CustomCredentials(function ($credentials, User $user) {
-                if (!$user->isIsActive()) {
-                    throw new CustomUserMessageAuthenticationException('Get out, Babayka!');
-                }
                 return $this->passwordHash->isPasswordValid($user, $credentials);
             }, $password),
             [

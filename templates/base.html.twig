@@ -10,8 +10,7 @@
     {# <meta name="yandex-verification" content="4117025a9084702a"> #}
     <meta name="description" content="Глазной кабинет Валицкого И.С.">
     {% block css %}
-        <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
     <link rel="canonical" href="{{ url(app.request.get('_route')) }}"/>
 </head>
@@ -28,7 +27,19 @@
         </div>
     </div>
 {% endif %}
-
+{% if app.session.flashBag.peek('flash_message')|length > 0 %}
+    <div class="container first-section">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-success" role="alert">
+                    {% for message in app.flashes('flash_message') %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
 {% block body %}
 {% endblock %}
 
@@ -37,7 +48,7 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{{ asset('/js/bootstrap.min.js') }}"></script>
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </body>
 

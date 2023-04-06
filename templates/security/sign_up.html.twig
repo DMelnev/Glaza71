@@ -1,20 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AccauntController!{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container first-section">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                {{ form_start(registrationForm, {
+                    attr: {class: 'form-signin'}
+                }) }}
+                <h1 class="h3 mb-3 font-weight-normal">Регистрация</h1>
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.firstName) }}
+                {{ form_row(registrationForm.patronymic) }}
+                {{ form_row(registrationForm.surname) }}
+                {{ form_row(registrationForm.birthDate) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/OSPanel/domains/glaza71/src/Controller/AccountController.php'|file_link(0) }}">src/Controller/AccauntController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/OSPanel/domains/glaza71/templates/security/sign_in.html.twig'|file_link(0) }}">templates/accaunt/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block footer %}
 {% endblock %}
