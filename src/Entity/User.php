@@ -69,6 +69,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $birthDate;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $confirmed;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -237,6 +242,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthDate(?\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getConfirmed(): ?\DateTimeInterface
+    {
+        return $this->confirmed;
+    }
+
+    public function setConfirmed(?\DateTimeInterface $confirmed): self
+    {
+        $this->confirmed = $confirmed;
 
         return $this;
     }

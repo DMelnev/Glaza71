@@ -28,6 +28,10 @@
                         <td>{{ app.user.createdAt|date('H:i:s d.m.Y') }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Дата подтверждения e-mail</th>
+                        <td>{% if (app.user.confirmed ?? null) %}{{ app.user.confirmed|date('H:i:s d.m.Y') }}{% endif %}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Дата последного изменения</th>
                         <td>{{ app.user.updatedAt|date('H:i:s d.m.Y') }}</td>
                     </tr>

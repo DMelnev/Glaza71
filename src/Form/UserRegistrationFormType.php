@@ -51,18 +51,12 @@ class UserRegistrationFormType extends AbstractType
                 'label' => 'Enter your birthday:',
                 'required' => false,
             ])
-//            ->add('plainPassword', PasswordType::class, [
-//                'label' => '* Enter password:',
-//                'required' => false,
-//                'attr' => [
-//                    'placeholder' => 'Password'
-//                ]
-//            ])
+
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Пароли должны совпадать.',
                 'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
+                'required' => false,
                 'first_options'  => ['label' => '* Enter password:'],
                 'second_options' => ['label' => '* Repeat Password:'],
             ])

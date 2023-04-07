@@ -1,0 +1,17 @@
+{% extends 'mailer/email_base.html.twig' %}
+{% block content %}
+    <table>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Посмотреть</th>
+        </tr>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.title }}</td>
+                <td><a href="{{ url('app_article_show', {slug: article.slug}) }}">Перейти</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
