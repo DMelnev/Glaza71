@@ -6,6 +6,7 @@
 "* Enter your surname:": "* Введите вашу фамилию:"
 "Enter your birthday:": "Введите дату вашего рождения:"
 "* Enter password:": "* Введите пароль:"
+"* Repeat Password:": "* Повторите пароль:"
 #placeholders:
 "E-mail address": "Адрес электронной почты"
 "Name": "Имя"
@@ -13,3 +14,5 @@
 "Surname": "Фамилия"
 "Password": "Пароль"
 "Consent to the processing of personal data": "Согласие на обработку персональных данных"
+
+"The password fields must match.": "Пароли должны совпадать."

@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,7 +28,7 @@ class UserRegistrationFormType extends AbstractType
                 'label' => '* Enter your name:',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Name'
+                    'placeholder' => 'Name',
                 ]
             ])
             ->add('patronymic', null, [
@@ -46,15 +47,24 @@ class UserRegistrationFormType extends AbstractType
             ])
             ->add('birthDate', DateType::class, [
                 'widget' => 'single_text',
+//                'widget' => 'choice',
                 'label' => 'Enter your birthday:',
                 'required' => false,
             ])
-            ->add('plainPassword', PasswordType::class, [
-                'label' => '* Enter password:',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Password'
-                ]
+//            ->add('plainPassword', PasswordType::class, [
+//                'label' => '* Enter password:',
+//                'required' => false,
+//                'attr' => [
+//                    'placeholder' => 'Password'
+//                ]
+//            ])
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'Пароли должны совпадать.',
+                'options' => ['attr' => ['class' => 'password-field']],
+                'required' => true,
+                'first_options'  => ['label' => '* Enter password:'],
+                'second_options' => ['label' => '* Repeat Password:'],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Consent to the processing of personal data',
