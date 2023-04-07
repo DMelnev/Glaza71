@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de9c4a143674a63ba5e889987a7cb72d",
+    "content-hash": "8725d7fc465ece3c14ec9e8ea43af9b9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -8101,73 +8101,6 @@
                 }
             ],
             "time": "2023-03-14T06:11:53+00:00"
-        },
-        {
-            "name": "symfony/telegram-notifier",
-            "version": "v5.4.22",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/telegram-notifier.git",
-                "reference": "0d13d8b9506d19ff8a61ac5fb5abf33f8686e705"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/telegram-notifier/zipball/0d13d8b9506d19ff8a61ac5fb5abf33f8686e705",
-                "reference": "0d13d8b9506d19ff8a61ac5fb5abf33f8686e705",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2.5",
-                "symfony/http-client": "^4.3|^5.0|^6.0",
-                "symfony/notifier": "^5.4.21|^6.2.7"
-            },
-            "type": "symfony-notifier-bridge",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Notifier\\Bridge\\Telegram\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Telegram Notifier Bridge",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "notifier",
-                "telegram"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/telegram-notifier/tree/v5.4.22"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-03-25T08:40:40+00:00"
         },
         {
             "name": "symfony/translation",

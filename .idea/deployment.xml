@@ -5,8 +5,21 @@
       <paths name="melnev.ru">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath path="/www" />
+            <excludedPath path="/melnev" />
+            <excludedPath path="/.env.local" />
+            <excludedPath path="/var" />
+            <excludedPath path="/vendor" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.idea" />
+            <excludedPath local="true" path="$PROJECT_DIR$/var" />
+            <excludedPath local="true" path="$PROJECT_DIR$/.env.local" />
+            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
+            <excludedPath path="/node_modules" />
+            <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
