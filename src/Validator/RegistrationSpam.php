@@ -15,5 +15,5 @@ class RegistrationSpam extends Constraint
      * Any public properties become valid options for the annotation.
      * Then, use these in your validator class.
      */
-    public $message = 'Ботам здесь не место';
+    public $message = 'Указанный e-mail подозрительно странный, обратитесь к администратору сайта.';
 }

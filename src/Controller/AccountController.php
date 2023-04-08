@@ -2,22 +2,25 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Entity\User;
+use App\Form\ChangePasswordFormType;
+use App\Form\Model\ChangePasswordFormModel;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserFormType;
-use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AccountController extends AbstractController
 {
+
     /**
      * @Route("/account", name="app_account")
      * @IsGranted("ROLE_USER")
@@ -37,9 +40,7 @@ class AccountController extends AbstractController
         $form = $this->createForm(UserFormType::class);
         if ($this->handleFormRequest($form, $entityManager, $request)){
             $this->addFlash('flash_message', "Данные успешно изменены!");
-            return $this->redirectToRoute('app_account_edit',[
-                'show_error' => $form->isSubmitted(),
-            ]);
+            return $this->redirectToRoute('app_account_edit');
         }
         /** @var UserEditFormModel $user */
         $userModel = $form->getData();
@@ -47,8 +48,8 @@ class AccountController extends AbstractController
         $form2->handleRequest($request);
         if ($form->isSubmitted()) $this->addFlash('flash_error', "Не удалось изменить данные!");
         return $this->renderForm('account/account_edit.html.twig', [
-            'show_error' => $form->isSubmitted(),
             'userForm' => $form2,
+            'show_error' => $form->isSubmitted(),
         ]);
     }
 
@@ -63,7 +64,6 @@ class AccountController extends AbstractController
             $userModel = $form->getData();
             /** @var User $user */
             $user = $this->getUser();
-//            dd($userModel->getBirthDate());
             $user
                 ->setFirstName($userModel->getFirstName())
                 ->setPatronymic($userModel->getPatronymic()??null)
@@ -76,5 +76,40 @@ class AccountController extends AbstractController
             return $user;
         }
         return null;
+    }
+
+    /**
+     * @Route ("/account/changepassword", name="app_account_changepassword")
+     * @IsGranted("ROLE_USER")
+     */
+    public function changePassword(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $passwordHash,
+        Security $security
+    ): Response
+    {
+
+
+        $user = $security->getUser();
+        $form = $this->createForm(ChangePasswordFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var ChangePasswordFormModel $passwordModel */
+            $passwordModel = $form->getData();
+            $user->setPassword($passwordHash->hashPassword(
+                $user,
+                $passwordModel->getPlainPassword()
+            ));
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('flash_message', "Пароль успешно изменен!");
+            return $this->redirectToRoute('app_account_edit');
+        }
+
+        if ($form->isSubmitted()) $this->addFlash('flash_error', "Не удалось изменить пароль!");
+        return $this->renderForm('account/account_edit_password.html.twig', [
+            'userForm' => $form,
+        ]);
     }
 }
