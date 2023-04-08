@@ -6,13 +6,13 @@
     <div class="container first-section">
         <div class="row justify-content-center">
             {% if error %}
-                <div class="col-8 text-center">
+                <div class="col-md-8 text-center">
                     <div class="alert alert-danger" role="alert">
                         {{ error.messageKey|trans(error.messageData, 'security') }}
                     </div>
                 </div>
             {% endif %}
-            <div class="col-6">
+            <div class="col-md-4">
                 <form class="form-signin" method="post">
                     <h2 class="h3 mb-3 font-weight-normal">Авторизация</h2>
                     <label for="inputEmail" class="sr-only">Email адрес</label>
