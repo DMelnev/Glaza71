@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Events\UserRegisteredEvent;
 use App\Form\Model\UserRegistrationFormModel;
+use App\Form\UserEditFormType;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,15 +50,14 @@ class SecurityController extends AbstractController
             $user = new User;
             $user
                 ->setFirstName($userModel->getFirstName())
+                ->setSurname($userModel->getSurname())
                 ->setEmail($userModel->getEmail())
                 ->setPassword($passwordHash->hashPassword(
                     $user,
                     $userModel->getPlainPassword()
                 ))
-                ->setRoles(['ROLE_USER'])
-                ->setBirthDate($userModel->getBirthDate())
-                ->setSurname($userModel->getSurname() ?? null)
-                ->setPatronymic($userModel->getPatronymic()?? null);
+                ->setRoles(['ROLE_USER']);
+
             $em->persist($user);
             $em->flush();
 

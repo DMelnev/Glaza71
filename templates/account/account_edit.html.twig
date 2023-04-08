@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактирование{% endblock %}
+
+{% block body %}
+    {% if show_error %}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    Изменения не удались
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container first-section">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                {{ form_start(userForm) }}
+                <h1 class="h3 mb-3 font-weight-normal">Редактирование</h1>
+                {{ form_row(userForm.firstName)}}
+                {{ form_row(userForm.patronymic) }}
+                {{ form_row(userForm.surname) }}
+                {{ form_row(userForm.birthDate) }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+                {{ form_end(userForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

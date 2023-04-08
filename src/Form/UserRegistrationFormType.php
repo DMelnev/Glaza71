@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Form\Model\UserRegistrationFormModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -31,25 +30,12 @@ class UserRegistrationFormType extends AbstractType
                     'placeholder' => 'Name',
                 ]
             ])
-            ->add('patronymic', null, [
-                'label' => 'Enter your patronymic:',
-                'required' => false,
-                'attr' => [
-                    'placeholder' => 'Patronymic'
-                ]
-            ])
             ->add('surname', null, [
-                'label' => '* Enter your surname:',
+                'label' => 'Enter your surname:',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Surname'
                 ]
-            ])
-            ->add('birthDate', DateType::class, [
-                'widget' => 'single_text',
-//                'widget' => 'choice',
-                'label' => 'Enter your birthday:',
-                'required' => false,
             ])
 
             ->add('plainPassword', RepeatedType::class, [
