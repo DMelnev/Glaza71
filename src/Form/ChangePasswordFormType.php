@@ -20,8 +20,8 @@ class ChangePasswordFormType extends AbstractType
                 'invalid_message' => 'Пароли должны совпадать.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
-                'first_options' => ['label' => '* Enter password:'],
-                'second_options' => ['label' => '* Repeat Password:'],
+                'first_options' => ['label' => '* Enter new password:'],
+                'second_options' => ['label' => '* Repeat new password:'],
             ]);
     }
 
