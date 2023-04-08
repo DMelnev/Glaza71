@@ -3,7 +3,7 @@
 {% block title %}{{ app.user.firstName }} {{ app.user.surname }}{% endblock %}
 
 {% block body %}
-    <section class="container first-section">
+    <section class="container{% if not flash %} first-section{% endif %}">
         <div class="row ms-auto">
             <div class="col-md-8">
                 <table class="table table-striped">

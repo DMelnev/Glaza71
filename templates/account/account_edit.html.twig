@@ -4,11 +4,7 @@
 
 {% block body %}
 
-    {% if flash %}
-<div class="container">
-    {% else %}
-    <div class="container first-section">
-        {% endif %}
+    <section class="container{% if not flash %} first-section{% endif %}">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 {{ form_start(userForm) }}
@@ -42,7 +38,7 @@
                 {{ form_end(userForm) }}
             </div>
         </div>
-    </div>
+    </section>
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-sm-4">
@@ -52,7 +48,7 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
 
     {% block footer %}
-{% endblock %}
+    {% endblock %}

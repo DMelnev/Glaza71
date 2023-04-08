@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <section class="container first-section">
+    <section class="container{% if not flash %} first-section{% endif %}">
         <div class="row">
             <div class="col-12">
                 <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-white featured-border  rounded shadow-lg">

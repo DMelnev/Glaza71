@@ -22,9 +22,11 @@ class SecurityController extends AbstractController
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
+        if ($authenticationUtils->getLastAuthenticationError()) {
+            $this->addFlash('flash_error', "Не верный логин или пароль!");
+        }
         $lastUsername = $authenticationUtils->getLastUsername();
-        return $this->render('security/sign_in.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/sign_in.html.twig', ['last_username' => $lastUsername]);
     }
 
     /**
@@ -56,7 +58,6 @@ class SecurityController extends AbstractController
 
             $em->persist($user);
             $em->flush();
-
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,

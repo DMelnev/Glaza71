@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class AccountController extends AbstractController
 {
@@ -40,7 +39,7 @@ class AccountController extends AbstractController
         $form = $this->createForm(UserFormType::class);
         if ($this->handleFormRequest($form, $entityManager, $request)){
             $this->addFlash('flash_message', "Данные успешно изменены!");
-            return $this->redirectToRoute('app_account_edit');
+            return $this->redirectToRoute('app_account');
         }
         /** @var UserEditFormModel $user */
         $userModel = $form->getData();

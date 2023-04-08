@@ -3,7 +3,7 @@
 {% block title %}Регистрация{% endblock %}
 
 {% block body %}
-    <div class="container first-section">
+<section class="container{% if not flash %} first-section{% endif %}">
         <div class="row justify-content-center">
             <div class="col-md-4">
                 {{ form_start(registrationForm, {
@@ -19,7 +19,7 @@
                 {{ form_end(registrationForm) }}
             </div>
         </div>
-    </div>
+</section>
 {% endblock %}
 
 {% block footer %}

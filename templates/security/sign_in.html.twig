@@ -2,16 +2,8 @@
 
 {% block title %}Авторизация{% endblock %}
 {% block body %}
-
-    <div class="container first-section">
+    <section class="container{% if not flash %} first-section{% endif %}">
         <div class="row justify-content-center">
-            {% if error %}
-                <div class="col-md-8 text-center">
-                    <div class="alert alert-danger" role="alert">
-                        {{ error.messageKey|trans(error.messageData, 'security') }}
-                    </div>
-                </div>
-            {% endif %}
             <div class="col-md-4">
                 <form class="form-signin" method="post">
                     <h2 class="h3 mb-3 font-weight-normal">Авторизация</h2>
@@ -45,7 +37,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
 
 {% block footer %}
