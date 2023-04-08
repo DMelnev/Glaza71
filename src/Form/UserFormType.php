@@ -2,14 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Form\Model\UserEditFormModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class UserFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -19,20 +18,26 @@ class UserType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Name',
+                    'pattern' => false,
+                    'maxlength' => false,
                 ]
             ])
             ->add('patronymic', null, [
                 'label' => 'Enter your patronymic:',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Patronymic'
+                    'placeholder' => 'Patronymic',
+                    'pattern' => false,
+                    'maxlength' => false,
                 ]
             ])
             ->add('surname', null, [
                 'label' => '* Enter your surname:',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Surname'
+                    'placeholder' => 'Surname',
+                    'pattern' => false,
+                    'maxlength' => false,
                 ]
             ])
             ->add('birthDate', DateType::class, [

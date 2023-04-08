@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Valitskii I.S.">
-    <link rel="icon" type="image/ico" sizes="16x16" href="favicon.ico">
+    <link rel="icon" type="image/ico" sizes="16x16" href="{{ asset('img/favicon.ico') }}">
     {# <meta name="yandex-verification" content="4117025a9084702a"> #}
     <meta name="description" content="Глазной кабинет Валицкого И.С.">
     {% block css %}
@@ -18,7 +18,7 @@
 {% block navigation %}
     {% include('base_nav.html.twig') %}
 {% endblock %}
-
+{% set flash = false %}
 {% if is_granted('IS_IMPERSONATOR') %}
     <div class="alert alert-warning mb-0">
         <div class="container-fluid">
@@ -39,6 +39,21 @@
             </div>
         </div>
     </div>
+    {% set flash=true %}
+{% endif %}
+{% if app.session.flashBag.peek('flash_error')|length > 0 %}
+    <div class="container first-section">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    {% for message in app.flashes('flash_error') %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% set flash=true %}
 {% endif %}
 {% block body %}
 {% endblock %}

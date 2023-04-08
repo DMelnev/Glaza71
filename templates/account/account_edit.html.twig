@@ -3,30 +3,47 @@
 {% block title %}Редактирование{% endblock %}
 
 {% block body %}
-    {% if show_error %}
-        <div class="row">
-            <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                    Изменения не удались
-                </div>
-            </div>
-        </div>
-    {% endif %}
+
+    {% if flash %}
+<div class="container">
+    {% else %}
     <div class="container first-section">
+        {% endif %}
         <div class="row justify-content-center">
             <div class="col-4">
                 {{ form_start(userForm) }}
                 <h1 class="h3 mb-3 font-weight-normal">Редактирование</h1>
-                {{ form_row(userForm.firstName)}}
-                {{ form_row(userForm.patronymic) }}
-                {{ form_row(userForm.surname) }}
-                {{ form_row(userForm.birthDate) }}
+                {% if show_error %}
+                    {{ form_row(userForm.firstName) }}
+                    {{ form_row(userForm.patronymic) }}
+                    {{ form_row(userForm.surname) }}
+                    {{ form_row(userForm.birthDate) }}
+                {% else %}
+                    {{ form_row(userForm.firstName, {
+                        attr: {value: app.user.firstName}
+                    }) }}
+                    {{ form_row(userForm.patronymic, {
+                        attr: {value: app.user.patronymic}
+                    }) }}
+                    {{ form_row(userForm.surname, {
+                        attr: {value: app.user.surname}
+                    }) }}
+
+                    {% if (app.user.birthDate ?? null) %}
+                        {{ form_row(userForm.birthDate, {
+                            attr: {value: app.user.birthDate|date('Y-m-d')}
+                        }) }}
+                    {% else %}
+                        {{ form_row(userForm.birthDate) }}
+                    {% endif %}
+                {% endif %}
+
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
                 {{ form_end(userForm) }}
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
 
-{% block footer %}
+    {% block footer %}
 {% endblock %}
