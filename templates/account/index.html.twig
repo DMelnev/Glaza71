@@ -4,7 +4,7 @@
 
 {% block body %}
     <section class="container{% if not flash %} first-section{% endif %}">
-        <div class="row ms-auto">
+        <div class="row  justify-content-center">
             <div class="col-md-8">
                 <table class="table table-striped">
                     <tr>
@@ -39,15 +39,15 @@
             </div>
         </div>
     </section>
-    <div class="container">
-        <div class="row">
-            <div class="col">
+    <section class="container">
+        <div class="row  justify-content-center">
+            <div class="col-md-8">
                 <a href="{{ url('app_account_edit') }}">
                 <button type="button" class="btn btn-secondary">Изменить</button>
                 </a>
             </div>
         </div>
-    </div>
+    </section>
 {% endblock %}
 {% block footer %}
 {% endblock %}

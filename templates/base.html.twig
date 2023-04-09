@@ -27,34 +27,33 @@
         </div>
     </div>
 {% endif %}
-{% if app.session.flashBag.peek('flash_message')|length > 0 %}
-    <div class="container first-section">
-        <div class="row">
-            <div class="col-12">
-                <div class="alert alert-success" role="alert">
-                    {% for message in app.flashes('flash_message') %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
+
+{% if app.session.flashBag.peek('flash_message')|length > 0  or app.session.flashBag.peek('flash_error')|length > 0 %}
+    <section class="container first-section">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% if app.session.flashBag.peek('flash_message')|length > 0 %}
+                    <div class="alert alert-success" role="alert">
+                        {% for message in app.flashes('flash_message') %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if app.session.flashBag.peek('flash_error')|length > 0 %}
+                    <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in app.flashes('flash_error') %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
-    </div>
+    </section>
     {% set flash=true %}
 {% endif %}
-{% if app.session.flashBag.peek('flash_error')|length > 0 %}
-    <div class="container first-section">
-        <div class="row">
-            <div class="col-12">
-                <div class="alert alert-danger" role="alert">
-                    {% for message in app.flashes('flash_error') %}
-                        <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% set flash=true %}
-{% endif %}
+
 {% block body %}
 {% endblock %}
 

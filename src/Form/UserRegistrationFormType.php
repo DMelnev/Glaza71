@@ -31,7 +31,7 @@ class UserRegistrationFormType extends AbstractType
                 ]
             ])
             ->add('surname', null, [
-                'label' => 'Enter your surname:',
+                'label' => '* Enter your surname:',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Surname'
@@ -40,7 +40,7 @@ class UserRegistrationFormType extends AbstractType
 
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Пароли должны совпадать.',
+                'invalid_message' => 'Passwords must be equal!',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
                 'first_options'  => ['label' => '* Enter password:'],

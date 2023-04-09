@@ -11,36 +11,36 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserRegistrationFormModel
 {
     /**
-     * @Assert\NotBlank(message="Введите Имя")
+     * @Assert\NotBlank(message="Enter your name!")
      */
     private string $firstName;
 
     /**
-     * @Assert\NotBlank(message="Введите Email")
-     * @Assert\Email(message="Email введен не корректно")
+     * @Assert\NotBlank(message="Enter E-mail!")
+     * @Assert\Email(message="Wrong E-mail!")
      * @RegistrationSpam()
      * @UniqueUser()
      */
     private string $email;
 
     /**
-     * @Assert\NotBlank(message="Введите Пароль")
+     * @Assert\NotBlank(message="Enter password!")
      * @Assert\Length(
      *     min="6",
      *     max="100",
-     *     minMessage="Пароль должен быть не менее 6 символов",
-     *     maxMessage="Пароль должен быть не более 100 символов"
+     *     minMessage="Password must be more than 6 symbols!",
+     *     maxMessage="Password must be less than 100 symbols!"
      * )
      */
     private string $plainPassword;
 
     /**
-     * @Assert\IsTrue(message="Вы не можете зарегистрироваться, если не согласны на обработку персональных данных")
+     * @Assert\IsTrue(message="You cannot register if you don't agree to the processing of personal data!")
      */
     private string $agreeTerms;
 
     /**
-     * @Assert\NotBlank(message="Введите Фамилию")
+     * @Assert\NotBlank(message="Enter your surname!")
      */
     private string $surname;
 
