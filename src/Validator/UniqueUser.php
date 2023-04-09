@@ -10,9 +10,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueUser extends Constraint
 {
-    /*
-     * Any public properties become valid options for the annotation.
-     * Then, use these in your validator class.
-     */
-    public $message = 'Пользователь "{{ value }}" уже зарегистрирован';
+    public $message = 'This e-mail is already registered!';
 }

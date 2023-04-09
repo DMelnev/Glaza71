@@ -1,3 +1,4 @@
+# Registration fields
 "Enter your name!": "Введите ваше имя!"
 "Enter E-mail!": "Введите Email!"
 "Wrong E-mail!": "E-mail введен не корректно!"
@@ -6,4 +7,15 @@
 "Password must be less than 100 symbols!": "Пароль должен быть не более 100 символов!"
 "Enter your surname!": "Введите вашу фамилию!"
 "You cannot register if you don't agree to the processing of personal data!": "Вы не можете зарегистрироваться, если не согласны на обработку персональных данных!"
-"Passwords must be equal!": "Пароли должны совпадать."
+"Passwords must be equal!": "Пароли должны совпадать!"
+"This e-mail is already registered!": "Такой E-mail уже зарегистрирован!"
+
+"Enter current password!": "Введите текущий пароль!"
+"Enter new password!": "Введите новый пароль!"
+"Name must be more than 1 symbol!": "Имя должно длиннее одного символа!"
+"Name must be less than 50 symbols!": "Имя должно короче 51 символа!"
+"Surname must be more than 1 symbol!": "Фамилия должна длиннее одного символа!"
+"Surname must be less than 51 symbols!": "Фамилия должна короче 51 символа!"
+
+"You must be more than 16 years!": "Вам должно быть больше 16 лет"
+"Are you sure? Do you wasn't born yet?": "Вы уверены, что ещё не родились?"

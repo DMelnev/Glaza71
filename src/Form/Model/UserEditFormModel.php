@@ -3,31 +3,29 @@
 
 namespace App\Form\Model;
 
-
-use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class UserEditFormModel
 {
     /**
-     * @Assert\NotBlank(message="Введите Имя")
+     * @Assert\NotBlank(message="Enter your name!")
      * @Assert\Length(
      *     min="2",
      *     max="50",
-     *     minMessage="Имя не может быть короче 2х символов",
-     *     maxMessage="Имя не может быть длиннее 50 символов"
+     *     minMessage="Name must be more than 1 symbol!",
+     *     maxMessage="Name must be less than 50 symbols!"
      * )
      */
     private string $firstName;
 
     /**
-     * @Assert\NotBlank(message="Введите Фамилию")\
+     * @Assert\NotBlank(message="Enter your surname!")\
      * @Assert\Length(
      *     min="2",
      *     max="50",
-     *     minMessage="Фамилия не может быть короче 2х символов",
-     *     maxMessage="Фамилия не может быть длиннее 50 символов"
+     *     minMessage="Surname must be more than 1 symbol!",
+     *     maxMessage="Surname must be less than 50 symbols!"
      * )
      */
     private string $surname;
@@ -98,11 +96,11 @@ class UserEditFormModel
     public function validate(ExecutionContextInterface $context, $payload)
     {
         if (null !== $this->getBirthDate() && $this->getBirthDate() > new \DateTime()) {
-            $context->buildViolation('Вы уверены, что ещё не родились?')
+            $context->buildViolation("Are you sure? Do you wasn't born yet?")
                 ->atPath('birthDate')
                 ->addViolation();
         } elseif (null !== $this->getBirthDate() && $this->getBirthDate() > new \DateTime('-16 years')) {
-            $context->buildViolation('Вам должно быть больше 16 лет')
+            $context->buildViolation('You must be more than 16 years!')
                 ->atPath('birthDate')
                 ->addViolation();
         }

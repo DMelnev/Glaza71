@@ -17,7 +17,7 @@ class ChangePasswordFormType extends AbstractType
             ->add('oldPassword', PasswordType::class)
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Пароли должны совпадать.',
+                'invalid_message' => 'Passwords must be equal!',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
                 'first_options' => ['label' => '* Enter new password:'],

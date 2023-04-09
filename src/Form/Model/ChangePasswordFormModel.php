@@ -10,18 +10,18 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ChangePasswordFormModel
 {
     /**
-     * @Assert\NotBlank(message="Введите Новый Пароль")
+     * @Assert\NotBlank(message="Enter new password!")
      * @Assert\Length(
      *     min="6",
      *     max="100",
-     *     minMessage="Пароль должен быть не менее 6 символов",
-     *     maxMessage="Пароль должен быть не более 100 символов"
+     *     minMessage="Password must be more than 6 symbols!",
+     *     maxMessage="Password must be less than 100 symbols!"
      * )
      */
     private string $plainPassword;
 
     /**
-     * @Assert\NotBlank(message="Введите старый Пароль")
+     * @Assert\NotBlank(message="Enter current password!")
      * @MatchPassword()
      */
     private string $oldPassword;
