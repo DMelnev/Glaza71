@@ -77,6 +77,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $confirmed;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $activationCode;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -259,5 +264,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->confirmed = $confirmed;
 
         return $this;
+    }
+
+    public function getActivationCode(): ?string
+    {
+        return $this->activationCode;
+    }
+
+    public function setActivationCode(?string $activationCode): self
+    {
+        $this->activationCode = $activationCode;
+
+        return $this;
+    }
+
+    public function activateUser(?string $code): bool
+    {
+        if ($code && $this->confirmed < new \DateTime('-5 min')) {
+            if ($code == $this->getActivationCode()) {
+                $this->confirmed = new \DateTime('now');
+                $this->roles[] = ['ROLE_REGISTERED'];
+                return true;
+            }
+        }
+        $this->confirmed = new \DateTime('now');
+        return false;
+
     }
 }

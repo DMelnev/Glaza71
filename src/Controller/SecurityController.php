@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,13 +32,15 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/register", name="app_register")
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHash,
         UserAuthenticatorInterface $userAuthenticator,
         LoginFormAuthenticator $authenticator,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Mailer $mailer
     ): ?Response
     {
         $form = $this->createForm(UserRegistrationFormType::class);
@@ -54,10 +57,12 @@ class SecurityController extends AbstractController
                     $user,
                     $userModel->getPlainPassword()
                 ))
-                ->setRoles(['ROLE_USER']);
+                ->setRoles(['ROLE_USER'])
+                ->setActivationCode(substr(md5($user->getPassword() . rand(0, 999)), rand(0, 15), 16));
 
             $em->persist($user);
             $em->flush();
+            $mailer->sendWelcome($user);
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,

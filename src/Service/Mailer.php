@@ -4,13 +4,13 @@
 namespace App\Service;
 
 
-use App\Entity\Article;
 use App\Entity\User;
 use Closure;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 
 class Mailer
 {
@@ -57,55 +57,41 @@ class Mailer
             $callback($email);
         }
         $this->mailer->send($email);
+
     }
 
     /**
      * @param User $user
-     * @throws TransportExceptionInterface
      */
     public function sendWelcome(User $user)
     {
-        $this->send(
-            $user,
-            'Добро пожаловать на сайт',
-            'Сообщение текстом которое покажет почтовый клиент если он не поддерживает html!',
-            'mailer/welcome.html.twig',
-            function (TemplatedEmail $email) use ($user) {
-                $email
-                    ->context([
-                        'user' => $user,
-                    ]);
-            }
-        );
+        $email = (new Email())
+            ->from("gb2010@internet.ru")
+            ->to("dvmau@mail.ru")
+            ->subject('тест')
+            ->text('какой то текст');
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            dd($e->getMessage());
+        }
+
+//        dd($user);
+//        $this->send(
+//            $user,
+//            'Добро пожаловать на сайт',
+//            'Ваш почтовый клиент не поддерживает В личном кабинете нажмите кнопку  и введите этот код: ',
+//            'mailer/welcome.html.twig',
+//            function (TemplatedEmail $email) use ($user) {
+//                $email
+//                    ->context([
+//                        'user' => $user,
+//                    ]);
+//            }
+//        );
+
+
     }
 
-    public function sendReport(string $email, string $result)
-    {
-        $this->send(
-            $email,
-            'Отчет за период',
-            $result,
-            'mailer/report.html.twig',
-            function (TemplatedEmail $email) use ($result) {
-                $email
-                    ->attach($result, 'attach.txt',);
-            }
-        );
-    }
-
-    public function sendArticleIsCreated(User $user, Article $article){
-        $this->send(
-            $user,
-            'Срздана новая статья',
-            'Сообщение простым текстом которое покажет почтовый клиент если он не поддерживает html!',
-            'mailer/weekly-newsletter.html.twig',
-            function (TemplatedEmail $email) use ($user, $article) {
-                $email
-                    ->context([
-                        'user' => $user,
-                        'articles' => [$article],
-                    ]);
-            }
-        );
-    }
 }

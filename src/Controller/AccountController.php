@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AccountActivateType;
 use App\Form\ChangePasswordFormType;
+use App\Form\Model\AccountActivateModel;
 use App\Form\Model\ChangePasswordFormModel;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserFormType;
@@ -37,7 +39,7 @@ class AccountController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(UserFormType::class);
-        if ($this->handleFormRequest($form, $entityManager, $request)){
+        if ($this->handleFormRequest($form, $entityManager, $request)) {
             $this->addFlash('flash_message', "Данные успешно изменены!");
             return $this->redirectToRoute('app_account');
         }
@@ -65,10 +67,9 @@ class AccountController extends AbstractController
             $user = $this->getUser();
             $user
                 ->setFirstName($userModel->getFirstName())
-                ->setPatronymic($userModel->getPatronymic()??null)
+                ->setPatronymic($userModel->getPatronymic() ?? null)
                 ->setSurname($userModel->getSurname())
-                ->setBirthDate($userModel->getBirthDate())
-            ;
+                ->setBirthDate($userModel->getBirthDate());
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -109,6 +110,40 @@ class AccountController extends AbstractController
         if ($form->isSubmitted()) $this->addFlash('flash_error', "Не удалось изменить пароль!");
         return $this->renderForm('account/account_edit_password.html.twig', [
             'userForm' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/account/activate", name="app_account_activate")
+     * @IsGranted("ROLE_USER")
+     */
+    public function activate(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $form = $this->createForm(AccountActivateType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var AccountActivateModel $model */
+            $model = $form->getData();
+            if ($user->getConfirmed() <= new \DateTime('-2 min')) {
+                if ($user->activateUser($model->getActivationCode())) {
+                    $this->addFlash('flash_message', "E-mail успешно активирован!");
+                } else {
+                    $this->addFlash('flash_error', 'Не верный код активации. Попробуйте снова через 2 минуты.');
+                }
+            } else {
+                $this->addFlash('flash_error', 'Прошло мало времени. Ожидайте еще 2 минуты.');
+            }
+
+            $user->setConfirmed(new \DateTime('now'));
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_account');
+        }
+
+        return $this->renderForm('account/activate.html.twig', [
+            'form' => $form,
         ]);
     }
 }

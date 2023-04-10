@@ -12,10 +12,12 @@
 
 "Enter current password!": "Введите текущий пароль!"
 "Enter new password!": "Введите новый пароль!"
-"Name must be more than 1 symbol!": "Имя должно длиннее одного символа!"
-"Name must be less than 50 symbols!": "Имя должно короче 51 символа!"
-"Surname must be more than 1 symbol!": "Фамилия должна длиннее одного символа!"
-"Surname must be less than 51 symbols!": "Фамилия должна короче 51 символа!"
+"Name must be more than 1 symbol!": "Имя должно быть длиннее одного символа!"
+"Name must be less than 50 symbols!": "Имя должно быть короче 51 символа!"
+"Surname must be more than 1 symbol!": "Фамилия должна быть длиннее одного символа!"
+"Surname must be less than 51 symbols!": "Фамилия должна быть короче 51 символа!"
 
 "You must be more than 16 years!": "Вам должно быть больше 16 лет"
 "Are you sure? Do you wasn't born yet?": "Вы уверены, что ещё не родились?"
+
+"Enter activation code!": "Введите код активации!"

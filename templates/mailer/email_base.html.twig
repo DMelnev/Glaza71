@@ -7,7 +7,7 @@
         <title>{{ email.subject }}</title>
     </head>
     <body class="">
-    <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body">
+    <table role="presentation" class="body">
         <tr>
             <td>&nbsp;</td>
             <td class="container">
@@ -15,10 +15,10 @@
 
 
                     <div class="header">
-                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <table role="presentation" >
                             <tr>
                                 <td class="content-block">
-                                    <h1><a href="{{ url('app_homepage') }}">Cat-Cas-Car</a></h1>
+                                    <h1><a href="{{ url('app_index') }}">Глазной кабинет Валицкого И.С.</a></h1>
                                 </td>
                             </tr>
                         </table>
@@ -30,22 +30,20 @@
                         <!-- START MAIN CONTENT AREA -->
                         <tr>
                             <td class="wrapper">
-                                <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                <table role="presentation">
                                     <tr>
                                         <td>
                                             {% block content %}
                                             {% endblock %}
-                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"
+                                            <table role="presentation"
                                                    class="btn btn-primary">
                                                 <tbody>
                                                 <tr>
                                                     <td align="left">
-                                                        <table role="presentation" border="0" cellpadding="0"
-                                                               cellspacing="0">
+                                                        <table role="presentation">
                                                             <tbody>
                                                             <tr>
-                                                                <td><a href="{{ url('app_homepage') }}" target="_blank">Скорее
-                                                                        на сайт</a></td>
+                                                                <td><a href="{{ url('app_index') }}" target="_blank">Глазной кабинет Валицкого</a></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -68,7 +66,7 @@
                         <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-block">
-                                    <span>C любовью, Cat-Cas-Car</span>
+                                    <span>какойто текст</span>
                                 </td>
                             </tr>
                         </table>

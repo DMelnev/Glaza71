@@ -22,3 +22,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\Mailer:
+        arguments:
+            $systemEmail: '%env(SYSTEM_EMAIL)%'
+            $emailName: '%env(EMAIL_NAME)%'

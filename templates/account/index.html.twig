@@ -25,15 +25,16 @@
                     </tr>
                     <tr>
                         <th scope="row">Дата регистрации</th>
-                        <td>{{ app.user.createdAt|date('H:i:s d.m.Y') }}</td>
+                        <td>{{ app.user.createdAt|date('d.m.Y') }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Дата подтверждения e-mail</th>
-                        <td>{% if (app.user.confirmed ?? null) %}{{ app.user.confirmed|date('H:i:s d.m.Y') }}{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Дата последного изменения</th>
-                        <td>{{ app.user.updatedAt|date('H:i:s d.m.Y') }}</td>
+                        {% if is_granted('ROLE_REGISTERED') %}
+                            <th scope="row" class="text-success">E-mail подтвержден</th>
+                            <td><i class="fas fa-check text-success"></i> {{ app.user.email }}</td>
+                        {% else %}
+                            <th scope="row" class="text-danger">Подтвердите E-mail.</th>
+                            <td><i class="fas fa-times text-danger"></i> {{ app.user.email }}</td>
+                        {% endif %}
                     </tr>
                 </table>
             </div>
@@ -42,9 +43,15 @@
     <section class="container">
         <div class="row  justify-content-center">
             <div class="col-md-8">
-                <a href="{{ url('app_account_edit') }}">
-                <button type="button" class="btn btn-secondary">Изменить</button>
-                </a>
+                {% if is_granted('ROLE_REGISTERED') %}
+                    <a href="{{ url('app_account_edit') }}">
+                        <button type="button" class="btn btn-secondary">Изменить</button>
+                    </a>
+                {% else %}
+                    <a href="{{ url('app_account_activate') }}">
+                        <button type="button" class="btn btn-secondary">Ввести код активации</button>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </section>

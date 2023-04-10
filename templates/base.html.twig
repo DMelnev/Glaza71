@@ -11,6 +11,10 @@
     <meta name="description" content="Глазной кабинет Валицкого И.С.">
     {% block css %}
         {{ encore_entry_link_tags('app') }}
+        {% if is_granted('ROLE_USER') %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+                  integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
+        {% endif %}
     {% endblock %}
     <link rel="canonical" href="{{ url(app.request.get('_route')) }}"/>
 </head>
