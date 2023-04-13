@@ -1,16 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends '/admin/base_admin.html.twig' %}
 
 {% block title %}Панель администратора{% endblock %}
 
 {% block body %}
-    <section class="container-fluid">
-        <div class="row flex-nowrap">
-            {% include '/admin/sidebar.html.twig' %}
-            <div class="col py-3">
-                Content area...
-            </div>
-        </div>
-    </section>
+    Content area...
 {% endblock %}
 {% set no_fixed=true %}
 {% set no_search=true %}

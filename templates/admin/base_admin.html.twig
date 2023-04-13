@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/ico" sizes="16x16" href="{{ asset('img/favicon.ico') }}">
+    <meta name="description" content="Панель Администрирования">
+    {% block css %}
+        {{ encore_entry_link_tags('app') }}
+        {% if is_granted('ROLE_USER') %}
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+                  integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
+        {% endif %}
+    {% endblock %}
+    <link rel="canonical" href="{{ url(app.request.get('_route')) }}"/>
+</head>
+<body>
+{% block navigation %}
+    {% include('/admin/base_nav_admin.html.twig') %}
+{% endblock %}
+{% set flash = false %}
+{% if is_granted('IS_IMPERSONATOR') %}
+    <div class="alert alert-warning mb-0">
+        <div class="container-fluid">
+            <span><strong>ИМПЕРСОНАЛИЗАЦИЯ ВКЛЮЧЕНА</strong></span>
+            <a class="my-auto float-end" href="{{ path('app_index', {'_switch_user': '_exit'}) }}">Выйти</a>
+        </div>
+    </div>
+{% endif %}
+
+{% if app.session.flashBag.peek('flash_message')|length > 0  or app.session.flashBag.peek('flash_error')|length > 0 %}
+    <section class="container first-section">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% if app.session.flashBag.peek('flash_message')|length > 0 %}
+                    <div class="alert alert-success" role="alert">
+                        {% for message in app.flashes('flash_message') %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if app.session.flashBag.peek('flash_error')|length > 0 %}
+                    <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in app.flashes('flash_error') %}
+                                <p>{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% set flash=true %}
+{% endif %}
+<section class="container-fluid">
+    <div class="row flex-nowrap">
+        {% include '/admin/sidebar.html.twig' %}
+        <div class="col py-3">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+</section>
+{% block script %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+
+</html>
