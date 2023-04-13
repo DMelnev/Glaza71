@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -54,6 +55,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
 
         $this->add($user, true);
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getUserByCode(string $code): ?User
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.confirmed IS NULL OR u.confirmed <= :time')
+            ->andWhere('u.activationCode = :code')
+            ->setParameter('time', (new \DateTime('-1 min')))
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

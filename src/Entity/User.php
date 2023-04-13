@@ -136,7 +136,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        $this->roles = array_merge($this->roles, $roles);
 
         return $this;
     }
@@ -282,8 +282,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($code && $this->confirmed < new \DateTime('-5 min')) {
             if ($code == $this->getActivationCode()) {
-                $this->confirmed = new \DateTime('now');
-                $this->roles[] = ['ROLE_REGISTERED'];
+                $this->setConfirmed(new \DateTime('now'))
+                ->setRoles(['ROLE_REGISTERED'])
+                ->setActivationCode(null);
                 return true;
             }
         }

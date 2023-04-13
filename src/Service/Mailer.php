@@ -65,31 +65,31 @@ class Mailer
      */
     public function sendWelcome(User $user)
     {
-        $email = (new Email())
-            ->from("gb2010@internet.ru")
-            ->to("dvmau@mail.ru")
-            ->subject('тест')
-            ->text('какой то текст');
-
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            dd($e->getMessage());
-        }
+//        $email = (new Email())
+//            ->from("gb2010@internet.ru")
+//            ->to("dvmau@mail.ru")
+//            ->subject('тест')
+//            ->text('какой то текст');
+//
+//        try {
+//            $this->mailer->send($email);
+//        } catch (TransportExceptionInterface $e) {
+//            dd($e->getMessage());
+//        }
 
 //        dd($user);
-//        $this->send(
-//            $user,
-//            'Добро пожаловать на сайт',
-//            'Ваш почтовый клиент не поддерживает В личном кабинете нажмите кнопку  и введите этот код: ',
-//            'mailer/welcome.html.twig',
-//            function (TemplatedEmail $email) use ($user) {
-//                $email
-//                    ->context([
-//                        'user' => $user,
-//                    ]);
-//            }
-//        );
+        $this->send(
+            $user,
+            'Добро пожаловать на сайт',
+            'Ваш почтовый клиент не поддерживает В личном кабинете нажмите кнопку  и введите этот код: '.$user->getActivationCode(),
+            'mailer/welcome.html.twig',
+            function (TemplatedEmail $email) use ($user) {
+                $email
+                    ->context([
+                        'user' => $user,
+                    ]);
+            }
+        );
 
 
     }

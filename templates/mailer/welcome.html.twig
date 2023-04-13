@@ -4,9 +4,26 @@
         <tbody>
         <tr>
             <td>
-                <p>
-                    Для активации e-mail перейдите по этой ссылке.
+                <p>Вы или кто то указал Ваш e-mail при регистрации на сайте. Если это были вы:</p>
+                для активации e-mail перейдите по этой ссылке или введите <strong>{{ user.activationCode }}</strong>
+                на странице активации. Если это были не вы, просто проигнорируйте это письмо.
                 </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table role="presentation"
+           class="btn btn-primary">
+        <tbody>
+        <tr>
+            <td align="left">
+                <table role="presentation">
+                    <tbody>
+                    <tr>
+                        <td><a href="{{ url('app_account_fast_activate', {'code':user.activationCode}) }}" target="_blank">Активировать</a></td>
+                    </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
         </tbody>

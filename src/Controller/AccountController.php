@@ -9,7 +9,9 @@ use App\Form\Model\AccountActivateModel;
 use App\Form\Model\ChangePasswordFormModel;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -125,17 +127,7 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var AccountActivateModel $model */
-            $model = $form->getData();
-            if ($user->getConfirmed() <= new \DateTime('-2 min')) {
-                if ($user->activateUser($model->getActivationCode())) {
-                    $this->addFlash('flash_message', "E-mail успешно активирован!");
-                } else {
-                    $this->addFlash('flash_error', 'Не верный код активации. Попробуйте снова через 2 минуты.');
-                }
-            } else {
-                $this->addFlash('flash_error', 'Прошло мало времени. Ожидайте еще 2 минуты.');
-            }
-
+            $this->checkTimeForActivate($user, $form->getData()->getActivationCode());
             $user->setConfirmed(new \DateTime('now'));
             $entityManager->persist($user);
             $entityManager->flush();
@@ -145,5 +137,44 @@ class AccountController extends AbstractController
         return $this->renderForm('account/activate.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/account/fastactivate/{code}", name="app_account_fast_activate")
+     * //     * @IsGranted("ROLE_USER")
+     * @throws NonUniqueResultException
+     */
+    public function fastActivate(EntityManagerInterface $entityManager, string $code, UserRepository $repository): Response
+    {
+        if ($this->isGranted(['ROLE_USER'])) {
+            /** @var User $user */
+            $user = $this->getUser();
+        } else {
+            $user = $repository->getUserByCode($code);
+        }
+        if ($user){
+            $this->checkTimeForActivate($user, $code);
+            $user->setConfirmed(new \DateTime('now'));
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_account');
+        }else{
+            $this->addFlash('flash_error','Пользователь не найден!');
+            return $this->redirectToRoute('app_login');
+        }
+
+    }
+
+    private function checkTimeForActivate(User $user, string $code)
+    {
+        if ($user->getConfirmed() <= new \DateTime('-2 min')) {
+            if ($user->activateUser($code)) {
+                $this->addFlash('flash_message', "E-mail успешно активирован!");
+            } else {
+                $this->addFlash('flash_error', 'Не верный код активации. Попробуйте снова через 2 минуты.');
+            }
+        } else {
+            $this->addFlash('flash_error', 'Прошло мало времени. Ожидайте еще 2 минуты.');
+        }
     }
 }
