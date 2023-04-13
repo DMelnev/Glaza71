@@ -18,37 +18,33 @@ class MainPage
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $keywords;
+    private ?string $headTitle;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private ?string $text;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $headTitle;
+    private ?string $keywords;
+
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $showComments;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true, options={"default" : 0})
      */
     private $showArticles;
 
@@ -65,18 +61,6 @@ class MainPage
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
 
         return $this;
     }
