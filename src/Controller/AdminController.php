@@ -24,10 +24,10 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/main/{id}, name="app_admin_main_pages")
-     */
-    public function mainPages(MainPage $mainPage){
-
-    }
+//    /**
+//     * @Route("/admin/main/{id}, name="app_admin_main_pages")
+//     */
+//    public function mainPages(MainPage $mainPage){
+//
+//    }
 }
