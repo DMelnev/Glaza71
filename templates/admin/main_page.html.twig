@@ -1,0 +1,25 @@
+{% extends '/admin/base_admin.html.twig' %}
+
+{% block title %}Обзор{% endblock %}
+
+{% block body %}
+    <section class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                {{ form_start(form) }}
+                <h1 class="h3 mb-3 font-weight-normal">Редактирование</h1>
+                {{ form_row(form.title) }}
+                {{ form_row(form.text) }}
+                {{ form_row(form.headTitle) }}
+                {{ form_row(form.keywords) }}
+                {{ form_row(form.showComments) }}
+                {{ form_row(form.showArticles) }}
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

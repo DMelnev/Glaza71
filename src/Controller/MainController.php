@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\MainPageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,40 +12,40 @@ class MainController extends AbstractController
     /**
      * @Route("/", name="app_index")
      */
-    public function index(): Response
+    public function index(MainPageRepository $mainPageRepository): Response
     {
         return $this->render('main/index.html.twig', [
-
+            'page' => $mainPageRepository->find(1),
         ]);
     }
 
     /**
      * @Route("/optic", name="app_optic")
      */
-    public function optic(): Response
+    public function optic(MainPageRepository $mainPageRepository): Response
     {
-        return $this->render('main/optic.html.twig', [
-
+        return $this->render('main/index.html.twig', [
+            'page' => $mainPageRepository->find(2),
         ]);
     }
 
     /**
      * @Route("/tomography", name="app_tomography")
      */
-    public function tomography(): Response
+    public function tomography(MainPageRepository $mainPageRepository): Response
     {
-        return $this->render('main/tomography.html.twig', [
-
+        return $this->render('main/index.html.twig', [
+            'page' => $mainPageRepository->find(3),
         ]);
     }
 
     /**
      * @Route("/contacts", name="app_contacts")
      */
-    public function contacts(): Response
+    public function contacts(MainPageRepository $mainPageRepository): Response
     {
-        return $this->render('main/contacts.html.twig', [
-
+        return $this->render('main/index.html.twig', [
+            'page' => $mainPageRepository->find(4),
         ]);
     }
 

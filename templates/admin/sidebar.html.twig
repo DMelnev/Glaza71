@@ -12,10 +12,16 @@
                 </a>
                 <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                     <li class="w-100">
-                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1 </a>
+                        <a href="{{ path('app_admin_main_pages', {id: 1}) }}" class="nav-link px-0"> <span class="d-none d-sm-inline">Кабинет</span> 1 </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2 </a>
+                        <a href="{{ path('app_admin_main_pages', {id: 2}) }}" class="nav-link px-0"> <span class="d-none d-sm-inline">Оптика</span> 2 </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_admin_main_pages', {id: 3}) }}" class="nav-link px-0"> <span class="d-none d-sm-inline">Томография</span> 3 </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_admin_main_pages', {id: 4}) }}" class="nav-link px-0"> <span class="d-none d-sm-inline">Контакты</span> 4 </a>
                     </li>
                 </ul>
             </li>

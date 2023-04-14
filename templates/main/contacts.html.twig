@@ -1,55 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Глазной кабинет, Контакты{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block body %}
     <section class="container{% if not flash %} first-section{% endif %}">
         <div class="row">
             <div class="col-12">
                 <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
-                    <div class="media-body d-inline-block align-self-center">
-                        <div class="col-sm-12 my-2">
-                            <h3><i class="pr-3 far fa-comment text-secondary">Как нас найти</i></h3>
-                            <hr>
-                            <div class="media d-flex flex-wrap justify-content-center my-4">
-                                <img class="rounded img-fluid mr-3" src="./img/ga.jpg"
-                                     alt="Глазной кабинет Валицкого И.С. Оптика. Оптическая когерентная компьютерная томография">
-                            </div>
-                            <div class="col-12 mt-2 mb-4">
-                                <p>&emsp;
-                                    Глазной кабинет Валицкого И.С. располагается на пересечении улицы Фрунзе и улицы
-                                    Л.Толстого. Вход в глазной кабинет со стороны улицы Фрунзе напротив 17-й школы. Если
-                                    ехать на общественном транспорте, то остановки на улице Демонстрации или остановка
-                                    "Ателье"соответственно ниже и выше глазного кабинета. От "Ателье" нужно спуститься
-                                    до школы 17-й и перейти по пешеходному переходу на сторону глазного кабинета. От
-                                    улицы Демонстрации нужно подняться до 17-й школы и также перейти по пешеходному
-                                    переходу в глазной кабинет. Бесплатная парковка для автомобилей напротив 17-й школы.
-                                    По нечетной стороне улицы Фрунзе выше глазного кабинета к улице первомайской
-                                    располагается Магазин онлайн трейд. Для мам с детьми и колясками, а также для
-                                    инвалидов глазной кабинет оборудован пандусом. Записаться на прием можно по телефону
-                                    или WhatsApp посмотрев свое свободное время и соотнеся его с онлайн календарем
-                                    записи в кабинет офтальмолога. В календаре записи отражено свободное и занятое время
-                                    глазного кабинета. В среднем на пациента в глазном кабинете офтальмолог окулист для
-                                    полноценного осмотра и назначения лечения закладывает 1 час времени.</p>
-                            </div>
-                            <ul class="nav justify-content-center">
-                                <li class="nav-item">
-                                    <a class="nav-link phone-link" aria-current="page" href="tel:+7(4872)58-83-85">
-                                        <h4>+7(4872) 58-83-85</h4>
-                                    </a>
-                                </li>
-                                <li class="nav-item">&emsp;
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link phone-link" href="https://wa.me/79207609019">
-                                        <h4>WhatsApp</h4>
-                                    </a>
-                                </li>
-                            </ul>
+                    <div class="article-detail col-sm-12">
+                        <div class="col-12 mt-2 mb-4">
+                            <p>{{ page.text | markdown_to_html }}</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+{% endblock %}
+{% block description %}
+    {{ page.headTitle }}
 {% endblock %}
