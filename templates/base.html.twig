@@ -2,22 +2,22 @@
 <html lang="ru">
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="author" content="Valitskii I.S."/>
-    <link rel="icon" type="image/ico" sizes="16x16" href="{{ asset('img/favicon.ico') }}"/>
-    {# <meta name="yandex-verification" content="4117025a9084702a"/> #}
-    <meta name="description" content="{% block description %}Глазной кабинет Валицкого И.С.{% endblock %}"/>
-    <meta name="keywords" content="{% block keywords %}{% endblock %}"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Valitskii I.S.">
+    <link rel="icon" type="image/ico" sizes="16x16" href="{{ asset('img/favicon.ico') }}">
+    {# <meta name="yandex-verification" content="4117025a9084702a"> #}
+    <meta name="description" content="{% block description %}Глазной кабинет Валицкого И.С.{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}">
     {% block css %}
         {{ encore_entry_link_tags('app') }}
         {% if is_granted('ROLE_USER') %}
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
-                  integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
+                  integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
         {% endif %}
     {% endblock %}
-    <link rel="canonical" href="{{ url(app.request.get('_route')) }}"/>
+    <link rel="canonical" href="{{ url(app.request.get('_route')) }}">
 </head>
 <body>
 {% block navigation %}
