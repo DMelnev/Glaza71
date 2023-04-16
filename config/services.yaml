@@ -4,6 +4,14 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    #    app.support_email: '%env(SUPPORT_EMAIL)%'
+    #    app.bool_example: '%env(bool:BOOL_EXAMPLE)%'
+    cache_adapter: cache.adapter.filesystem
+    article_uploads: 'img'
+    article_uploads_url: '%env(SITE_URL)%/%article_uploads%'
+    article_uploads_dir: '%kernel.project_dir%/public/%article_uploads%'
+    router.request_context.scheme: '%env(SITE_BASE_SCHEME)%'
+    router.request_context.host: '%env(SITE_BASE_HOST)%'
 
 services:
     # default configuration for services in *this* file
@@ -11,6 +19,10 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+        #          bind:
+        #            $myMonologLogger: '@monolog.logger.markdown'
+        bind:
+            League\Flysystem\FilesystemInterface $articlesFilesystem: '@oneup_flysystem.uploads_article_filesystem'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

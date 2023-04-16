@@ -13,6 +13,7 @@
         "doctrine/orm": "^2.14",
         "knplabs/knp-paginator-bundle": "^5.9",
         "league/commonmark": "^2.4",
+        "liip/imagine-bundle": "^2.10",
         "nesbot/carbon": "^2.66",
         "oneup/flysystem-bundle": "^4.4",
         "phpdocumentor/reflection-docblock": "^5.3",

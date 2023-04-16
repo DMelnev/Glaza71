@@ -1,0 +1,38 @@
+liip_imagine:
+    driver: gd
+
+    resolvers:
+        flysystem_resolver:
+            flysystem:
+                filesystem_service: oneup_flysystem.uploads_article_filesystem
+                root_url: "%article_uploads_url%"
+                cache_prefix: media/cache
+                visibility: public
+
+    cache: flysystem_resolver
+
+    twig:
+        mode: lazy
+    loaders:
+        articles_flysystem_loader:
+            flysystem:
+                filesystem_service: oneup_flysystem.uploads_article_filesystem
+    data_loader: articles_flysystem_loader
+
+    filter_sets:
+        cache: ~
+
+        admin_picture_preview:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 150, 150 ], mode: inset }
+
+#        article_show_detail:
+#            quality: 90
+#            filters:
+#                thumbnail: { size: [ 750, 500 ], mode: inset }
+#
+#        article_show_edit:
+#            quality: 90
+#            filters:
+#                thumbnail: { size: [ 480, 300 ], mode: outbound }
