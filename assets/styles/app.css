@@ -1,4 +1,5 @@
 @import "~bootstrap";
+
 body {
     background: rgb(240 240 240);
     font-size: 1.1rem;
@@ -32,8 +33,8 @@ body {
 }
 
 .bg-sidebar {
-    background: rgb(12,12,12);
-    background: linear-gradient(180deg, rgba(12,12,12,0.75) 0%, rgba(70,70,70,0.75) 100%);
+    background: rgb(12, 12, 12);
+    background: linear-gradient(180deg, rgba(12, 12, 12, 0.75) 0%, rgba(70, 70, 70, 0.75) 100%);
 }
 
 @media (min-width: 768px) {
@@ -91,8 +92,19 @@ body {
     .first-section {
         margin-top: 1.5rem;
     }
+    .disappeared-620 {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 380px) {
+
+    .disappeared-380 {
+        display: none;
+    }
 }
 
 .img-logo {
     max-width: 50px;
 }
+

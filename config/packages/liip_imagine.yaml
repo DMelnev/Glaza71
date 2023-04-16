@@ -22,10 +22,10 @@ liip_imagine:
     filter_sets:
         cache: ~
 
-        admin_picture_preview:
+        picture_preview:
             quality: 75
             filters:
-                thumbnail: { size: [ 150, 150 ], mode: inset }
+                thumbnail: { size: [ 100, 100 ], mode: inset }
 
 #        article_show_detail:
 #            quality: 90

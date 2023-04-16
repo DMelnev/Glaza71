@@ -66,7 +66,7 @@ Encore
     //.enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
+    // requires WebpackEncoreBundle ico.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin

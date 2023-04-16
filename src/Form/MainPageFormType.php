@@ -22,8 +22,9 @@ class MainPageFormType extends AbstractType
                     'maxlength' => 60,
                 ]
             ])
-            ->add('headTitle', null, [
+            ->add('headTitle', TextareaType::class, [
                 'label' => 'Description:',
+                'rows' => '2',
                 'attr' => [
                     'pattern' => false,
                     'maxlength' => 250,
@@ -31,6 +32,7 @@ class MainPageFormType extends AbstractType
             ])
             ->add('text', TextareaType::class, [
                 'label' => 'Text:',
+                'rows' => '30',
                 'attr' => [
                     'pattern' => false,
                 ]

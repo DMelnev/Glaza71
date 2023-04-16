@@ -27,7 +27,7 @@ class TextAreaSizeExtension extends AbstractTypeExtension
     {
 //        parent::configureOptions($resolver);
         $resolver->setDefaults([
-            'rows' => 11,
+            'rows' => 20,
         ]);
     }
 }

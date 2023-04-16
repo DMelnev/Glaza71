@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\MainPage;
+use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -56,11 +58,33 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/pictures", name="app_admin_pictures")
      */
-    public function pictures(MyFiles $files): Response
+    public function pictures(MyFiles $files, Request $request): Response
     {
-//        dd($files->getListFiles('./img/'));
-        return $this->render('admin/pictures.html.twig', [
-            'fileList' => $files->getListFiles('./img'),
+
+        $form = $this->createForm(FileUploaderFormType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile|null $image */
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $this->addFlash('flash_message', $files->uploadFile($image));
+            }
+        }
+//        if ($form->isSubmitted()) $this->addFlash('flash_error', "Не удалось сохранить файл!");
+
+        return $this->renderForm('admin/pictures.html.twig', [
+            'fileList' => $files->getListFiles('./img/'),
+            'form' => $form,
         ]);
+    }
+
+    /**
+     * @Route("/admin/pictures/{filename}/delete", name="app_admin_pictures_delete")
+     */
+    public function delete($filename, MyFiles $files): Response
+    {
+//        dd($filename);
+        $this->addFlash('flash_error', $files->deleteFile($filename));
+        return $this->redirectToRoute('app_admin_pictures');
     }
 }

@@ -13,7 +13,7 @@ class UserEditFormModel
      * @Assert\Length(
      *     min="2",
      *     max="50",
-     *     minMessage="Name must be more than 1 symbol!",
+     *     minMessage="Name must be more than ico symbol!",
      *     maxMessage="Name must be less than 50 symbols!"
      * )
      */
@@ -24,7 +24,7 @@ class UserEditFormModel
      * @Assert\Length(
      *     min="2",
      *     max="50",
-     *     minMessage="Surname must be more than 1 symbol!",
+     *     minMessage="Surname must be more than ico symbol!",
      *     maxMessage="Surname must be less than 50 symbols!"
      * )
      */

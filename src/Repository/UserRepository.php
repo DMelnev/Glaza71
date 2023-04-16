@@ -65,7 +65,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('u')
             ->andWhere('u.confirmed IS NULL OR u.confirmed <= :time')
             ->andWhere('u.activationCode = :code')
-            ->setParameter('time', (new \DateTime('-1 min')))
+            ->setParameter('time', (new \DateTime('-ico min')))
             ->setParameter('code', $code)
             ->getQuery()
             ->getOneOrNullResult();
