@@ -54,41 +54,24 @@ class ArticleFormType extends AbstractType
         $builder
             ->add('image', FileType::class, [
                 'mapped' => false,
-                'required' => false,
                 'constraints' => $imageConstrains,
             ])
-//            ->add('image', FileType::class, [
-//                'mapped' => false,
-//                'constraints'=> new File([
-//                    'maxSize' => '4m',
-//                    'maxSizeMessage' => 'some message',
-//                    'mimeTypes' => [
-//                        'application/pdf',
-//                        'application/x-pdf',
-//                    ],
-//                    'mimeTypesMessage' => 'some message',
-//                ])
-//            ])
             ->add('title', TextType::class, [
                 'label' => 'Title of article',
-                'help' => 'some help',
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'help' => 'some help',
-                'rows' => '3', //manual parameter is defined in TextAreaSizeExtension
-//                'attr' => [   //after 'rows' was defined it doesnt work
-//                    'rows' => '2',
-//                ]
+                'rows' => '2', //manual parameter is defined in TextAreaSizeExtension
             ])
-            ->add('body', TextareaType::class, [
+            ->add('text', TextareaType::class, [
                 'label' => 'Text of article',
-                'help' => 'some help',
-                'rows' => '7',
+                'rows' => '30',
             ])
             ->add('keywords', null, [
                 'label' => 'Keywords',
-                'help' => 'some help',
+            ])
+            ->add('likes', null, [
+                'label' => 'Likes',
             ])
             ->add('author', EntityType::class, [
                 'class' => User::class,
@@ -109,7 +92,7 @@ class ArticleFormType extends AbstractType
             ]);
         }
 
-        $builder->get('body')
+        $builder->get('text')
             ->addModelTransformer(new CallbackTransformer(
                 function ($bodyFromDatabase) {
                     return $bodyFromDatabase;

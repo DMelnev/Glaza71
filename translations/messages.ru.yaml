@@ -30,3 +30,15 @@
 "Show articles:": "Показать статьи:"
 "Yes": "Да"
 "No": "Нет"
+
+#article form
+Title of article: Название статьи
+Text of article: Содержание статьи
+Description: Описание статьи
+Select author: Выберите автора статьи
+Published at: Дата публикации статьи
+Author: Автор
+Keywords: Ключевые слова статьи
+User did not find: Пользователь не найден
+Image: Изображение
+Likes: Количество лайков

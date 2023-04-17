@@ -1,0 +1,94 @@
+{% extends 'articles/base_content.html.twig' %}
+
+{% block title %}Статья: {{ article.title }}{% endblock %}
+
+{% block content_row_class %}no-gutters featured-border{% endblock %}
+{% block content_col_class %}article-detail{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {% if article.keywords|length > 0 %}
+        <meta name="keywords" content="{{ article.keywords }}"/>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="col-sm-12 p-2">
+        <div class="media d-flex align-content-center">
+            <a href="{{ upload_asset('article_uploads_url' , article.imageFilename) }}" target="_blank">
+                <img class="article-detail-image align-self-start me-3 rounded"
+                     src="{{ article.imageFilename | imagine_filter('article_show_detail') }}">
+            </a>
+            <div class="media-body d-inline-block align-self-center">
+                <h1 class="mb-2">{{ article.title }}</h1>
+                {% include 'articles/partial/show-tags.html.twig' with { tags: article.tags } %}
+                <div class="d-flex">
+                    <div class="text-muted align-self-center">
+                        <img class="article-author-img rounded-circle mx-2"
+                             src="{{ article.author.avatarUrl }}">
+                        {{ article.author.firstName }}
+                    </div>
+                    <div class="text-muted align-self-center ms-4">{{ article.publishedAt ? article.publishedAt|ago : 'Не опубликована' }}</div>
+                    <div class="text-muted align-self-center ms-4 article-detail-hearts"
+                         data-item="likes"
+                         data-type="like"
+                         data-like-href="{{ path('app_article_like',{slug:article.slug}) }}"
+                         data-dislike-href="{{ path('app_article_dislike',{slug:article.slug}) }}"
+                    >
+                        <span data-item="likesCount"
+                              class="{% if article.voteCount > 0 %}text-success{% else %}text-danger{% endif %}">{{ article.voteCount }}</span>
+                        <i class="far fa-heart text-danger"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 mt-2 mb-4">
+        {% if is_granted('ROLE_ADMIN_ARTICLE') %}
+            <div class="text-muted align-self-center mb-3">
+                <a href="{{ path('app_admin_articles_edit', {id: article.id}) }}">
+                    <button class="btn btn-primary">Редактировать статью</button>
+                </a>
+            </div>
+        {% endif %}
+
+        {{ article.body|cached_markdown }}
+    </div>
+
+
+    <div class="col-sm-12 mb-4">
+        <h3><i class="pe-3 far fa-comment text-secondary"></i>{{ article.comments|length|commentEnd }}</h3>
+        <hr>
+
+        <div class="row mb-4">
+            <div class="col-sm-12">
+                <div class="comment-container align-self-start col-sm-6">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-info">Комментировать</button>
+                </div>
+            </div>
+        </div>
+
+        {% for comment in article.comments %}
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    <div class="media">
+                        <img class="align-self-start comment-img rounded-circle"
+                             src="{{ asset('images/cat-profile.png') }}">
+                        <div class="media-body align-self-start col-sm-6">
+                            <b>{{ comment.authorName }}</b>
+                            <small>{{ comment.updatedAt|ago }}</small>
+                            <br>
+                            <span class="comment">{{ comment.content|cached_markdown }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

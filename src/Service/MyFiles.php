@@ -89,4 +89,42 @@ class MyFiles
         }
     }
 
+    /**
+     * @throws FilesystemException
+     * @throws \Exception
+     */
+    public function uploadArticleFile(File $file, ?string $oldFileName = null): string
+    {
+        $fileName = $this->slugger
+            ->slug(pathinfo(
+                    $file instanceof UploadedFile ? $file->getClientOriginalName() : $file->getFilename(),
+                    PATHINFO_FILENAME)
+            )
+            ->append('-' . uniqid())
+            ->append('.' . $file->guessExtension())
+            ->toString();
+
+
+        try {
+            $stream = fopen($file->getPathname(), 'r');
+            $this->uploadsArticleFilesystem->writeStream($fileName, $stream);
+            if (is_resource($stream)) {
+                fclose($stream);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Не удалось записать файл ' . $fileName . '. Ошибка ' . $e->getMessage());
+        }
+
+        try {
+            if ($oldFileName && $this->uploadsArticleFilesystem->fileExists($oldFileName)) {
+                $this->uploadsArticleFilesystem->delete($oldFileName);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Не удалось удалить файл ' . $fileName . '. Ошибка ' . $e->getMessage());
+        }
+
+//        $newFile = $file->move($this->uploadsPath, $fileName);
+        return $fileName;
+    }
+
 }

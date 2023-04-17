@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\MainPage;
+use App\Events\ArticleCreatedEvent;
+use App\Form\ArticleFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
+use App\Service\FileUploader;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,5 +92,53 @@ class AdminController extends AbstractController
 //        dd($filename);
         $this->addFlash('flash_error', $files->deleteFile($filename));
         return $this->redirectToRoute('app_admin_pictures');
+    }
+
+    /**
+     * @Route("/admin/articles/create", name="app_admin_articles_create")
+     */
+    public function create(Request $request,
+                           EntityManagerInterface $entityManager,
+                           MyFiles $articleFileUploader,
+                           EventDispatcherInterface $dispatcher
+    ): Response
+    {
+        $form = $this->createForm(ArticleFormType::class, new Article());
+        if ($article = $this->handleFormRequest($form, $entityManager, $request, $articleFileUploader)) {
+            $this->addFlash('flash_message', "Статья успешно создана!");
+            $dispatcher->dispatch(new ArticleCreatedEvent($article));
+            return $this->render('articles/show.html.twig', [
+                "article" => $article,
+            ]);
+        }
+        return $this->renderForm('admin/article/create.html.twig', [
+            'articleForm' => $form,
+            'show_error' => $form->isSubmitted(),
+        ]);
+    }
+
+
+    private function handleFormRequest(
+        FormInterface $form,
+        EntityManagerInterface $entityManager,
+        Request $request,
+        MyFiles $uploader): ?Article
+    {
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var Article $article */
+            $article = $form->getData();
+            /** @var UploadedFile|null $image */
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $fileName = $uploader->uploadArticleFile($image, $article->getImageFilename());
+                $article->setImageFilename($fileName);
+            }
+            $entityManager->persist($article);
+            $entityManager->flush();
+            return $article;
+        }
+        return null;
     }
 }
