@@ -1,28 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base_admin.html.twig' %}
 
-{% block title %}Создание статьи{% endblock %}
+{% block title %}Редактирование статьи{% endblock %}
 
 {% block body %}
     <div class="container">
-        {% if show_error %}
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-danger" role="alert">
-                        Не удалось изменить статью
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-
-        <div class="row">
-            <div class="col-12">
-                <div class="p-4 border rounded-lg mb-4 shadow-sm bg-white">
-                    <h1>Редактирование статьи</h1>
-                    {% include 'admin/article/form.html.twig' with {button_text: 'Изменить'} %}
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h1>Редактирование статьи</h1>
+                {% include 'admin/article/form.html.twig' with {button_text: 'Изменить'} %}
             </div>
         </div>
-
     </div>
-
 {% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

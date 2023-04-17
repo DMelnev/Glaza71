@@ -49,11 +49,10 @@ class ArticleFormType extends AbstractType
                 'message' => 'Выберите файл изображения'
             ]);
         }
-
-        $cantEditAuthor = $article && $article->getId() && $article->isPublished();
         $builder
             ->add('image', FileType::class, [
                 'mapped' => false,
+                'required' => false,
                 'constraints' => $imageConstrains,
             ])
             ->add('title', TextType::class, [
@@ -73,24 +72,19 @@ class ArticleFormType extends AbstractType
             ->add('likes', null, [
                 'label' => 'Likes',
             ])
+            ->add('publishedAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+            ])
             ->add('author', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => function (User $user) {
-                    return sprintf('%d - %s', $user->getId(), $user->getFirstName());
+                    return sprintf('%d - %s %s', $user->getId(), $user->getFirstName(), $user->getSurname());
                 },
                 'placeholder' => 'Select author',
                 'choices' => $this->userRepository->findAllSortedByName(),
                 'invalid_message' => "Пользователь не найден",
-                'disabled' => $cantEditAuthor,
             ]);
-
-        if ($options['enable_published_at']) {
-            $builder->add('publishedAt', DateTimeType::class, [
-                'widget' => 'single_text',
-                'help' => 'some help',
-                'required' => false,
-            ]);
-        }
 
         $builder->get('text')
             ->addModelTransformer(new CallbackTransformer(

@@ -1,0 +1,57 @@
+{% extends 'articles/base_content.html.twig' %}
+
+{% block title %}Список статей{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a href="{{ path('app_admin_articles_create') }}">
+                    <button type="submit" class="btn btn-primary">Создать статью</button>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="row">
+                {% for article in articles %}
+                    <div class="article-container mb-2">
+                        <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                            <div class="col-auto d-none d-sm-block">
+                                <img class="article-img"
+                                     src="{{ article.imageFilename | imagine_filter('article_preview') }}">
+                            </div>
+                            <div class="col p-2 px-4 d-flex flex-column article-item">
+                                <h5 class="mb-2">{{ article.title }}
+                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">5</span>
+                                </h5>
+                                <div class="d-flex justify-content-between">
+                                    <div class="text-muted align-self-center">
+                                        <p>{{ article.description|u.truncate(100, '...', false) }}</p>
+                                        <p><strong>{{ article.author.firstname }}&nbsp;{{ article.author.surname }}</strong> </p>
+                                        <p class="text-success"><i>{{ article.publishedAt ? article.publishedAt|date('d-m-Y H:i:s') : '' }}</i> </p>
+                                    </div>
+                                    <div class="text-muted align-self-center ms-3"><i class="fas fa-lg
+                                    {{ article.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
+                                    </div>
+                                    <div class="text-muted align-self-center ms-3">
+                                        <a href="{{ path('app_admin_article_edit', {id: article.id}) }}"><i
+                                                    class="fas fa-edit text-primary fa-lg"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="article-container mb-2">
+                        <h3>Статей не найдено.</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

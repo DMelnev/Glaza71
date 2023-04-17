@@ -19,6 +19,8 @@
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
             <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
             <excludedPath path="/node_modules" />
+            <excludedPath path="/public/img" />
+            <excludedPath local="true" path="$PROJECT_DIR$/public/img" />
           </excludedPaths>
         </serverdata>
       </paths>

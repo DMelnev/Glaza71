@@ -4,26 +4,15 @@
 
 {% block body %}
     <div class="container">
-        {% if show_error %}
-            <div class="row">
-                <div class="col-12">
-                    <div class="alert alert-danger" role="alert">
-                        Не удалось создать статью
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        <div class="row">
-            <div class="col-12">
-                <div class="p-4 border rounded-lg mb-4 shadow-sm bg-white">
-
-                    <h1>Создание статьи</h1>
-
-                    {% include 'admin/article/form.html.twig' with {button_text: 'Создать'} %}
-                </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h1 class="h3 mb-3 font-weight-normal">Создание статьи</h1>
+                {% include 'admin/article/form.html.twig' with {button_text: 'Создать'} %}
             </div>
         </div>
-
     </div>
 
 {% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

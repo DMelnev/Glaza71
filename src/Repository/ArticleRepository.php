@@ -39,6 +39,16 @@ class ArticleRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllSortedByUpdate()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.updatedAt', 'DESC')
+            ->leftJoin('a.author','c')
+            ->addSelect('c')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Article[] Returns an array of Article objects
 //     */

@@ -123,7 +123,6 @@ class MyFiles
             throw new \Exception('Не удалось удалить файл ' . $fileName . '. Ошибка ' . $e->getMessage());
         }
 
-//        $newFile = $file->move($this->uploadsPath, $fileName);
         return $fileName;
     }
 

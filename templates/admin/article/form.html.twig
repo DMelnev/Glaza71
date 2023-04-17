@@ -6,29 +6,12 @@
     >
 {% endif %}
 {{ form_row(articleForm.image, {label: 'Image'}) }}
-<div class="mb-3">
-    <i class="fas fa-check"></i> {{ form_label(articleForm.title) }}
-    <div class="form-error">
-        {{ form_errors(articleForm.title) }}
-    </div>
-    {{ form_widget(articleForm.title) }}
-    <small>{{ form_help(articleForm.title) }}</small>
-</div>
+{{ form_row(articleForm.title) }}
 {{ form_row(articleForm.description) }}
 {{ form_row(articleForm.text) }}
-{% if articleForm.publishedAt  is defined %}
-    <div class="mb-3">
-        <div class="form-error">
-            {{ form_errors(articleForm.publishedAt) }}
-        </div>
-        <i class="fa fa-calendar"></i> {{ form_label(articleForm.publishedAt) }}
-        {{ form_widget(articleForm.publishedAt) }}
-        <small>{{ form_help(articleForm.publishedAt) }}</small>
-    </div>
-{% endif %}
+{{ form_row(articleForm.publishedAt) }}
 {{ form_row(articleForm.keywords) }}
 {{ form_row(articleForm.likes) }}
 {{ form_row(articleForm.author) }}
 <button type="submit" class="btn btn-primary">{{ button_text }}</button>
-
 {{ form_end(articleForm) }}

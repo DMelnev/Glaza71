@@ -8,6 +8,7 @@ use App\Events\ArticleCreatedEvent;
 use App\Form\ArticleFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
+use App\Repository\ArticleRepository;
 use App\Service\FileUploader;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
@@ -97,26 +98,44 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/articles/create", name="app_admin_articles_create")
      */
-    public function create(Request $request,
-                           EntityManagerInterface $entityManager,
-                           MyFiles $articleFileUploader,
-                           EventDispatcherInterface $dispatcher
+    public function createArticle(Request $request,
+                                  EntityManagerInterface $entityManager,
+                                  MyFiles $articleFileUploader,
+                                  EventDispatcherInterface $dispatcher
     ): Response
     {
         $form = $this->createForm(ArticleFormType::class, new Article());
         if ($article = $this->handleFormRequest($form, $entityManager, $request, $articleFileUploader)) {
             $this->addFlash('flash_message', "Статья успешно создана!");
             $dispatcher->dispatch(new ArticleCreatedEvent($article));
-            return $this->render('articles/show.html.twig', [
-                "article" => $article,
-            ]);
+            return $this->redirectToRoute('app_admin_articles');
         }
         return $this->renderForm('admin/article/create.html.twig', [
             'articleForm' => $form,
-            'show_error' => $form->isSubmitted(),
         ]);
     }
 
+    /**
+     * @Route("/admin/article/{id}/edit", name="app_admin_article_edit")
+     */
+    public function editArticle(
+        Article $article,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        MyFiles $articleFileUploader,
+        EventDispatcherInterface $dispatcher
+    ): Response
+    {
+        $form = $this->createForm(ArticleFormType::class, $article);
+        if ($article = $this->handleFormRequest($form, $entityManager, $request, $articleFileUploader)) {
+            $this->addFlash('flash_message', "Статья успешно изменена!");
+            $dispatcher->dispatch(new ArticleCreatedEvent($article));
+            return $this->redirectToRoute('app_admin_articles');
+        }
+        return $this->renderForm('admin/article/edit.html.twig', [
+            'articleForm' => $form,
+        ]);
+    }
 
     private function handleFormRequest(
         FormInterface $form,
@@ -140,5 +159,17 @@ class AdminController extends AbstractController
             return $article;
         }
         return null;
+    }
+
+
+    /**
+     * @Route("/admin/articles", name="app_admin_articles")
+     */
+    public function articlesList(ArticleRepository $repository): Response
+    {
+        $articles = $repository->findAllSortedByUpdate();
+        return $this->render('admin/article/articles_list.html.twig', [
+            'articles' => $articles
+        ]);
     }
 }
