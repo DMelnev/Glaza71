@@ -11,7 +11,6 @@ use App\Form\MainPageFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
-use App\Service\FileUploader;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -83,7 +82,7 @@ class AdminController extends AbstractController
 //        if ($form->isSubmitted()) $this->addFlash('flash_error', "Не удалось сохранить файл!");
 
         return $this->renderForm('admin/pictures.html.twig', [
-            'fileList' => $files->getListFiles('./img/'),
+            'fileList' => $files->getListFiles($this->getParameter('app.upload_path')),
             'form' => $form,
         ]);
     }

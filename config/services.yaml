@@ -12,6 +12,7 @@ parameters:
     article_uploads_dir: '%kernel.project_dir%/public/%article_uploads%'
     router.request_context.scheme: '%env(SITE_BASE_SCHEME)%'
     router.request_context.host: '%env(SITE_BASE_HOST)%'
+    app.upload_path: '%env(FILE_UPLOAD_PATH)%'
 
 services:
     # default configuration for services in *this* file
