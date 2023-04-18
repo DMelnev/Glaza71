@@ -9,9 +9,12 @@ use App\Form\ArticleFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
+use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -170,6 +173,34 @@ class AdminController extends AbstractController
         $articles = $repository->findAllSortedByUpdate();
         return $this->render('admin/article/articles_list.html.twig', [
             'articles' => $articles
+        ]);
+    }
+
+    /**
+     * @Route("/admin/comments", name="app_admin_comments")
+     */
+    public function commentsList(
+        Request $request,
+        CommentRepository $commentRepository,
+        UserRepository $userRepository,
+        PaginatorInterface $paginator
+    ): Response
+    {
+
+        $qb = $commentRepository->findWithSearchQuery(
+            $request->query->get("q"),
+            $request->query->get("user")
+        );
+
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10));
+
+        $users = $userRepository->findAllSortedByName();
+        return $this->render('admin/comment/comments_list.html.twig', [
+            'users' => $users,
+            'pagination' => $pagination,
         ]);
     }
 }

@@ -1,0 +1,84 @@
+{% extends 'articles/base_content.html.twig' %}
+
+{% block title %}Список отзывов{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-lg-12">
+            <h1 class="h3 mb-3 font-weight-normal">Комментарии</h1>
+
+            <form>
+                <div class="input-group mb-3">
+                    <select class="form-select" name="user" aria-label=".form-select-sm example">
+                        <option value="" {% if app.request.query.get('user')=='All' %}selected{% endif %}>Все пользователи</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}"{% if app.request.query.int('user')==user.id %} selected{% endif %}>{{ user.id }}
+                                : {{ user.firstname }} {{ user.surname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" name="q" class="form-control" placeholder="Найти в тексте комментария или в названии статьи..."
+                           value="{{ app.request.query.get('q') }}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group my-3 w-25">
+                    <label class="form-check-label" for="select">
+                        Выводить по:
+                    </label>
+                    <select class="form-select ms-3" id="select" name="limit">
+                        <option value="10"
+                                {% if app.request.query.int('limit')==10 or not app.request.query.has('limit') %}selected{% endif %}>
+                            10
+                        </option>
+                        <option value="20" {% if app.request.query.int('limit')==20 %}selected{% endif %}>20</option>
+                        <option value="50" {% if app.request.query.int('limit')==50 %}selected{% endif %}>50</option>
+                    </select>
+                </div>
+
+            </form>
+
+            <div class="row">
+                {% for comment in pagination %}
+                    <div class="article-container mb-2">
+                        <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                            <div class="col p-2 px-4 d-flex flex-column article-item">
+                                <h5 class="mb-2">{{ comment.article.title }}
+                                    <i class="fas fa-lg
+                                    {{ comment.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
+                                </h5>
+                                <p><strong>{{ comment.author.firstname }}
+                                        &nbsp;{{ comment.author.surname }}</strong></p>
+                                <p class="text-success">
+                                    <i>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <div class="text-muted align-self-center">
+                                        <p>{{ comment.text }}</p>
+                                    </div>
+                                    <div class="text-muted align-self-center ms-3">
+                                        <a href="#"><i
+                                                    class="fas fa-edit text-primary fa-lg"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="article-container mb-2">
+                        <h3>Не найдено.</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

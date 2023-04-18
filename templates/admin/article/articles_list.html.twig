@@ -22,13 +22,16 @@
                             </div>
                             <div class="col p-2 px-4 d-flex flex-column article-item">
                                 <h5 class="mb-2">{{ article.title }}
-                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">5</span>
+                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ article.comments|length }}</span>
                                 </h5>
                                 <div class="d-flex justify-content-between">
                                     <div class="text-muted align-self-center">
                                         <p>{{ article.description|u.truncate(100, '...', false) }}</p>
-                                        <p><strong>{{ article.author.firstname }}&nbsp;{{ article.author.surname }}</strong> </p>
-                                        <p class="text-success"><i>{{ article.publishedAt ? article.publishedAt|date('d-m-Y H:i:s') : '' }}</i> </p>
+                                        <p><strong>{{ article.author.firstname }}
+                                                &nbsp;{{ article.author.surname }}</strong></p>
+                                        <p class="text-success">
+                                            <i>{{ article.publishedAt ? article.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
+                                        </p>
                                     </div>
                                     <div class="text-muted align-self-center ms-3"><i class="fas fa-lg
                                     {{ article.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
