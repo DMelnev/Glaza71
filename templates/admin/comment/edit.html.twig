@@ -1,0 +1,23 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Редактирование комментария{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h1>Редактирование комментария</h1>
+                {{ form_start(commentForm) }}
+                {{ form_row(commentForm.text) }}
+                {{ form_row(commentForm.publishedAt) }}
+                {{ form_row(commentForm.author) }}
+                {{ form_row(commentForm.article) }}
+                <button type="submit" class="btn btn-primary">Изменить</button>
+                {{ form_end(commentForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

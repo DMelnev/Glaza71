@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
 use App\Entity\MainPage;
 use App\Events\ArticleCreatedEvent;
 use App\Form\ArticleFormType;
+use App\Form\CommentFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
 use App\Repository\ArticleRepository;
@@ -200,6 +202,32 @@ class AdminController extends AbstractController
         return $this->render('admin/comment/comments_list.html.twig', [
             'users' => $users,
             'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/comment/{id}/edit", name="app_admin_comment_edit")
+     */
+    public function editComment(
+        Comment $commentRequest,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $form = $this->createForm(CommentFormType::class, $commentRequest);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var Comment $comment */
+            $comment = $form->getData();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('flash_message', "Комментарий успешно изменен!");
+            return $this->redirectToRoute('app_admin_comment_edit', ['id'=>$comment->getId()] );
+        }
+        return $this->renderForm('admin/comment/edit.html.twig', [
+            'commentForm' => $form,
         ]);
     }
 }
