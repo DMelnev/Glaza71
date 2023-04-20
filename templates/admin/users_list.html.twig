@@ -22,7 +22,7 @@
                                         <p><i>аккаунт изменен: {{ user.updatedAt|date('d-m-Y H:i:s') }}</i></p>
 
                                         {% for role in user.roles %}
-                                            {% if role == 'ROLE_REGISTERED' %} <p>Подтвержден</p>{% endif %}
+                                            {% if role == 'ROLE_REGISTERED' %} <p><strong>Подтвержден</strong></p>{% endif %}
                                             {% if role == 'ROLE_ADMIN' %} <p><strong>Администратор</strong>
                                             </p>{% endif %}
                                         {% endfor %}
@@ -32,7 +32,7 @@
                                         </p>
                                     </div>
                                     <div class="text-muted align-self-center ms-3">
-                                        <a href="{{ path('app_admin_article_edit', {id: user.id}) }}"><i
+                                        <a href="{{ path('app_account', {'_switch_user': user.email}) }}"><i
                                                     class="fas fa-edit text-primary fa-lg"></i></a>
                                     </div>
                                 </div>
