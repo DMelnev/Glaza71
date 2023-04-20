@@ -11,28 +11,30 @@
                         <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
                             <div class="col p-2 px-4 d-flex flex-column article-item">
                                 <h5 class="mb-2">{{ user.firstname }} {{ user.patronymic }} {{ user.surname }}
-                                    <a href="{{ path('app_admin_comments') }}">
-                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ user.comments|length }}</span>
+                                    <a title="Комментарии" href="{{ path('app_admin_comments', {user: user.id}) }}">
+                                        <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ user.comments|length }}</span>
                                     </a>
                                 </h5>
                                 <div class="d-flex justify-content-between">
                                     <div class="text-muted align-self-center">
-                                        <p><i>Рожден: {{ user.birthdate ? user.birthdate|date('d-m-Y') : '-' }}</i></p>
+                                        {% if user.birthdate is not null %}<p>
+                                            <i>Рожден: {{ user.birthdate ? user.birthdate|date('d-m-Y') : '-' }}</i>
+                                            </p>{% endif %}
                                         <p><i>аккаунт создан: {{ user.createdAt|date('d-m-Y H:i:s') }}</i></p>
-                                        <p><i>аккаунт изменен: {{ user.updatedAt|date('d-m-Y H:i:s') }}</i></p>
-
+                                        {# <p><i>аккаунт изменен: {{ user.updatedAt|date('d-m-Y H:i:s') }}</i></p> #}
+                                        <p>{{ user.email }}</p>
                                         {% for role in user.roles %}
-                                            {% if role == 'ROLE_REGISTERED' %} <p><strong>Подтвержден</strong></p>{% endif %}
+                                            {% if role == 'ROLE_REGISTERED' %} <p class="text-success"><strong>Подтвержден {{ user.confirmed ? user.confirmed|date('d-m-Y H:i:s') : '' }}</strong>
+                                                </p>{% endif %}
                                             {% if role == 'ROLE_ADMIN' %} <p><strong>Администратор</strong>
                                             </p>{% endif %}
                                         {% endfor %}
-
-                                        <p class="text-success">
-                                            <i>{{ user.confirmed ? user.confirmed|date('d-m-Y H:i:s') : '' }}</i>
-                                        </p>
+                                        {% if  not user.confirmed %}<p class="text-danger"><i>Не
+                                                подтвержден:</i> <b>{{ user.activationCode }}</b></p>{% endif %}
                                     </div>
                                     <div class="text-muted align-self-center ms-3">
-                                        <a href="{{ path('app_account', {'_switch_user': user.email}) }}"><i
+                                        <a title="Войти под аккаунтом"
+                                           href="{{ path('app_account', {'_switch_user': user.email}) }}"><i
                                                     class="fas fa-edit text-primary fa-lg"></i></a>
                                     </div>
                                 </div>

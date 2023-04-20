@@ -39,12 +39,12 @@ class MainPage
 
 
     /**
-     * @ORM\Column(type="boolean", options={"default" : 0})
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
      */
     private $showComments;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true, options={"default" : 0})
+     * @ORM\Column(type="integer", nullable=true, options={"default" : 0})
      */
     private $showArticles;
 
@@ -101,24 +101,24 @@ class MainPage
         return $this;
     }
 
-    public function isShowComments(): ?bool
+    public function getShowComments(): ?int
     {
         return $this->showComments;
     }
 
-    public function setShowComments(bool $showComments): self
+    public function setShowComments(int $showComments): self
     {
         $this->showComments = $showComments;
 
         return $this;
     }
 
-    public function isShowArticles(): ?bool
+    public function getShowArticles(): ?int
     {
         return $this->showArticles;
     }
 
-    public function setShowArticles(bool $showArticles): self
+    public function setShowArticles(int $showArticles): self
     {
         $this->showArticles = $showArticles;
 

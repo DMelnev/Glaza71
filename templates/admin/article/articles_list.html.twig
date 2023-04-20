@@ -37,7 +37,7 @@
                                     {{ article.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
                                     </div>
                                     <div class="text-muted align-self-center ms-3">
-                                        <a href="{{ path('app_admin_article_edit', {id: article.id}) }}"><i
+                                        <a title="Редактировать" href="{{ path('app_admin_article_edit', {id: article.id}) }}"><i
                                                     class="fas fa-edit text-primary fa-lg"></i></a>
                                     </div>
                                 </div>

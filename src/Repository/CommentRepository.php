@@ -52,6 +52,19 @@ class CommentRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findLast(int $num)
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults($num)
+            ->leftJoin('c.author', 'a')
+            ->addSelect('c')
+            ->leftJoin('c.article', 'r')
+            ->addSelect('r')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findWithSearchQuery(?string $search, ?string $userId): QueryBuilder
     {
         $qb = $this->createQueryBuilder('c')

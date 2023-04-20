@@ -17,7 +17,8 @@
                   integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
         {% endif %}
     {% endblock %}
-    <link rel="canonical" href="{{ url(app.request.get('_route')) }}">
+    <link rel="canonical" href="{{ url(app.request.get('_route'),
+        app.request.get('_route_params')) }}">
 </head>
 <body>
 {% block navigation %}

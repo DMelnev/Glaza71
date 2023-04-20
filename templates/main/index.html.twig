@@ -16,6 +16,46 @@
             </div>
         </div>
     </section>
+    {% if articles is not empty and articles > 0 %}
+        <section class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
+                        <div class="media-body d-inline-block align-self-center mx-2">
+                            <div class="m-2">
+                                <h3><i class="pr-3 fas fa-paste fa-lg"> Статьи</i></h3>
+
+                                {% for article in articles %}
+                                    <hr class="mb-3">
+                                    <div class="row mt-2">
+                                        <a title="Читать статью" class="text-reset text-decoration-none" href="{{ path('app_article_show', {slug: article.slug}) }}">
+                                        <div class="col-sm-12">
+                                            <div class="media">
+                                                <div class="media-body align-self-start col-sm-12">
+                                                    <p>
+                                                        <span><b>{{ article.title }}</b></span>
+                                                    </p>
+                                                </div>
+                                                <img class="me-3" style="float:left;"
+                                                     src="{{ article.imageFilename|imagine_filter('pict_in_article_preview') }}"
+                                                     alt="Глазной кабинет Валицкого И.С.">
+                                                <span class="ps-3">{{ article.description }}</span>
+                                            </div>
+                                        </div>
+                                        </a>
+                                        <p class="mt-3"><i>Автор: </i><b>{{ article.author.firstname }} {{ article.author.patronymic }} {{ article.author.surname }}</b></p>
+                                        <p><small><i>{{ article.publishedAt|format_date(locale='ru', ) }}</i></small>
+                                        </p>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
 {% block description %}{{ page.headTitle }}{% endblock %}
 {% block keywords %}{{ page.keywords }}{% endblock %}

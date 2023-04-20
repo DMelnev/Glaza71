@@ -26,13 +26,13 @@
                                 {# <td class="align-middle disappeared-620">{{ file.created|date("H:i:s d-m-y") }}</td> #}
                                 <td class="align-middle disappeared-380">
                                     <a href="{{ upload_asset('article_uploads', file.filename) }}" target="_blank">
-                                        <img class="rounded"
+                                        <img title="Увеличить" class="rounded"
                                              src="{{ file.filename | imagine_filter('picture_preview') }}"
                                              alt="{{ file.filename }}">
                                     </a>
                                 </td>
                                 <td class="align-middle align-items-end">
-                                    <a href="{{ path('app_admin_pictures_delete', {filename: file.filename}) }}"
+                                    <a title="Удалить!" href="{{ path('app_admin_pictures_delete', {filename: file.filename}) }}"
                                        onclick="return confirm(`Вы уверены?`)">
                                         <i class="fas fa-trash-alt text-danger"></i>
                                     </a>

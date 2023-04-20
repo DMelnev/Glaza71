@@ -43,7 +43,22 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->orderBy('a.updatedAt', 'DESC')
-            ->leftJoin('a.author','c')
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLast(int $num)
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.updatedAt', 'DESC')
+            ->setMaxResults($num)
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
+            ->leftJoin('a.comments', 'c')
             ->addSelect('c')
             ->getQuery()
             ->getResult();

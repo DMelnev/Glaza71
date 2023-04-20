@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+    <section class="container{% if not flash %} first-section{% endif %}">
+        <div class="row">
+            <div class="col-12">
+                <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
+                    <div class="article-detail col-sm-12 p-4">
+                        <div class="col-12 mt-2 mb-4">
+                            <h1>{{ article.title }}</h1>
+                            <hr class="mb-3">
+                            <div class="media d-flex align-content-center">
+                                <img class="rounded float-start mr-3 mb-3" style="max-width: 100%" src="{{ article.imageFilename | imagine_filter('view_article') }}"
+                                     alt="Глазной кабинет Валицкого И.С.">
+                                <div class="media-body d-inline-block align-self-center">
+                                </div>
+                            </div>
+                            {{ article.text | markdown_to_html }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block description %}{{ article.description }}{% endblock %}
+{% block keywords %}{{ article.keywords }}{% endblock %}
