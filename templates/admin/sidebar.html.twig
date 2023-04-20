@@ -2,10 +2,10 @@
     <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <span class="fs-5 d-none d-sm-inline">Настройки</span>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-{#            <li>#}
-{#                <a href="{{ path('app_admin') }}" class="nav-link px-0 align-middle">#}
-{#                    <i class="fas fa-home"></i> <span class="ms-1 d-none d-sm-inline">Обзор</span></a>#}
-{#            </li>#}
+            {# <li> #}
+            {# <a href="{{ path('app_admin') }}" class="nav-link px-0 align-middle"> #}
+            {# <i class="fas fa-home"></i> <span class="ms-1 d-none d-sm-inline">Обзор</span></a> #}
+            {# </li> #}
             <li>
                 <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
                     <i class="fas fa-th-list fa-lg"></i> <span class="ms-1 d-none d-sm-inline">Главные страницы</span>
@@ -45,7 +45,7 @@
             </li>
 
             <li>
-                <a href="#" class="nav-link px-0 align-middle">
+                <a href="{{ path('app_admin_users') }}" class="nav-link px-0 align-middle">
                     <i class="fas fa-users fa-lg"></i> <span class="ms-1 d-none d-sm-inline">Пользователи</span> </a>
             </li>
         </ul>

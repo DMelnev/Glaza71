@@ -1,0 +1,55 @@
+{% extends 'articles/base_content.html.twig' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="col-sm-12">
+            <div class="row">
+                {% for user in users %}
+                    <div class="article-container mb-2">
+                        <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                            <div class="col p-2 px-4 d-flex flex-column article-item">
+                                <h5 class="mb-2">{{ user.firstname }} {{ user.patronymic }} {{ user.surname }}
+                                    <a href="{{ path('app_admin_comments') }}">
+                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ user.comments|length }}</span>
+                                    </a>
+                                </h5>
+                                <div class="d-flex justify-content-between">
+                                    <div class="text-muted align-self-center">
+                                        <p><i>Рожден: {{ user.birthdate ? user.birthdate|date('d-m-Y') : '-' }}</i></p>
+                                        <p><i>аккаунт создан: {{ user.createdAt|date('d-m-Y H:i:s') }}</i></p>
+                                        <p><i>аккаунт изменен: {{ user.updatedAt|date('d-m-Y H:i:s') }}</i></p>
+
+                                        {% for role in user.roles %}
+                                            {% if role == 'ROLE_REGISTERED' %} <p>Подтвержден</p>{% endif %}
+                                            {% if role == 'ROLE_ADMIN' %} <p><strong>Администратор</strong>
+                                            </p>{% endif %}
+                                        {% endfor %}
+
+                                        <p class="text-success">
+                                            <i>{{ user.confirmed ? user.confirmed|date('d-m-Y H:i:s') : '' }}</i>
+                                        </p>
+                                    </div>
+                                    <div class="text-muted align-self-center ms-3">
+                                        <a href="{{ path('app_admin_article_edit', {id: user.id}) }}"><i
+                                                    class="fas fa-edit text-primary fa-lg"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="article-container mb-2">
+                        <h3>Статей не найдено.</h3>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

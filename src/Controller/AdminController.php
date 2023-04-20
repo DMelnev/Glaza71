@@ -224,10 +224,21 @@ class AdminController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('flash_message', "Комментарий успешно изменен!");
-            return $this->redirectToRoute('app_admin_comment_edit', ['id'=>$comment->getId()] );
+            return $this->redirectToRoute('app_admin_comment_edit', ['id' => $comment->getId()]);
         }
         return $this->renderForm('admin/comment/edit.html.twig', [
             'commentForm' => $form,
+        ]);
+    }
+
+    /**
+     * @Route ("/admin/users", name="app_admin_users")
+     */
+    public function usersList(UserRepository $userRepository)
+    {
+        $users = $userRepository->findAllSortedByName();
+        return $this->render('admin/users_list.html.twig', [
+            'users' => $users,
         ]);
     }
 }
