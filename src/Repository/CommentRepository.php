@@ -40,12 +40,16 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllSortedByCreated()
+    public function findByArticleId(int $id, int $viewer)
     {
         return $this->createQueryBuilder('c')
+            ->andWhere('c.article = :id')
+            ->andWhere('c.author = :viewer OR c.publishedAt IS NOT NULL')
+            ->setParameter('id', $id)
+            ->setParameter('viewer', $viewer)
             ->orderBy('c.createdAt', 'DESC')
             ->leftJoin('c.author', 'a')
-            ->addSelect('c')
+            ->addSelect('a')
             ->leftJoin('c.article', 'r')
             ->addSelect('r')
             ->getQuery()
@@ -57,6 +61,21 @@ class CommentRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($num)
+            ->leftJoin('c.author', 'a')
+            ->addSelect('c')
+            ->leftJoin('c.article', 'r')
+            ->addSelect('r')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastCurrentAuthor(int $author)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.author = :author')
+            ->setParameter('author', $author)
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults(1)
             ->leftJoin('c.author', 'a')
             ->addSelect('c')
             ->leftJoin('c.article', 'r')

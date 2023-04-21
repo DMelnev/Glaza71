@@ -46,3 +46,7 @@ liip_imagine:
             quality: 60
             filters:
                 thumbnail: { size: [ 800, 600 ], mode: outbond }
+        logo:
+            quality: 75
+            filters:
+                thumbnail: {size: [ 50, 50 ], mode: inset}

@@ -3,10 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Comment;
+use App\Entity\User;
+use App\Form\CommentForUserFormType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\MainPageRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -127,12 +133,63 @@ class MainController extends AbstractController
     /**
      * @Route ("/article/{slug}", name="app_article_show")
      */
-    public function showArticle(Article $article)
+    public function showArticle(
+        Article $article,
+        CommentRepository $commentRepository,
+        Request $request,
+        EntityManagerInterface $entityManager)
     {
-        return $this->render('article.html.twig', [
-            'article' => $article,
-            'folder'=>$this->getParameter('app.upload_path'),
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $form = $this->createForm(CommentForUserFormType::class, new Comment(), [
+            'method' => 'POST',
+            'action' => '#comment',
         ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($user && in_array('ROLE_REGISTERED', $user->getRoles())) {
+                /** @var Comment $comment */
+                $comment = $form->getData();
+                $comment->setAuthor($user);
+                $comment->setArticle($article);
+                $comment->setText(strip_tags($comment->getText(), '<br>'));
+                $lastComment = $commentRepository->findLastCurrentAuthor($user->getId());
+                $lastComment = $lastComment ? $commentRepository->findLastCurrentAuthor($user->getId())[0] : new Comment();
+
+                if ($comment->getText() == $lastComment->getText()) {
+                    $this->addFlash('flash_error_comment', "Кажется это уже было 🤓");
+                } elseif ($lastComment->getCreatedAt() > new \DateTime('-5 min',) && !in_array('ROLE_ADMIN', $user->getRoles())) {
+                    $this->addFlash('flash_error_comment', "Слишком частая отправка комментариев");
+                } else {
+
+                    if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                        $comment->setPublishedAt(new \DateTime('now'));
+                    }
+                    $entityManager->persist($comment);
+                    $entityManager->flush();
+                    $this->addFlash('flash_comment', "Комментарий создан!");
+                }
+                unset($comment);
+                unset($form);
+                $form = $this->createForm(CommentForUserFormType::class, new Comment(), [
+                    'method' => 'POST',
+                    'action' => '#comment',
+                ]);
+            } elseif ($user && in_array('ROLE_USER', $user->getRoles())) {
+
+                $this->addFlash('flash_error_comment', "Вы не можете оставлять комментарии. e-mail не подтвержден.");
+            } else {
+                $this->addFlash('flash_error_comment', "Комментарии могут оставлять только зарегистрированные пользователи!");
+            }
+        }
+
+        return $this->renderForm('article.html.twig', ['article' => $article,
+            'folder' => $this->getParameter('app.upload_path'),
+            'comments' => $commentRepository->findByArticleId($article->getId(), $user ? $user->getId() : 0),
+            'form' => $form,
+        ]);
+
     }
 
 //    /**

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-12">
-                <h1>Редактирование комментария</h1>
+                <h4>Редактирование комментария</h4>
                 {{ form_start(commentForm) }}
                 {{ form_row(commentForm.text) }}
                 {{ form_row(commentForm.publishedAt) }}
@@ -17,6 +17,18 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-1 text-muted">
+                <a title="Удалить!"
+                   href="{{ path('app_admin_comment_delete', {id: comment.id}) }}"
+                   onclick="return confirm(`Эту операцию нельзя отменить. Вы уверены?`)">
+                    <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 {% set no_fixed=true %}
 {% set no_search=true %}

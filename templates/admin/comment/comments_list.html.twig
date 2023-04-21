@@ -10,7 +10,9 @@
             <form>
                 <div class="input-group mb-3">
                     <select class="form-select" name="user" aria-label=".form-select-sm example">
-                        <option value="" {% if app.request.query.get('user')=='All' %}selected{% endif %}>Все пользователи</option>
+                        <option value="" {% if app.request.query.get('user')=='All' %}selected{% endif %}>Все
+                            пользователи
+                        </option>
                         {% for user in users %}
                             <option value="{{ user.id }}"{% if app.request.query.int('user')==user.id %} selected{% endif %}>{{ user.id }}
                                 : {{ user.firstname }} {{ user.surname }}</option>
@@ -18,7 +20,8 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" name="q" class="form-control" placeholder="Найти в тексте комментария или в названии статьи..."
+                    <input type="text" name="q" class="form-control"
+                           placeholder="Найти в тексте комментария или в названии статьи..."
                            value="{{ app.request.query.get('q') }}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary">
@@ -61,7 +64,8 @@
                                         <p>{{ comment.text }}</p>
                                     </div>
                                     <div class="text-muted align-self-center ms-3">
-                                        <a title="Редактировать" href="{{ path('app_admin_comment_edit', {id: comment.id}) }}"><i
+                                        <a title="Редактировать"
+                                           href="{{ path('app_admin_comment_edit', {id: comment.id}) }}"><i
                                                     class="fas fa-edit text-primary fa-lg"></i></a>
                                     </div>
                                 </div>

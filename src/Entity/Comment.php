@@ -44,6 +44,12 @@ class Comment
      */
     private $publishedAt;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $path;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -100,5 +106,21 @@ class Comment
     public function isPublished(): bool
     {
         return isset($this->publishedAt);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPath(): array
+    {
+        return isset($this->path) ? explode('.', $this->path) : [];
+    }
+
+    /**
+     * @param array $path
+     */
+    public function setPath(array $path): void
+    {
+        $this->path = implode('.', $path);
     }
 }

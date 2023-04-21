@@ -12,14 +12,92 @@
                             <h1>{{ article.title }}</h1>
                             <hr class="mb-3">
                             <div class="media d-flex align-content-center">
-                                <img class="rounded float-start mr-3 mb-3" style="max-width: 100%" src="{{ article.imageFilename | imagine_filter('view_article') }}"
+                                <img class="rounded float-start mr-3 mb-3" style="max-width: 100%"
+                                     src="{{ article.imageFilename | imagine_filter('view_article') }}"
                                      alt="Глазной кабинет Валицкого И.С.">
                                 <div class="media-body d-inline-block align-self-center">
                                 </div>
                             </div>
                             {{ article.text | markdown_to_html }}
+                            <p class="float-start p-4">
+                                <strong>{{ article.author.firstName }} {{ article.author.surname }}</strong></p>
+                            <p class="float-end p-4"><i>{{ article.createdAt|format_date(locale = 'ru') }}</i></p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-sm-12 mb-4">
+                <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
+                    <h3><i class="pe-3 far fa-comment text-secondary"></i> Комментариев: {{ comments|length }}
+                    </h3>
+                    <hr>
+
+                    {% if app.session.flashBag.peek('flash_comment')|length == 0  and app.session.flashBag.peek('flash_error_comment')|length == 0 %}
+                        <div class="row mb-4 " id="comment">
+                            <div class="col-sm-12">
+                                <div class="comment-container align-self-start col-sm-12">
+                                    {{ form_start(form) }}
+                                    <div class="form-group mb-3">
+
+                                        {{ form_row(form.text) }}
+                                    </div>
+                                    <button type="submit" class="btn btn-info">Комментировать</button>
+                                    {{ form_end(form) }}
+                                </div>
+                                <hr class="col-sm-12">
+                            </div>
+                        </div>
+                    {% else %}
+
+                        <div class="row justify-content-center">
+                            <div class="col-sm-12">
+                                {% if app.session.flashBag.peek('flash_comment')|length > 0 %}
+                                    <div class="alert alert-success" role="alert">
+                                        {% for message in app.flashes('flash_comment') %}
+                                            <p>{{ message }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if app.session.flashBag.peek('flash_error_comment')|length > 0 %}
+                                    <div class="alert alert-danger" role="alert">
+                                        <div class="alert alert-danger" role="alert">
+                                            {% for message in app.flashes('flash_error_comment') %}
+                                                <p>{{ message }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% set flash=true %}
+                    {% endif %}
+
+                    {% for comment in comments %}
+                        <div class="row m-2">
+                            <div class="col-sm-12">
+                                <div class="media">
+                                    <div class="media-body align-self-start col-sm-12">
+                                        <img class="align-self-start comment-img rounded-circle"
+                                             src="{{ 'eye.png'|imagine_filter('logo') }}">
+                                        <b class="mx-3">{{ comment.author.firstName }} {{ comment.author.surname }}</b>
+                                        <small class="me-3">{{ comment.updatedAt|format_date(locale='ru') }}</small>
+                                        {% if not comment.publishedAt %}
+                                            <span class="text-danger">Ждет одобрения модератором</span>
+                                        {% endif %}
+                                        <br>
+                                        <p class="comment">{{ comment.text | markdown_to_html }}</p>
+                                    </div>
+                                    <hr class="col-sm-12">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

@@ -15,12 +15,14 @@ use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,6 +34,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminController extends AbstractController
 {
+
+    private ManagerRegistry $doctrine;
+
+    public function __construct(ManagerRegistry $doctrine) {
+        $this->doctrine = $doctrine;
+    }
+
     /**
      * @Route("/admin", name="app_admin")
      */
@@ -228,6 +237,7 @@ class AdminController extends AbstractController
         }
         return $this->renderForm('admin/comment/edit.html.twig', [
             'commentForm' => $form,
+            'comment' => $commentRequest,
         ]);
     }
 
@@ -240,5 +250,16 @@ class AdminController extends AbstractController
         return $this->render('admin/users_list.html.twig', [
             'users' => $users,
         ]);
+    }
+
+    /**
+     * @Route ("/admin/comment/{id}/delete", name="app_admin_comment_delete")
+     */
+    public function deleteComment(Comment $comment): RedirectResponse
+    {
+        $em = $this->doctrine->getManager();
+        $em->remove($comment);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_comments');
     }
 }
