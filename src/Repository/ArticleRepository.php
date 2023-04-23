@@ -54,6 +54,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findLast(int $num)
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
             ->orderBy('a.updatedAt', 'DESC')
             ->setMaxResults($num)
             ->leftJoin('a.author', 'u')

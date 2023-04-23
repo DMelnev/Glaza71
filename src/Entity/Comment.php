@@ -57,7 +57,7 @@ class Comment
 
     public function getText(): ?string
     {
-        return $this->text;
+        return strip_tags($this->text);
     }
 
     public function setText(string $text): self

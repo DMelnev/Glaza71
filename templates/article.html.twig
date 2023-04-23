@@ -35,10 +35,10 @@
                 <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
                     <h3><i class="pe-3 far fa-comment text-secondary"></i> Комментариев: {{ comments|length }}
                     </h3>
-                    <hr>
+                    <hr id="comment">
 
-                    {% if app.session.flashBag.peek('flash_comment')|length == 0  and app.session.flashBag.peek('flash_error_comment')|length == 0 %}
-                        <div class="row mb-4 " id="comment">
+                    {% if app.session.flashBag.peek('flash_comment')|length == 0  and app.session.flashBag.peek('flash_error_comment')|length == 0 and not is_granted('ROLE_BANNED') %}
+                        <div class="row mb-4">
                             <div class="col-sm-12">
                                 <div class="comment-container align-self-start col-sm-12">
                                     {{ form_start(form) }}
@@ -75,7 +75,6 @@
                             </div>
                         </div>
 
-                        {% set flash=true %}
                     {% endif %}
 
                     {% for comment in comments %}

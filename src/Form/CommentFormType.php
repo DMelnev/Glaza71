@@ -33,10 +33,12 @@ class CommentFormType extends AbstractType
                 'rows' => '10',
             ])
             ->add('publishedAt', DateTimeType::class, [
+                'label'=>"Comment's data publication",
                 'widget' => 'single_text',
                 'required' => false,
             ])
             ->add('article', EntityType::class, [
+                'label'=>"Article",
                 'class' => Article::class,
                 'choice_label' => function (Article $article) {
                     return sprintf('%d - %s', $article->getId(), $article->getTitle());
@@ -46,6 +48,7 @@ class CommentFormType extends AbstractType
                 'invalid_message' => "Статья не найдена",
             ])
             ->add('author', EntityType::class, [
+                'label'=>"Author",
                 'class' => User::class,
                 'choice_label' => function (User $user) {
                     return sprintf('%d - %s %s', $user->getId(), $user->getFirstName(), $user->getSurname());

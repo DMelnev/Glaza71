@@ -92,6 +92,7 @@ body {
     .first-section {
         margin-top: 1.5rem;
     }
+
     .disappeared-620 {
         display: none;
     }
@@ -106,5 +107,13 @@ body {
 
 .img-logo {
     max-width: 50px;
+}
+
+.td-center {
+    text-align: center;
+}
+
+.td-right {
+    text-align: right;
 }
 

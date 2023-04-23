@@ -36,7 +36,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route ("/account/edit", name="app_account_edit")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_REGISTERED")
      */
     public function edit(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -82,7 +82,7 @@ class AccountController extends AbstractController
 
     /**
      * @Route ("/account/changepassword", name="app_account_changepassword")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_REGISTERED")
      */
     public function changePassword(
         Request $request,

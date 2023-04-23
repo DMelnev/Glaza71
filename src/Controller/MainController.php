@@ -153,7 +153,7 @@ class MainController extends AbstractController
                 $comment = $form->getData();
                 $comment->setAuthor($user);
                 $comment->setArticle($article);
-                $comment->setText(strip_tags($comment->getText(), '<br>'));
+//                $comment->setText(strip_tags($comment->getText(), '<br>'));
                 $lastComment = $commentRepository->findLastCurrentAuthor($user->getId());
                 $lastComment = $lastComment ? $commentRepository->findLastCurrentAuthor($user->getId())[0] : new Comment();
 
@@ -176,8 +176,9 @@ class MainController extends AbstractController
                     'method' => 'POST',
                     'action' => '#comment',
                 ]);
-            } elseif ($user && in_array('ROLE_USER', $user->getRoles())) {
-
+            } elseif ($user && in_array('ROLE_BANNED', $user->getRoles())) {
+                $this->addFlash('flash_error_comment', "Вам запрещено оставлять комментарии.");
+            } elseif ($user && !$user->getConfirmed()) {
                 $this->addFlash('flash_error_comment', "Вы не можете оставлять комментарии. e-mail не подтвержден.");
             } else {
                 $this->addFlash('flash_error_comment', "Комментарии могут оставлять только зарегистрированные пользователи!");
@@ -191,15 +192,5 @@ class MainController extends AbstractController
         ]);
 
     }
-
-//    /**
-//     * @Route ("/article/{slug}", name="app_article_show")
-//     */
-//    public function show(Article $article)
-//    {
-//        return $this->render('articles/show.html.twig', [
-//            "article" => $article,
-//        ]);
-//    }
 
 }

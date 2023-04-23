@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\MainPage;
+use App\Entity\User;
 use App\Events\ArticleCreatedEvent;
 use App\Form\ArticleFormType;
+use App\Form\BannedFormType;
 use App\Form\CommentFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
+use App\Form\Model\BanUserModel;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
@@ -37,7 +40,8 @@ class AdminController extends AbstractController
 
     private ManagerRegistry $doctrine;
 
-    public function __construct(ManagerRegistry $doctrine) {
+    public function __construct(ManagerRegistry $doctrine)
+    {
         $this->doctrine = $doctrine;
     }
 
@@ -244,11 +248,63 @@ class AdminController extends AbstractController
     /**
      * @Route ("/admin/users", name="app_admin_users")
      */
-    public function usersList(UserRepository $userRepository)
+    public function usersList(UserRepository $userRepository, Request $request, PaginatorInterface $paginator)
     {
-        $users = $userRepository->findAllSortedByName();
+
+        $qb = ($request->query->get('banned'))
+            ? $userRepository->findBanned()
+            : $userRepository->findAllNotBanned();
+        $users = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10)
+        );
+
         return $this->render('admin/users_list.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    /**
+     * @Route ("/admin/user/{id}/ban", name="app_admin_user_ban")
+     */
+    public function banUser(User $user, Request $request): Response
+    {
+        $banModel = new BanUserModel();
+        $banModel
+            ->setBanned((bool)$user->getBanned())
+            ->setBannedReason($user->getBannedReason());
+
+        $form = $this->createForm(BannedFormType::class, $banModel);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var BanUserModel $data */
+            $data = $form->getData();
+            if ($data->isBanned()) {
+                $user
+                    ->setBanned(new \DateTime('now'))
+                    ->setBannedReason($data->getBannedReason())
+                    ->newRoles(['ROLE_BANNED']);
+
+                $this->addFlash('flash_message', sprintf('Пользователь %s был забанен. Причина: %s',
+                    $user->getFirstName() . ' ' . $user->getSurname(),
+                    $user->getBannedReason()));
+
+            } else {
+                $user
+                    ->setBanned(null)
+                    ->newRoles(['ROLE_USER']);
+                if ($user->getConfirmed()) $user->setRoles(['ROLE_REGISTERED']);
+                $this->addFlash('flash_message', sprintf('Пользователь %s был разбанен.',
+                    $user->getFirstName() . ' ' . $user->getSurname()));
+            }
+            $em = $this->doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('app_admin_users');
+        }
+        return $this->renderForm('admin/ban_user.html.twig', [
+            'form' => $form,
         ]);
     }
 
@@ -262,4 +318,30 @@ class AdminController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_admin_comments');
     }
+
+    /**
+     * @Route ("/admin/comment/{id}/allow", name="app_admin_comment_allow")
+     */
+    public function allowComment(Comment $comment): RedirectResponse
+    {
+        $comment->setPublishedAt(new \DateTime('now'));
+        $em = $this->doctrine->getManager();
+        $em->persist($comment);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_comments');
+    }
+
+    /**
+     * @Route ("/admin/comment/{id}/disallow", name="app_admin_comment_disallow")
+     */
+    public function disallowComment(Comment $comment): RedirectResponse
+    {
+        $comment->setPublishedAt(null);
+        $em = $this->doctrine->getManager();
+        $em->persist($comment);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_comments');
+    }
+
+
 }

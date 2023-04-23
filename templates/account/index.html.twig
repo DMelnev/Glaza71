@@ -20,6 +20,10 @@
                         <td>{{ app.user.surname }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Телефон</th>
+                        <td>-</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Дата рождения</th>
                         <td>{% if (app.user.birthDate ?? null) %}{{ app.user.birthDate|date('d.m.Y') }}{% endif %}</td>
                     </tr>
@@ -31,6 +35,10 @@
                         {% if is_granted('ROLE_REGISTERED') %}
                             <th scope="row" class="text-success">E-mail подтвержден</th>
                             <td><i class="fas fa-check text-success"></i> {{ app.user.email }}</td>
+                        {% elseif is_granted('ROLE_BANNED') %}
+                            <th scope="row" class="text-danger">Вы
+                                забанены {{ app.user.banned|format_date(locale = 'ru') }}</th>
+                            <td><i class="fas fa-times text-danger"></i> {{ app.user.bannedReason }}</td>
                         {% else %}
                             <th scope="row" class="text-danger">Подтвердите E-mail.</th>
                             <td><i class="fas fa-times text-danger"></i> {{ app.user.email }}</td>
@@ -47,6 +55,7 @@
                     <a href="{{ url('app_account_edit') }}">
                         <button type="button" class="btn btn-secondary">Изменить</button>
                     </a>
+                {% elseif is_granted('ROLE_BANNED') %}
                 {% else %}
                     <a href="{{ url('app_account_activate') }}">
                         <button type="button" class="btn btn-secondary">Ввести код активации</button>

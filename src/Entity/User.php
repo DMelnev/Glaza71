@@ -87,6 +87,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $phoneNumbers;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $banned;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $bannedReason;
+
+    /**
+     * @return mixed
+     */
+    public function getBannedReason()
+    {
+        return $this->bannedReason;
+    }
+
+    /**
+     * @param mixed $bannedReason
+     */
+    public function setBannedReason($bannedReason): self
+    {
+        $this->bannedReason = $bannedReason;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBanned()
+    {
+        return $this->banned;
+    }
+
+    /**
+     * @param mixed $banned
+     */
+    public function setBanned($banned): self
+    {
+        $this->banned = $banned;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumbers()
+    {
+        return implode(',', $this->phoneNumbers);
+    }
+
+    /**
+     * @param mixed $phoneNumbers
+     */
+    public function setPhoneNumbers($phoneNumbers): self
+    {
+        $this->phoneNumbers = explode('.', $phoneNumbers);
+        return $this;
+    }
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -144,6 +210,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = array_merge($this->roles, $roles);
 
+        return $this;
+    }
+
+    public function newRoles(array $roles): self
+    {
+        $this->roles = $roles;
         return $this;
     }
 
@@ -289,8 +361,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($code && $this->confirmed < new \DateTime('-5 min')) {
             if ($code == $this->getActivationCode()) {
                 $this->setConfirmed(new \DateTime('now'))
-                ->setRoles(['ROLE_REGISTERED'])
-                ->setActivationCode(null);
+                    ->setRoles(['ROLE_REGISTERED'])
+                    ->setActivationCode(null);
                 return true;
             }
         }

@@ -3,49 +3,125 @@
 {% block title %}Список пользователей{% endblock %}
 
 {% block body %}
+
     <div class="container">
-        <div class="col-sm-12">
-            <div class="row">
-                {% for user in users %}
-                    <div class="article-container mb-2">
-                        <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
-                            <div class="col p-2 px-4 d-flex flex-column article-item">
-                                <h5 class="mb-2">{{ user.firstname }} {{ user.patronymic }} {{ user.surname }}
-                                    <a title="Комментарии" href="{{ path('app_admin_comments', {user: user.id}) }}">
-                                        <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ user.comments|length }}</span>
-                                    </a>
-                                </h5>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text-muted align-self-center">
-                                        {% if user.birthdate is not null %}<p>
-                                            <i>Рожден: {{ user.birthdate ? user.birthdate|date('d-m-Y') : '-' }}</i>
-                                            </p>{% endif %}
-                                        <p><i>аккаунт создан: {{ user.createdAt|date('d-m-Y H:i:s') }}</i></p>
-                                        {# <p><i>аккаунт изменен: {{ user.updatedAt|date('d-m-Y H:i:s') }}</i></p> #}
-                                        <p>{{ user.email }}</p>
-                                        {% for role in user.roles %}
-                                            {% if role == 'ROLE_REGISTERED' %} <p class="text-success"><strong>Подтвержден {{ user.confirmed ? user.confirmed|date('d-m-Y H:i:s') : '' }}</strong>
-                                                </p>{% endif %}
-                                            {% if role == 'ROLE_ADMIN' %} <p><strong>Администратор</strong>
-                                            </p>{% endif %}
-                                        {% endfor %}
-                                        {% if  not user.confirmed %}<p class="text-danger"><i>Не
-                                                подтвержден:</i> <b>{{ user.activationCode }}</b></p>{% endif %}
-                                    </div>
-                                    <div class="text-muted align-self-center ms-3">
-                                        <a title="Войти под аккаунтом"
-                                           href="{{ path('app_account', {'_switch_user': user.email}) }}"><i
-                                                    class="fas fa-edit text-primary fa-lg"></i></a>
-                                    </div>
-                                </div>
+        <div class="col-lg-12">
+            <h1 class="h3 mb-3">Список пользователей</h1>
+
+
+            <form>
+                <div class="input-group mb-3">
+                    <input type="checkbox" id="btncheck1" name="banned" value="1"
+                           {% if app.request.query.get('banned')=='1' %}checked{% endif %} >
+                    <label class="ms-3" for="btncheck1">Забаненные</label>
+                    <div class="input-group-append ms-5">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <i class="fa fa-search"></i> Показать
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group my-3 w-25">
+                    <label class="form-check-label" for="select">
+                        Выводить&nbsp;по:
+                    </label>
+                    <select class="form-select ms-3" id="select" name="limit">
+                        <option value="10"
+                                {% if app.request.query.int('limit')==10 or not app.request.query.has('limit') %}selected{% endif %}>
+                            10
+                        </option>
+                        <option value="20" {% if app.request.query.int('limit')==20 %}selected{% endif %}>20</option>
+                        <option value="50" {% if app.request.query.int('limit')==50 %}selected{% endif %}>50</option>
+                    </select>
+                </div>
+
+            </form>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    {% for user in users %}
+                        <div class="article-container mb-2">
+                            <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
+                                <table class="table table-borderless">
+                                    <tbody>
+
+                                    <tr>
+                                        <td class="ps-3">
+                                            <h5>{{ user.firstname }} {{ user.patronymic }} {{ user.surname }}
+                                                <a title="Комментарии"
+                                                   href="{{ path('app_admin_comments', {user: user.id}) }}">
+                                                    <span class="badge rounded-pill text-bg-primary article-comments ms-3">{{ user.comments|length }}</span>
+                                                </a>
+                                            </h5>
+                                        </td>
+                                        <td class="td-right pe-3">
+                                            <a title="Войти под аккаунтом"
+                                               href="{{ path('app_account', {'_switch_user': user.email}) }}"><i
+                                                        class="fas fa-edit text-primary fa-lg"></i></a>
+                                        </td>
+                                    </tr>
+                                    {% if user.birthdate is not null %}
+                                        <tr>
+                                            <td>
+                                                <i>Рожден: {{ user.birthdate ? user.birthdate|date('d-m-Y') : '-' }}</i>
+                                            </td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td>
+                                            <i>Аккаунт создан: {{ user.createdAt|date('d-m-Y H:i:s') }}</i>
+                                        </td>
+                                        <td class="td-right pe-3">
+                                            {% if user.banned is null %}
+                                            <a title="Забанить" href="{{ url('app_admin_user_ban', {id: user.id}) }}">
+                                                <i class="fas fa-user-slash fa-lg text-danger"></i>
+                                            </a>
+                                            {% else %}
+                                                <a title="Разбанить" href="{{ url('app_admin_user_ban', {id: user.id}) }}">
+                                                    <i class="fas fa-user-check fa-lg text-success"></i>
+                                                </a>
+                                                {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {% if user.banned is null %}
+                                                {% for role in user.roles %}
+                                                    {% if role == 'ROLE_REGISTERED' %} <p class="text-success"><strong>Подтвержден {{ user.confirmed ? user.confirmed|date('d-m-Y H:i:s') : '' }}</strong>
+                                                        </p>{% endif %}
+                                                    {% if role == 'ROLE_ADMIN' %} <p><strong>Администратор</strong>
+                                                    </p>{% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                <p><b>Забанен </b>{{ user.banned|date('d-m-Y H:i:s') }}</p>
+                                                <p>
+                                                    <b>Причина: </b>{% if user.bannedreason is not null %}{{ user.bannedreason }} {% else %}
+                                                    <i>Не указана</i>{% endif %}</p>
+                                            {% endif %}
+                                            {% if  not user.confirmed %}
+                                                <p class="text-danger"><i>Не подтвержден </i>
+                                                <b>{{ user.activationCode }}</b></p>{% endif %}
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="article-container mb-2">
-                        <h3>Статей не найдено.</h3>
-                    </div>
-                {% endfor %}
+                    {% else %}
+                        <div class="article-container mb-2">
+                            <h3>Пользователей не найдено.</h3>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

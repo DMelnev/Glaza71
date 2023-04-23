@@ -6,7 +6,6 @@
     <div class="container">
         <div class="col-lg-12">
             <h1 class="h3 mb-3 font-weight-normal">Комментарии</h1>
-
             <form>
                 <div class="input-group mb-3">
                     <select class="form-select" name="user" aria-label=".form-select-sm example">
@@ -46,43 +45,72 @@
             </form>
 
             <div class="row">
-                {% for comment in pagination %}
-                    <div class="article-container mb-2">
+                <div class="col-sm-12">
+
+                    {# table-borderless table-bordered #}
+                    {% for comment in pagination %}
                         <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
-                            <div class="col p-2 px-4 d-flex flex-column article-item">
-                                <h5 class="mb-2">{{ comment.article.title }}
-                                    <i class="fas fa-lg
-                                    {{ comment.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
-                                </h5>
-                                <p><strong>{{ comment.author.firstname }}
-                                        &nbsp;{{ comment.author.surname }}</strong></p>
-                                <p class="text-success">
-                                    <i>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
-                                </p>
-                                <div class="d-flex justify-content-between">
-                                    <div class="text-muted align-self-center">
-                                        <p>{{ comment.text }}</p>
-                                    </div>
-                                    <div class="text-muted align-self-center ms-3">
+                            <table class="table table-borderless">
+                                <tbody>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-center">
+                                        <i class="fas fa-lg {{ comment.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
+                                    </td>
+                                    <td colspan="4" class="text-primary"><b>{{ comment.article.title }}</b></td>
+                                    <td>
+                                        {% if comment.publishedAt %}
+                                            <a title="Убрать"
+                                               href="{{ path('app_admin_comment_disallow', {id: comment.id}) }}">
+                                                <i class="fas fa-thumbs-down fa-lg text-danger"></i>
+                                            </a>
+                                        {% else %}
+                                            <a title="Опубликовать"
+                                               href="{{ path('app_admin_comment_allow', {id: comment.id}) }}">
+                                                <i class="fas fa-thumbs-up fa-lg text-success"></i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <strong>{{ comment.author.firstname }} {{ comment.author.surname }}</strong>
+                                    </td>
+                                    <td colspan="2">
+                                        <i>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <p>{{ comment.text | markdown_to_html }}</p>
+                                    </td>
+                                    <td>
                                         <a title="Редактировать"
-                                           href="{{ path('app_admin_comment_edit', {id: comment.id}) }}"><i
-                                                    class="fas fa-edit text-primary fa-lg"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                                           href="{{ path('app_admin_comment_edit', {id: comment.id}) }}">
+                                            <i class="fas fa-edit text-primary fa-lg"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="article-container mb-2">
-                        <h3>Не найдено.</h3>
-                    </div>
-                {% endfor %}
+                    {% else %}
+                        <div class="col-12"><h3>Не найдено.</h3></div>>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 
-
 {% endblock %}
-{% set no_fixed=true %}
-{% set no_search=true %}
+    {% set no_fixed=true %}
+    {% set no_search=true %}
 {% block footer %}{% endblock %}

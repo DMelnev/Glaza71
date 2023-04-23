@@ -74,8 +74,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function findAllSortedByName()
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.banned IS NULL')
             ->orderBy('a.firstName')
             ->getQuery()
             ->getResult();
     }
+    public function findAllNotBanned()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.banned IS NULL')
+            ->orderBy('a.firstName')
+;
+    }
+    public function findBanned()
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.banned IS NOT NULL')
+            ->orderBy('a.firstName')
+            ;
+    }
+
 }
