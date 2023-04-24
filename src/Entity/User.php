@@ -141,7 +141,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPhoneNumbers()
     {
-        return implode(',', $this->phoneNumbers);
+        if (!isset($this->phoneNumbers)) return null;
+        return explode(',', $this->phoneNumbers);
     }
 
     /**
@@ -149,8 +150,61 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function setPhoneNumbers($phoneNumbers): self
     {
-        $this->phoneNumbers = explode('.', $phoneNumbers);
+        $this->phoneNumbers = implode(',', $phoneNumbers);
         return $this;
+    }
+
+    public function addPhoneNumber(string $number): bool
+    {
+        $phone = $this->clearPhoneNumber($number);
+        if (strlen($phone) != 11) return false;
+        $array = $this->getPhoneNumbers();
+        $array = array_merge($array, [$phone]);
+        $this->setPhoneNumbers($array);
+        return true;
+    }
+
+    public function deletePhoneNumber(string $number): bool
+    {
+        $array = $this->getPhoneNumbers();
+        $phone = $this->clearPhoneNumber($number);
+        if (($key = array_search($phone, $array)) !== false) {
+            unset($array[$key]);
+            $this->setPhoneNumbers($array);
+            return true;
+        }
+        return false;
+    }
+
+    public function deletePhoneNumberByKey(int $key): bool
+    {
+        $array = $this->getPhoneNumbers();
+        if (key_exists($key, $array)) {
+            unset($array[$key]);
+            $this->setPhoneNumbers($array);
+            return true;
+        }
+        return false;
+    }
+
+    public function editPhoneNumberByKey(int $key, string $number): bool
+    {
+        $array = $this->getPhoneNumbers();
+        $clearedNumber = $this->clearPhoneNumber($number);
+        if (key_exists($key, $array) && strlen($clearedNumber) == 11) {
+            $array[$key] = $clearedNumber;
+            $this->setPhoneNumbers($array);
+            return true;
+        }
+        return false;
+    }
+
+    public function clearPhoneNumber(string $number): string
+    {
+        $phone = preg_replace('/[^0-9]/', '', $number);
+        if ($phone[0] != '7') $phone[0] = '7';
+        if (strlen($phone) == 10 && $phone[0] == '9') $phone = '7' . $phone;
+        return $phone;
     }
 
     public function __construct()

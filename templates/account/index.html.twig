@@ -19,10 +19,14 @@
                         <th scope="row">Фамилия</th>
                         <td>{{ app.user.surname }}</td>
                     </tr>
-                    <tr>
-                        <th scope="row">Телефон</th>
-                        <td>-</td>
-                    </tr>
+                    {% if app.user.phoneNumbers|length > 0 %}
+                        {% for phone in app.user.phoneNumbers %}
+                            <tr>
+                                <th scope="row">Телефон</th>
+                                <td>{{ phone|format_ru_phone }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                     <tr>
                         <th scope="row">Дата рождения</th>
                         <td>{% if (app.user.birthDate ?? null) %}{{ app.user.birthDate|date('d.m.Y') }}{% endif %}</td>

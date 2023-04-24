@@ -38,8 +38,12 @@ class AccountController extends AbstractController
      * @Route ("/account/edit", name="app_account_edit")
      * @IsGranted("ROLE_REGISTERED")
      */
-    public function edit(Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
     {
+
         $form = $this->createForm(UserFormType::class);
         if ($this->handleFormRequest($form, $entityManager, $request)) {
             $this->addFlash('flash_message', "Данные успешно изменены!");
@@ -152,14 +156,14 @@ class AccountController extends AbstractController
         } else {
             $user = $repository->getUserByCode($code);
         }
-        if ($user){
+        if ($user) {
             $this->checkTimeForActivate($user, $code);
             $user->setConfirmed(new \DateTime('now'));
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('app_account');
-        }else{
-            $this->addFlash('flash_error','Пользователь не найден!');
+        } else {
+            $this->addFlash('flash_error', 'Пользователь не найден!');
             return $this->redirectToRoute('app_login');
         }
 
@@ -175,6 +179,31 @@ class AccountController extends AbstractController
             }
         } else {
             $this->addFlash('flash_error', 'Прошло мало времени. Ожидайте еще 2 минуты.');
+        }
+    }
+
+    /**
+     * @Route("/account/phone/{action}/{key}/{number}", name="app_account_phone")
+     * @IsGranted("ROLE_REGISTERED")
+     */
+    public function phone(string $action, int $key, string $number)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        switch ($action) {
+            case 'add':
+                if ($user->addPhoneNumber($number)) $this->addFlash('flash_message', "Номер добавлен.");
+                else $this->addFlash('flash_error', sprintf("Номер %s добавить не удалось.", $number));
+                break;
+            case 'edit':
+                if ($user->editPhoneNumberByKey($key, $number)) $this->addFlash('flash_message', "Номер изменен.");
+                else $this->addFlash('flash_error', sprintf("Номер %s изменить не удалось.", $number));
+                break;
+            case 'delete':
+                if ($user->deletePhoneNumberByKey($key)) $this->addFlash('flash_message', "Номер удален.");
+                else $this->addFlash('flash_error', sprintf("Номер %s удалить не удалось.", $number));
+                break;
+            default:
         }
     }
 }

@@ -3,12 +3,11 @@
 {% block title %}Редактирование{% endblock %}
 
 {% block body %}
-
-    <section class="container{% if not flash %} first-section{% endif %}">
+{% include('account/account_header.html.twig') with {selected: 'main'}%}
+    <section class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 {{ form_start(userForm) }}
-                <h1 class="h3 mb-3 font-weight-normal">Редактирование</h1>
                 {% if show_error %}
                     {{ form_row(userForm.firstName) }}
                     {{ form_row(userForm.patronymic) }}
@@ -36,15 +35,6 @@
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
                 {{ form_end(userForm) }}
-            </div>
-        </div>
-    </section>
-    <section class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <a href="{{ url('app_account_changepassword') }}">
-                    <button type="button" class="btn btn-secondary">Изменить пароль</button>
-                </a>
             </div>
         </div>
     </section>
