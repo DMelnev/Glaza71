@@ -88,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $comments;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
     private $phoneNumbers;
 
@@ -141,8 +141,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getPhoneNumbers()
     {
-        if (!isset($this->phoneNumbers)) return null;
-        return explode(',', $this->phoneNumbers);
+        return $this->phoneNumbers;
     }
 
     /**
@@ -150,7 +149,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function setPhoneNumbers($phoneNumbers): self
     {
-        $this->phoneNumbers = implode(',', $phoneNumbers);
+        $tempArray = [];
+        foreach ($phoneNumbers as $phone){
+            $clearedNumber = $this->clearPhoneNumber($phone);
+            if ($clearedNumber) $tempArray[] = $this->clearPhoneNumber($phone);
+        }
+        $this->phoneNumbers = $tempArray;
         return $this;
     }
 
@@ -167,14 +171,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function deletePhoneNumber(string $number): bool
     {
         $array = $this->getPhoneNumbers();
-        $phone = $this->clearPhoneNumber($number);
-        if (($key = array_search($phone, $array)) !== false) {
+        if (($key = array_search($this->clearPhoneNumber($number), $array)) !== false) {
             unset($array[$key]);
             $this->setPhoneNumbers($array);
             return true;
         }
         return false;
     }
+
 
     public function deletePhoneNumberByKey(int $key): bool
     {
@@ -199,8 +203,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return false;
     }
 
-    public function clearPhoneNumber(string $number): string
+    public function clearPhoneNumber(?string $number): ?string
     {
+        if (!$number) return null;
         $phone = preg_replace('/[^0-9]/', '', $number);
         if ($phone[0] != '7') $phone[0] = '7';
         if (strlen($phone) == 10 && $phone[0] == '9') $phone = '7' . $phone;

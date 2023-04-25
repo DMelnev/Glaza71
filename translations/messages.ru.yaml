@@ -1,15 +1,15 @@
 ### registration form ###
 #labels:
-"* Enter E-mail address:": "* Введите адрес электронной почты:"
-"* Enter your name:": "* Введите ваше имя:"
-"Enter your patronymic:": "Введите ваше отчество:"
-"* Enter your surname:": "* Введите вашу фамилию:"
-"Enter your birthday:": "Введите дату вашего рождения:"
-"* Enter password:": "* Введите пароль:"
+"* Enter E-mail address:": "* Адрес электронной почты:"
+"* Enter your name:": "* Ваше имя:"
+"Enter your patronymic:": "Ваше отчество:"
+"* Enter your surname:": "* Ваша фамилия:"
+"Enter your birthday:": "Дата вашего рождения:"
+"* Enter password:": "* Пароль:"
 "* Repeat Password:": "* Повторите пароль:"
 "* Repeat new password:": "* Повторите новый пароль:"
-"* Enter new password:": "* Введите новый пароль:"
-"Old password": "* Введите текущий пароль:"
+"* Enter new password:": "* Новый пароль:"
+"Old password": "* Текущий пароль:"
 #placeholders:
 "E-mail address": "Адрес электронной почты"
 "Name": "Имя"
@@ -49,3 +49,4 @@
 "Comment's data publication": "Дата публикации комментария"
 "Write the reason for the ban": "Напишите причину бана"
 "Do you want to ban user?": "Вы хотите забанить пользователя?"
+"Phone numbers": "Телефонные номера"

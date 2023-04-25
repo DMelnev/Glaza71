@@ -1,5 +1,5 @@
 <div class="p-3 mb-3 border-bottom{% if not flash %} first-section{% endif %} row">
-    <div class="container col-lg-6">
+    <div class="container col-lg-4">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>
@@ -7,8 +7,8 @@
                        class="nav-link px-2 {% if selected == 'main' %}link-secondary{% else %}link-dark{% endif %}">Данные</a>
                 </li>
                 <li>
-                    <a href=""
-                       class="nav-link px-2  {% if selected == 'phone' %}link-secondary{% else %}link-dark{% endif %}">Телефон</a>
+                    <a href="{{ url('app_account_number') }}"
+                       class="nav-link px-2  {% if selected == 'phone' %}link-secondary{% else %}link-dark{% endif %}">Телефоны</a>
                 </li>
                 <li>
                     <a href="{{ url('app_account_changepassword') }}"

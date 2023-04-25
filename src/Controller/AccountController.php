@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AccountActivateType;
 use App\Form\ChangePasswordFormType;
+use App\Form\ChangePhoneNumberFormType;
 use App\Form\Model\AccountActivateModel;
 use App\Form\Model\ChangePasswordFormModel;
+use App\Form\Model\ChangePhoneNumberFormModel;
 use App\Form\Model\UserEditFormModel;
 use App\Form\UserFormType;
 use App\Repository\UserRepository;
+use App\Service\PhoneNumberFilter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -183,27 +186,40 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/account/phone/{action}/{key}/{number}", name="app_account_phone")
-     * @IsGranted("ROLE_REGISTERED")
+     * @Route("/accunt/number", name="app_account_number")
+     * @IsGranted ("ROLE_REGISTERED")
      */
-    public function phone(string $action, int $key, string $number)
+    public function number(Request $request, EntityManagerInterface $entityManager, PhoneNumberFilter $filter)
     {
         /** @var User $user */
         $user = $this->getUser();
-        switch ($action) {
-            case 'add':
-                if ($user->addPhoneNumber($number)) $this->addFlash('flash_message', "Номер добавлен.");
-                else $this->addFlash('flash_error', sprintf("Номер %s добавить не удалось.", $number));
-                break;
-            case 'edit':
-                if ($user->editPhoneNumberByKey($key, $number)) $this->addFlash('flash_message', "Номер изменен.");
-                else $this->addFlash('flash_error', sprintf("Номер %s изменить не удалось.", $number));
-                break;
-            case 'delete':
-                if ($user->deletePhoneNumberByKey($key)) $this->addFlash('flash_message', "Номер удален.");
-                else $this->addFlash('flash_error', sprintf("Номер %s удалить не удалось.", $number));
-                break;
-            default:
+        $phones = $user->getPhoneNumbers();
+        $formType = new ChangePhoneNumberFormModel();
+        $formType->setPhoneNumbers($phones ?: []);
+        $form = $this->createForm(ChangePhoneNumberFormType::class, $formType);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var  ChangePhoneNumberFormModel $data */
+            $data = $form->getData()->getPhoneNumbers();
+            foreach ($data as $key => $item) {
+                if (trim($item) == '') unset($data[$key]);
+            }
+            if ($filter->filter($data)) {
+                $user->setPhoneNumbers($data);
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('flash_message', "Номер изменен.");
+                $phones = $user->getPhoneNumbers();
+                $formType->setPhoneNumbers($phones ?: []);
+                $form = $this->createForm(ChangePhoneNumberFormType::class, $formType);
+            } else {
+                $this->addFlash('flash_error', "Не верно указан номер");
+            }
         }
+
+        return $this->renderForm('account/account_edit_phones.html.twig', [
+            'form' => $form,
+        ]);
     }
 }
