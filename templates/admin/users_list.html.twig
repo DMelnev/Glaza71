@@ -69,20 +69,32 @@
                                             <td>&nbsp;</td>
                                         </tr>
                                     {% endif %}
+                                    {% if user.phoneNumbers|length > 0 %}
+                                        {% for phone in user.phoneNumbers %}
+                                            <tr>
+                                                <td>
+                                                    <i>Тел: </i><b>{{ phone|format_ru_phone }}</b>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     <tr>
                                         <td>
                                             <i>Аккаунт создан: {{ user.createdAt|date('d-m-Y H:i:s') }}</i>
                                         </td>
                                         <td class="td-right pe-3">
                                             {% if user.banned is null %}
-                                            <a title="Забанить" href="{{ url('app_admin_user_ban', {id: user.id}) }}">
-                                                <i class="fas fa-user-slash fa-lg text-danger"></i>
-                                            </a>
+                                                <a title="Забанить"
+                                                   href="{{ url('app_admin_user_ban', {id: user.id}) }}">
+                                                    <i class="fas fa-user-slash fa-lg text-danger"></i>
+                                                </a>
                                             {% else %}
-                                                <a title="Разбанить" href="{{ url('app_admin_user_ban', {id: user.id}) }}">
+                                                <a title="Разбанить"
+                                                   href="{{ url('app_admin_user_ban', {id: user.id}) }}">
                                                     <i class="fas fa-user-check fa-lg text-success"></i>
                                                 </a>
-                                                {% endif %}
+                                            {% endif %}
                                         </td>
                                     </tr>
                                     <tr>
