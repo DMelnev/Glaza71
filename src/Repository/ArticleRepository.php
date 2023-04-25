@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 /**
  * @extends ServiceEntityRepository<Article>
@@ -42,6 +43,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllSortedByUpdate()
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.publishedAt IS NOT NULL')
             ->orderBy('a.updatedAt', 'DESC')
             ->leftJoin('a.author', 'u')
             ->addSelect('u')
@@ -61,6 +63,28 @@ class ArticleRepository extends ServiceEntityRepository
             ->addSelect('u')
             ->leftJoin('a.comments', 'c')
             ->addSelect('c')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function search(string $search)
+    {
+        if( empty($search)) return [];
+        $search = '%' . trim($search) . '%';
+//        dd($search);
+        return $this->createQueryBuilder('ar')
+            ->leftJoin('ar.author', 'au')
+            ->addSelect('au')
+            ->andWhere('
+                au.firstName LIKE :search
+                OR au.surname LIKE :search
+                OR au.patronymic LIKE :search
+                OR ar.description LIKE :search
+                OR ar.title LIKE :search
+                OR ar.text LIKE :search
+           ')
+            ->andWhere('ar.publishedAt IS NOT NULL')
+            ->setParameter('search', $search)
             ->getQuery()
             ->getResult();
     }

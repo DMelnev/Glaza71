@@ -11,7 +11,6 @@ use App\Repository\CommentRepository;
 use App\Repository\MainPageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -113,20 +112,39 @@ class MainController extends AbstractController
     /**
      * @Route("/sitemap", name="app_sitemap")
      */
-    public function sitemap(): Response
+    public function sitemap(
+        ArticleRepository $articleRepository,
+        MainPageRepository $pageRepository
+    ): Response
     {
+        $articles = $articleRepository->findAllSortedByUpdate();
+        $mainPages = $pageRepository->findAll();
         return $this->render('main/sitemap.html.twig', [
-
+            'pages' => $mainPages,
+            'articles' => $articles,
         ]);
     }
 
     /**
      * @Route("/search", name="app_search")
      */
-    public function search(): Response
+    public function search(
+        ArticleRepository $articleRepository,
+        MainPageRepository $pageRepository,
+        CommentRepository $commentRepository,
+        Request $request
+    ): Response
     {
-        return $this->render('main/search.html.twig', [
+        $search = $request->get('search');
+        if (null === $search) $search = '';
+        $articles = $articleRepository->search($search);
+        $mainPages = $pageRepository->search($search);
+        $comments = $commentRepository->search($search);
 
+        return $this->render('main/search.html.twig', [
+            'articles' => $articles,
+            'pages' => $mainPages,
+            'comments' => $comments,
         ]);
     }
 
@@ -185,12 +203,23 @@ class MainController extends AbstractController
             }
         }
 
-        return $this->renderForm('article.html.twig', ['article' => $article,
+        return $this->renderForm('articles/article.html.twig', ['article' => $article,
             'folder' => $this->getParameter('app.upload_path'),
             'comments' => $commentRepository->findByArticleId($article->getId(), $user ? $user->getId() : 0),
             'form' => $form,
         ]);
 
+    }
+
+    /**
+     * @Route ("articles/",name="app_articles")
+     */
+    public function allArticles(ArticleRepository $articleRepository)
+    {
+        $articles = $articleRepository->findAllSortedByUpdate();
+        return $this->render('articles/all_articles.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 
 }

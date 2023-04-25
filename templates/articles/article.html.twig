@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends '/base.html.twig' %}
 
 {% block title %}{{ article.title }}{% endblock %}
 
@@ -24,6 +24,7 @@
                             <p class="float-end p-4"><i>{{ article.createdAt|format_date(locale = 'ru') }}</i></p>
                         </div>
                     </div>
+                    <p class=""><a href="{{ url('app_articles') }}">Смотреть все статьи</a></p>
                 </div>
             </div>
         </div>

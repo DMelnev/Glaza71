@@ -39,28 +39,19 @@ class MainPageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return MainPage[] Returns an array of MainPage objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?MainPage
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function search(string $search)
+    {
+        if( empty($search)) return [];
+        $search = '%' . trim($search) . '%';
+        return $this->createQueryBuilder('main')
+            ->andWhere('
+                main.headTitle LIKE :search
+                OR main.keywords LIKE :search
+                OR main.text LIKE :search
+                OR main.title LIKE :search
+           ')
+            ->setParameter('search', $search)
+            ->getQuery()
+            ->getResult();
+    }
 }

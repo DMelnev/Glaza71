@@ -60,6 +60,8 @@ class SecurityController extends AbstractController
                 ->setRoles(['ROLE_USER'])
                 ->setActivationCode(substr(md5($user->getPassword() . rand(0, 999)), rand(0, 15), 16));
 
+            if ($user->getEmail() )
+
             $em->persist($user);
             $em->flush();
             $mailer->sendWelcome($user);

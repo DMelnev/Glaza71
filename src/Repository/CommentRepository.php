@@ -107,4 +107,25 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('c.createdAt', 'DESC');
     }
 
+    public function search(string $search)
+    {
+        if( empty($search)) return [];
+        $search = '%' . trim($search) . '%';
+        return $this->createQueryBuilder('com')
+            ->leftJoin('com.author', 'au')
+            ->addSelect('au')
+            ->andWhere('
+                com.text LIKE :search
+                OR au.firstName LIKE :search
+                OR au.surname LIKE :search
+                OR au.patronymic LIKE :search
+           ')
+            ->andWhere('com.publishedAt IS NOT NULL')
+            ->andWhere('au.banned IS NULL')
+            ->andWhere('au.deletedAt IS NULL')
+            ->setParameter('search', $search)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
