@@ -55,14 +55,22 @@ class Mailer
         if ($callback) {
             $callback($email);
         }
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+            return true;
+        } catch (TransportExceptionInterface $exception) {
+            return false;
+        }
+
 
     }
 
     /**
      * @param User $user
+     * @return bool
+     * @throws TransportExceptionInterface
      */
-    public function sendWelcome(User $user)
+    public function sendWelcome(User $user): bool
     {
 //        $email = (new Email())
 //            ->from("gb2010@internet.ru")
@@ -77,10 +85,10 @@ class Mailer
 //        }
 
 //        dd($user);
-        $this->send(
+        return $this->send(
             $user,
             'Добро пожаловать на сайт',
-            'Ваш почтовый клиент не поддерживает В личном кабинете нажмите кнопку  и введите этот код: '.$user->getActivationCode(),
+            'Ваш почтовый клиент не поддерживает В личном кабинете нажмите кнопку  и введите этот код: ' . $user->getActivationCode(),
             'mailer/welcome.html.twig',
             function (TemplatedEmail $email) use ($user) {
                 $email

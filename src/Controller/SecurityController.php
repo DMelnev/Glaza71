@@ -60,16 +60,17 @@ class SecurityController extends AbstractController
                 ->setRoles(['ROLE_USER'])
                 ->setActivationCode(substr(md5($user->getPassword() . rand(0, 999)), rand(0, 15), 16));
 
-            if ($user->getEmail() )
-
-            $em->persist($user);
-            $em->flush();
-            $mailer->sendWelcome($user);
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            if ($user->getEmail() && $mailer->sendWelcome($user)) {
+                $em->persist($user);
+                $em->flush();
+                return $userAuthenticator->authenticateUser(
+                    $user,
+                    $authenticator,
+                    $request
+                );
+            } else {
+                $this->addFlash('flash_error', 'Почтовый сервер говорит, что такого E-mail не существует!');
+            }
         }
 
         return $this->renderForm('security/sign_up.html.twig', [

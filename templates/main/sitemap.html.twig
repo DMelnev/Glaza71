@@ -41,34 +41,6 @@
                         <hr>
                     </td>
                 </tr>
-                <tr>
-                    <td><b>Список статей</b></td>
-                    <td><a class="link-unstyled" href="{{ url('app_articles') }}">Список всех статей</a></td>
-                    <td class="align-middle disappeared-380"><a href="{{ url('app_articles') }}"><i
-                                    class="fas fa-link fa-lg"></i></a></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <hr>
-                    </td>
-                </tr>
-                {% for article in articles %}
-                    <tr>
-                        <td><b>{{ article.title }}</b></td>
-                        <td><a class="link-unstyled"
-                               href="{{ url('app_article_show', {slug: article.slug}) }}">{{ article.description|u.truncate(100, '...', false) }}</a>
-                        </td>
-                        <td class="align-middle disappeared-380">
-                            <a href="{{ url('app_article_show', {slug: article.slug}) }}"><i
-                                        class="fas fa-link fa-lg"></i></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="3">
-                        <hr>
-                    </td>
-                </tr>
                 {% if not is_granted('ROLE_USER') %}
                 <tr>
                     <td><b>Регистрация</b></td>
@@ -131,6 +103,34 @@
                         </td>
                     </tr>
                 {% endif %}
+                <tr>
+                    <td><b>Список статей</b></td>
+                    <td><a class="link-unstyled" href="{{ url('app_articles') }}">Список всех статей</a></td>
+                    <td class="align-middle disappeared-380"><a href="{{ url('app_articles') }}"><i
+                                    class="fas fa-link fa-lg"></i></a></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <hr>
+                    </td>
+                </tr>
+                {% for article in articles %}
+                    <tr>
+                        <td><b>{{ article.title }}</b></td>
+                        <td><a class="link-unstyled"
+                               href="{{ url('app_article_show', {slug: article.slug}) }}">{{ article.description|u.truncate(100, '...', false) }}</a>
+                        </td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_article_show', {slug: article.slug}) }}"><i
+                                        class="fas fa-link fa-lg"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3">
+                        <hr>
+                    </td>
+                </tr>
             </table>
         </div>
     </section>
