@@ -12,7 +12,7 @@
                 <tr>
                     <th>Название</th>
                     <th>Описание</th>
-                    <th>&nbsp;</th>
+                    <th class="disappeared-380">&nbsp;</th>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -25,12 +25,14 @@
                         <td><a class="link-unstyled" href="{% if page.id == 1 %}{{ url('app_index') }}{% endif %}
                                      {% if page.id == 2 %}{{ url('app_optic') }}{% endif %}
                                      {% if page.id == 3 %}{{ url('app_tomography') }}{% endif %}
-                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}">{{ page.headTitle|u.truncate(100, '...', false) }}</a></td>
-                        <td class="align-middle">
+                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}">{{ page.headTitle|u.truncate(100, '...', false) }}</a>
+                        </td>
+                        <td class="align-middle disappeared-380">
                             <a href="{% if page.id == 1 %}{{ url('app_index') }}{% endif %}
                                      {% if page.id == 2 %}{{ url('app_optic') }}{% endif %}
                                      {% if page.id == 3 %}{{ url('app_tomography') }}{% endif %}
-                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}"><i class="fas fa-link fa-lg"></i></a>
+                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}"><i
+                                        class="fas fa-link fa-lg"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -42,7 +44,8 @@
                 <tr>
                     <td><b>Список статей</b></td>
                     <td><a class="link-unstyled" href="{{ url('app_articles') }}">Список всех статей</a></td>
-                    <td class="align-middle"><a href="{{ url('app_articles') }}"><i class="fas fa-link fa-lg"></i></a></td>
+                    <td class="align-middle disappeared-380"><a href="{{ url('app_articles') }}"><i
+                                    class="fas fa-link fa-lg"></i></a></td>
                 </tr>
                 <tr>
                     <td colspan="3">
@@ -52,9 +55,12 @@
                 {% for article in articles %}
                     <tr>
                         <td><b>{{ article.title }}</b></td>
-                        <td><a class="link-unstyled" href="{{ url('app_article_show', {slug: article.slug}) }}">{{ article.description|u.truncate(100, '...', false) }}</a></td>
-                        <td class="align-middle">
-                            <a href="{{ url('app_article_show', {slug: article.slug}) }}"><i class="fas fa-link fa-lg"></i></a>
+                        <td><a class="link-unstyled"
+                               href="{{ url('app_article_show', {slug: article.slug}) }}">{{ article.description|u.truncate(100, '...', false) }}</a>
+                        </td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_article_show', {slug: article.slug}) }}"><i
+                                        class="fas fa-link fa-lg"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -63,9 +69,71 @@
                         <hr>
                     </td>
                 </tr>
+                {% if not is_granted('ROLE_USER') %}
+                <tr>
+                    <td><b>Регистрация</b></td>
+                    <td><a class="link-unstyled" href="{{ url('app_register') }}">Регистрация нового пользователя</a>
+                    </td>
+                    <td class="align-middle disappeared-380">
+                        <a href="{{ url('app_register') }}"><i class="fas fa-link fa-lg"></i></a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% if is_granted('ROLE_USER') %}
+                    <tr>
+                        <td><b>Кабинет</b></td>
+                        <td><a class="link-unstyled" href="{{ url('app_account') }}">Информация о пользователе</a></td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_account') }}"><i class="fas fa-link fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    {% if not is_granted('ROLE_REGISTERED') and not is_granted('ROLE_BANNED')%}
+                        <tr>
+                            <td><b>Активация</b></td>
+                            <td><a class="link-unstyled" href="{{ url('app_account_activate') }}">Активация аккаунта с
+                                    помощью кода</a></td>
+                            <td class="align-middle disappeared-380">
+                                <a href="{{ url('app_account_activate') }}"><i class="fas fa-link fa-lg"></i></a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                <tr>
+                    <td colspan="3">
+                        <hr>
+                    </td>
+                </tr>
+                {% endif %}
+                {% if is_granted('ROLE_REGISTERED') %}
+                    <tr>
+                        <td><b>Данные</b></td>
+                        <td><a class="link-unstyled" href="{{ url('app_account_edit') }}">Изменить основные данные о пользователе</a></td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_account_edit') }}"><i class="fas fa-link fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Телефоны</b></td>
+                        <td><a class="link-unstyled" href="{{ url('app_account_number') }}">Изменить или добавить телефонные номера</a></td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_account_number') }}"><i class="fas fa-link fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Пароль</b></td>
+                        <td><a class="link-unstyled" href="{{ url('app_account_changepassword') }}">Изменить пароль</a></td>
+                        <td class="align-middle disappeared-380">
+                            <a href="{{ url('app_account_changepassword') }}"><i class="fas fa-link fa-lg"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <hr>
+                        </td>
+                    </tr>
+                {% endif %}
             </table>
         </div>
     </section>
 {% endblock %}
-{% block footer %}{% endblock %}
+{# {% block footer %}{% endblock %} #}
 

@@ -21,7 +21,7 @@
                             {{ article.text | markdown_to_html }}
                             <p class="float-start p-4">
                                 <strong>{{ article.author.firstName }} {{ article.author.surname }}</strong></p>
-                            <p class="float-end p-4"><i>{{ article.createdAt|format_date(locale = 'ru') }}</i></p>
+                            <p class="float-end p-4"><i>{{ article.publishedAt|format_date(locale = 'ru') }}</i></p>
                         </div>
                     </div>
                     <p class=""><a href="{{ url('app_articles') }}">Смотреть все статьи</a></p>

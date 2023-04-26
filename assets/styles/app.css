@@ -5,6 +5,10 @@ body {
     font-size: 1.1rem;
 }
 
+.body-content {
+    min-height: calc(100vh - 170px);
+}
+
 .navbar {
     background: rgb(12 12 12 / 75%);
     background-size: 100%;

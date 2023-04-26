@@ -59,6 +59,7 @@ class CommentRepository extends ServiceEntityRepository
     public function findLast(int $num)
     {
         return $this->createQueryBuilder('c')
+            ->andWhere('c.publishedAt IS NOT NULL')
             ->orderBy('c.createdAt', 'DESC')
             ->setMaxResults($num)
             ->leftJoin('c.author', 'a')

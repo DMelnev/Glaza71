@@ -56,11 +56,13 @@
                     {% endif %}
                 </li>
             </ul>
+
             {% if no_search is not defined %}
                 <form role="search" action="{{ url('app_search') }}">
                     <input class="form-control" type="search" name="search" placeholder="Поиск по сайту" aria-label="Search" value="{{app.request.get('search')}}">
                 </form>
             {% endif %}
         </div>
+
     </div>
 </nav>

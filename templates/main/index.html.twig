@@ -16,15 +16,16 @@
             </div>
         </div>
     </section>
-    {% if articles is not empty and articles > 0 %}
+    {% if articles is not empty and articles|length > 0 %}
         <section class="container mt-4">
             <div class="row">
                 <div class="col-12">
                     <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
                         <div class="media-body d-inline-block align-self-center mx-2">
                             <div class="m-2">
-                                <h3><a href="{{ url('app_articles') }}" title="Смотреть все статьи"><i class="pr-3 fas fa-paste fa-lg">
-                                            Статьи</i></a></h3>
+                                <h3><a href="{{ url('app_articles') }}" title="Смотреть все статьи"><i
+                                                class="far fa-clipboard fa-lg"> Последние {{ articles|length }}
+                                            {{ articles|length|format_ru_articles_end }}.</i></a></h3>
 
                                 {% for article in articles %}
                                     <hr class="mb-3">
@@ -60,6 +61,46 @@
             </div>
         </section>
     {% endif %}
+
+    {% if comments is not empty and comments|length > 0 %}
+        <section class="container mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
+                        <div class="media-body d-inline-block align-self-center mx-2">
+                            <div class="m-2">
+                                <h3 class="mb-5"><i class="far fa-comments fa-lg"> Последние {{ comments|length }} {{ comments|length|format_ru_comments_end }}.</i></h3>
+                                <hr class="col-sm-12 m-3">
+                                {% for comment in comments %}
+                                    <div class="row m-2">
+                                        <div class="col-sm-12">
+                                            <div class="media">
+                                                <div class="media-body align-self-start col-sm-12">
+                                                    <i class="fas fa-comment fa-lg"></i>
+                                                    <b class="mx-3">{{ comment.author.firstName }} {{ comment.author.surname }}</b>
+                                                    <small class="me-3">{{ comment.updatedAt|format_date(locale='ru') }}</small>
+
+                                                    <span class="text-primary"><i
+                                                                class="pe-3 fas fa-paste"> Статья:</i><a class="link-unstyled"
+                                                                href="{{ url('app_article_show', {slug: comment.article.slug}) }}">{{ comment.article.title }}</a></span>
+
+                                                    <br>
+                                                    <p class="comment">{{ comment.text | markdown_to_html }}</p>
+                                                </div>
+                                                <hr class="col-sm-12">
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
 {% endblock %}
 {% block description %}{{ page.headTitle }}{% endblock %}
 {% block keywords %}{{ page.keywords }}{% endblock %}
