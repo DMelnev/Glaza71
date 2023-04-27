@@ -22,7 +22,7 @@
                 <div class="col-12">
                     <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
                         <div class="media-body d-inline-block align-self-center mx-2">
-                            <div class="m-2">
+                            <div class="mx-3 my-4">
                                 <h3><a href="{{ url('app_articles') }}" title="Смотреть все статьи"><i
                                                 class="far fa-clipboard fa-lg"> Последние {{ articles|length }}
                                             {{ articles|length|format_ru_articles_end }}.</i></a></h3>
@@ -69,10 +69,10 @@
                     <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
                         <div class="media-body d-inline-block align-self-center mx-2">
                             <div class="m-2">
-                                <h3 class="mb-5"><i class="far fa-comments fa-lg"> Последние {{ comments|length }} {{ comments|length|format_ru_comments_end }}.</i></h3>
+                                <h3 class="my-4 ms-3"><i class="far fa-comments fa-lg"> Последние {{ comments|length }} {{ comments|length|format_ru_comments_end }}.</i></h3>
                                 <hr class="col-sm-12 m-3">
                                 {% for comment in comments %}
-                                    <div class="row m-2">
+                                    <div class="row">
                                         <div class="col-sm-12">
                                             <div class="media">
                                                 <div class="media-body align-self-start col-sm-12">

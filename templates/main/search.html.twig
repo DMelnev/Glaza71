@@ -51,9 +51,6 @@
                                         </p>
                                     </a>
                                 </div>
-                                <div class="text-muted align-self-center ms-3"><i class="fas fa-lg
-                                    {{ article.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -61,6 +58,7 @@
             {% endfor %}
 
             {% for comment in comments %}
+            <div class="article-container mb-2">
                 <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
                     <table class="table table-borderless">
                         <tbody>
@@ -76,14 +74,16 @@
                             <td class="td-center">
                                 <i class="fas fa-lg {{ comment.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
                             </td>
-                            <td colspan="4" class="text-primary"><b><a href="{{ url('app_article_show', {slug: comment.article.slug}) }}">{{ comment.article.title }}</a></b></td>
+                            <td colspan="4" class="text-primary"><b><a
+                                            href="{{ url('app_article_show', {slug: comment.article.slug}) }}">{{ comment.article.title }}</a></b>
+                            </td>
                             <td>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="3">
                                 <a href="{{ url('app_article_show', {slug: comment.article.slug}) }}">
-                                <strong>{{ comment.author.firstname }} {{ comment.author.surname }}</strong>
+                                    <strong>{{ comment.author.firstname }} {{ comment.author.surname }}</strong>
                                 </a>
                             </td>
                             <td colspan="2">
@@ -94,7 +94,7 @@
                         <tr>
                             <td colspan="5">
                                 <a href="{{ url('app_article_show', {slug: comment.article.slug}) }}">
-                                <p>{{ comment.text | markdown_to_html }}</p>
+                                    <p>{{ comment.text | markdown_to_html }}</p>
                                 </a>
                             </td>
                             <td>
@@ -103,9 +103,10 @@
                         </tbody>
                     </table>
                 </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </section>
 {% endblock %}
-{#{% block footer %}{% endblock %}#}
+{# {% block footer %}{% endblock %} #}
 

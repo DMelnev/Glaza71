@@ -1,0 +1,22 @@
+Sitemap: https://glaza71.ru/sitemap.xml
+
+User-agent: *
+Allow: /
+Allow: /articles
+Allow: /article/*
+Allow: /optic
+Allow: /tomography
+
+Disallow: /build/
+Disallow: /css/
+Disallow: /img/
+Disallow: /contacts
+Disallow: /login
+Disallow: /register
+Disallow: /account
+Disallow: /account/*
+Disallow: /sitemap
+Disallow: /search
+Disallow: /search*
+
+
