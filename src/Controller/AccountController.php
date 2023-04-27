@@ -186,7 +186,7 @@ class AccountController extends AbstractController
     }
 
     /**
-     * @Route("/accunt/number", name="app_account_number")
+     * @Route("/account/number", name="app_account_number")
      * @IsGranted ("ROLE_REGISTERED")
      */
     public function number(Request $request, EntityManagerInterface $entityManager, PhoneNumberFilter $filter)
