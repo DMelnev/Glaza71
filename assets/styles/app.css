@@ -5,6 +5,17 @@ body {
     font-size: 1.1rem;
 }
 
+@media (max-width: 900px) {
+    body {
+        font-size: 1rem;
+    }
+}
+@media (max-width: 675px) {
+    body {
+        font-size: 0.9rem;
+    }
+}
+
 .body-content {
     min-height: calc(100vh - 170px);
 }

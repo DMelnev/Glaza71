@@ -10,6 +10,7 @@ Allow: /tomography
 Disallow: /build/
 Disallow: /css/
 Disallow: /img/
+Disallow: /public/
 Disallow: /contacts
 Disallow: /login
 Disallow: /register
@@ -18,5 +19,9 @@ Disallow: /account/*
 Disallow: /sitemap
 Disallow: /search
 Disallow: /search*
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /index.php
+
 
 

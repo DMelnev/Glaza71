@@ -14,8 +14,9 @@
 
 <footer class="navbar pt-3 mе-4 navbar-dark navbar-bg">
     <ul class="nav justify-content-center pb-3 mx-3">
-        <li class="nav-item"><a href="{{ url('app_sitemap') }}" class="nav-link px-2 text-white">Карта сайта</a></li>
-        <li class="nav-item" id="btn-switch"><a id="text-link" class="nav-link px-2 text-white ms-4">Версия для слабовидящих</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-sm-2 text-white ms-4">Сертификат</a></li>
+        <li class="nav-item"><a href="{{ url('app_sitemap') }}" class="nav-link px-sm-2 text-white ms-4">Карта сайта</a></li>
+        <li class="nav-item" id="btn-switch"><a id="text-link" class="nav-link px-sm-2 text-white ms-4">Для слабовидящих</a></li>
     </ul>
     <p class="text-center text-muted mx-3">© {{ 'now' | date('Y') }} Валицкий И.С.</p>
 </footer>
@@ -24,13 +25,13 @@
 
     function changeSize(e) {
         document.getElementById("body").setAttribute('style', `font-size: 2.2rem`);
-        document.getElementById("text-link").textContent = "Вернуть обычный вид";
+        document.getElementById("text-link").textContent = "Обычный вид";
         document.getElementById("btn-switch").removeEventListener('click', changeSize);
         document.getElementById("btn-switch").addEventListener('click', returnSize);
     }
     function returnSize(e) {
-        document.getElementById("body").setAttribute('style', `font-size: 1.2rem`);
-        document.getElementById("text-link").textContent = "Версия для слабовидящих";
+        document.getElementById("body").setAttribute('style', `font-size: 1rem`);
+        document.getElementById("text-link").textContent = "Для слабовидящих";
         document.getElementById("btn-switch").removeEventListener('click', returnSize);
         document.getElementById("btn-switch").addEventListener('click', changeSize);
     }

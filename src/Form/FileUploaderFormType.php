@@ -18,7 +18,7 @@ class FileUploaderFormType extends AbstractType
         $article = $options['data'] ?? null;
         $imageConstrains = [
             new Image([
-                'maxSize' => '2M',
+                'maxSize' => '5M',
                 'minWidth' => 480,
                 'minHeight' => 300,
             ])
