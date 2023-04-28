@@ -8,24 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_index" %} active{% endif %}"
-                       aria-current="page" href="{{ path('app_index') }}">Глазной&#160;кабинет</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_optic" %} active{% endif %}"
-                       href="{{ path('app_optic') }}">Оптика</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_tomography" %} active{% endif %}"
-                       href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link{% if app.request.get('_route') == "app_contacts" %} active{% endif %}"
-                       href="{{ path('app_contacts') }}">Контакты</a>
-                </li>
-            </ul>
+            {{ include('breadcrumbs.html.twig') }}
             <ul class="navbar-nav me-3">
                 <li class="nav-item dropdown">
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}

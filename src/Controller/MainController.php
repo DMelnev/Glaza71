@@ -85,6 +85,39 @@ class MainController extends AbstractController
                 4));
     }
 
+    /**
+     * @Route("/price", name="app_price")
+     */
+    public function price(
+        MainPageRepository $mainPageRepository,
+        ArticleRepository $articleRepository,
+        CommentRepository $commentRepository
+    ): Response
+    {
+        return $this->render('main/index.html.twig',
+            $this->mainPage(
+                $mainPageRepository,
+                $articleRepository,
+                $commentRepository,
+                5));
+    }
+    /**
+     * @Route("/certificates", name="app_certificates")
+     */
+    public function certificates(
+        MainPageRepository $mainPageRepository,
+        ArticleRepository $articleRepository,
+        CommentRepository $commentRepository
+    ): Response
+    {
+        return $this->render('main/index.html.twig',
+            $this->mainPage(
+                $mainPageRepository,
+                $articleRepository,
+                $commentRepository,
+                6));
+    }
+
     private function mainPage(
         MainPageRepository $mainPageRepository,
         ArticleRepository $articleRepository,

@@ -11,14 +11,14 @@ Disallow: /build/
 Disallow: /css/
 Disallow: /img/
 Disallow: /public/
+Disallow: /price
 Disallow: /contacts
+Disallow: /certificates
 Disallow: /login
 Disallow: /register
 Disallow: /account
-Disallow: /account/*
 Disallow: /sitemap
 Disallow: /search
-Disallow: /search*
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /index.php

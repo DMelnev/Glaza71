@@ -1,0 +1,22 @@
+<ul class="navbar-nav me-auto mb-2 mb-md-0">
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == "app_index" %} active{% endif %}"
+           aria-current="page" href="{{ path('app_index') }}">Окулист</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == "app_optic" %} active{% endif %}"
+           href="{{ path('app_optic') }}">Оптика</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == "app_tomography" %} active{% endif %}"
+           href="{{ path('app_tomography') }}">Томография&#160;глаз</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == "app_price" %} active{% endif %}"
+           href="{{ path('app_price') }}">Стоимость</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{% if app.request.get('_route') == "app_contacts" %} active{% endif %}"
+           href="{{ path('app_contacts') }}">Контакты</a>
+    </li>
+</ul>
