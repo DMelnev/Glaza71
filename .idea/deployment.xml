@@ -9,7 +9,6 @@
           </mappings>
           <excludedPaths>
             <excludedPath path="/www" />
-            <excludedPath path="/melnev" />
             <excludedPath path="/.env.local" />
             <excludedPath path="/var" />
             <excludedPath path="/vendor" />
@@ -21,6 +20,9 @@
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
             <excludedPath local="true" path="$PROJECT_DIR$/node_modules" />
             <excludedPath local="true" path="$PROJECT_DIR$/public/img" />
+            <excludedPath path="/public/sitemap.xml" />
+            <excludedPath path="/.gitignore" />
+            <excludedPath path="/public/yandex_57ac3bca5619c3da.html" />
           </excludedPaths>
         </serverdata>
       </paths>
@@ -43,6 +45,7 @@
             <excludedPath path="/node_modules" />
             <excludedPath path="/public/img" />
             <excludedPath local="true" path="$PROJECT_DIR$/public/img" />
+            <excludedPath path="/templates/base.html.twig" />
           </excludedPaths>
         </serverdata>
       </paths>

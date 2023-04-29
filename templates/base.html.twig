@@ -7,9 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {# <meta name="author" content="Valitskii I.S."> #}
     <link rel="icon" type="image/ico" sizes="16x16" href="{{ asset('favicon.ico') }}">
-    {# <meta name="yandex-verification" content="4117025a9084702a"> #}
+    <meta name="yandex-verification" content="4117025a9084702a">
     <meta name="description" content="{% block description %}Глазной кабинет Валицкого И.С.{% endblock %}">
     <meta name="keywords" content="{% block keywords %}{% endblock %}">
+
+    <meta property="og:description"
+          content="Глазной кабинет. визометрия, авторефрактометрия, пневмотонометрия, офтальмоскопия, биомикроскопия, гониоскопия, оптическая когерентная томография глаз">
+    <meta property="og:title" content="Окулист, Офтальмолог В Туле">
+    <meta property="og:image" content="{{ 'img/kabinet2.jpg'| imagine_filter('picture_preview') }}">
+    <meta property="og:type" content="website">
+
     {% block css %}
         {{ encore_entry_link_tags('app') }}
         {% if is_granted('ROLE_USER') %}
@@ -69,6 +76,25 @@
 {% endblock %}
 {% block script %}
     {{ encore_entry_script_tags('app') }}
+{% endblock %}
+{% block metrika %}
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(93406640, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+    });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/93406640" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 {% endblock %}
 </body>
 

@@ -19,8 +19,8 @@ class FileUploaderFormType extends AbstractType
         $imageConstrains = [
             new Image([
                 'maxSize' => '5M',
-                'minWidth' => 480,
-                'minHeight' => 300,
+//                'minWidth' => 480,
+//                'minHeight' => 300,
             ])
         ];
 //        if (!$article || !$article->getImageFilename()) {
