@@ -20,7 +20,7 @@ class MainPageFormType extends AbstractType
                 'label' => 'Title:',
                 'attr' => [
                     'pattern' => false,
-                    'maxlength' => 60,
+                    'maxlength' => 250,
                 ]
             ])
             ->add('headTitle', TextareaType::class, [
