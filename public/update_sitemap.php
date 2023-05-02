@@ -17,22 +17,12 @@ $mainPages = [
 $result = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
 $result .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
 foreach ($mainPages as $page) {
-    $result .= "  <url>" . PHP_EOL;
-    $result .= "    <loc>" . $url . $page['url'] . "</loc>" . PHP_EOL;
-    $result .= "    <priority>" . $page['priority'] . "</priority>" . PHP_EOL;
-    $result .= "    <lastmod>" . $today . "</lastmod>" . PHP_EOL;
-    $result .= "    <changefreq>weekly</changefreq>" . PHP_EOL;
-    $result .= "  </url>" . PHP_EOL;
+    write($page['priority'], $today, $url . $page['url'], $result);
 }
 $request = 'SELECT * FROM `article` WHERE published_at IS NOT NULL';
 $res = $dbs->query($request);
 while ($row = mysqli_fetch_assoc($res)) {
-    $result .= "  <url>" . PHP_EOL;
-    $result .= "    <loc>" . $url . '/article/' . $row['slug'] . "</loc>" . PHP_EOL;
-    $result .= "    <priority>0.9</priority>" . PHP_EOL;
-    $result .= "    <lastmod>" . $today . "</lastmod>" . PHP_EOL;
-    $result .= "    <changefreq>weekly</changefreq>" . PHP_EOL;
-    $result .= "  </url>" . PHP_EOL;
+    write('0.9', $today, $url . '/article/' . $row['slug'], $result);
 }
 
 $result .= '</urlset>';
@@ -40,3 +30,12 @@ $result .= '</urlset>';
 $fileName = 'sitemap.xml';
 file_put_contents($fileName, $result);
 
+function write($priority, $today, $link, &$res): void
+{
+    $res .= "  <url>" . PHP_EOL;
+    $res .= "    <loc>" . $link . "</loc>" . PHP_EOL;
+    $res .= "    <priority>$priority</priority>" . PHP_EOL;
+    $res .= "    <lastmod>" . $today . "</lastmod>" . PHP_EOL;
+    $res .= "    <changefreq>weekly</changefreq>" . PHP_EOL;
+    $res .= "  </url>" . PHP_EOL;
+}
