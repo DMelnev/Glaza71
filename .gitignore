@@ -31,4 +31,4 @@ yarn-error.log
 /public/media/cache/
 ###< liip/imagine-bundle ###
 
-/public/update_sitemap.php
+update_sitemap.php
