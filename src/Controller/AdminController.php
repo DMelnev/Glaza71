@@ -4,17 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Feedback;
 use App\Entity\MainPage;
 use App\Entity\User;
 use App\Events\ArticleCreatedEvent;
 use App\Form\ArticleFormType;
 use App\Form\BannedFormType;
 use App\Form\CommentFormType;
+use App\Form\FeedbackFormType;
 use App\Form\FileUploaderFormType;
 use App\Form\MainPageFormType;
 use App\Form\Model\BanUserModel;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Repository\FeedbackRepository;
 use App\Repository\UserRepository;
 use App\Service\MyFiles;
 use Doctrine\ORM\EntityManagerInterface;
@@ -343,5 +346,94 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('app_admin_comments');
     }
 
+    /**
+     * @Route ("/admin/feedback/{id}/delete", name="app_admin_feedback_delete")
+     */
+    public function deleteFeedback(Feedback $feedback): RedirectResponse
+    {
+        $em = $this->doctrine->getManager();
+        $em->remove($feedback);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_feedbacks');
+    }
+
+    /**
+     * @Route ("/admin/feedback/{id}/allow", name="app_admin_feedback_allow")
+     */
+    public function allowFeedback(Feedback $feedback): RedirectResponse
+    {
+        $feedback->setPublishedAt(new \DateTime('now'));
+        $em = $this->doctrine->getManager();
+        $em->persist($feedback);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_feedbacks');
+    }
+
+    /**
+     * @Route ("/admin/feedback/{id}/disallow", name="app_admin_feedback_disallow")
+     */
+    public function disallowFeedback(Feedback $feedback): RedirectResponse
+    {
+        $feedback->setPublishedAt(null);
+        $em = $this->doctrine->getManager();
+        $em->persist($feedback);
+        $em->flush();
+        return $this->redirectToRoute('app_admin_feedbacks');
+    }
+
+    /**
+     * @Route("/admin/feedbacks", name="app_admin_feedbacks")
+     */
+    public function feedbacksList(
+        Request $request,
+        FeedbackRepository $feedbackRepository,
+        UserRepository $userRepository,
+        PaginatorInterface $paginator
+    ): Response
+    {
+
+        $qb = $feedbackRepository->findWithSearchQuery(
+            $request->query->get("q"),
+            $request->query->get("user")
+        );
+
+        $pagination = $paginator->paginate(
+            $qb,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 10));
+
+        $users = $userRepository->findAllSortedByName();
+        return $this->render('admin/feedback/feedbacks_list.html.twig', [
+            'users' => $users,
+            'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/feedback/{id}/edit", name="app_admin_feedback_edit")
+     */
+    public function editFeedback(
+        Feedback $feedbackRequest,
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $form = $this->createForm(FeedbackFormType::class, $feedbackRequest);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var Comment $feedback */
+            $feedback = $form->getData();
+            $entityManager->persist($feedback);
+            $entityManager->flush();
+
+            $this->addFlash('flash_message', "Отзыв успешно изменен!");
+            return $this->redirectToRoute('app_admin_feedback_edit', ['id' => $feedback->getId()]);
+        }
+        return $this->renderForm('admin/feedback/edit.html.twig', [
+            'feedbackForm' => $form,
+            'feedback' => $feedbackRequest,
+        ]);
+    }
 
 }

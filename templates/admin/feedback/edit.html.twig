@@ -1,0 +1,36 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Редактирование отзыва{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h4>Редактирование отзыва</h4>
+                {{ form_start(feedbackForm) }}
+                {{ form_row(feedbackForm.text) }}
+                {{ form_row(feedbackForm.mainPage) }}
+                {{ form_row(feedbackForm.publishedAt) }}
+                {{ form_row(feedbackForm.author) }}
+                {{ form_row(feedbackForm.otherAuthor) }}
+                <button type="submit" class="btn btn-primary">Изменить</button>
+                {{ form_end(feedbackForm) }}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-1 text-muted">
+                <a title="Удалить!"
+                   href="{{ path('app_admin_feedback_delete', {id: feedback.id}) }}"
+                   onclick="return confirm(`Эту операцию нельзя отменить. Вы уверены?`)">
+                    <i class="fas fa-trash-alt fa-lg text-danger"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% set no_fixed=true %}
+{% set no_search=true %}
+{% block footer %}{% endblock %}

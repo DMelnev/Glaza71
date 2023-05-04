@@ -1,11 +1,11 @@
 {% extends 'articles/base_content.html.twig' %}
 
-{% block title %}Список отзывов{% endblock %}
+{% block title %}Отзывы{% endblock %}
 
 {% block body %}
     <div class="container">
         <div class="col-lg-12">
-            <h1 class="h3 mb-3 font-weight-normal">Комментарии</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Отзывы</h1>
             <form>
                 <div class="input-group mb-3">
                     <select class="form-select" name="user" aria-label=".form-select-sm example">
@@ -13,14 +13,14 @@
                             пользователи
                         </option>
                         {% for user in users %}
-                            <option value="{{ user.id }}"{% if app.request.query.int('user')==user.id %} selected{% endif %}>
-                                {{ user.id }}: {{ user.firstname }} {{ user.surname }}</option>
+                            <option value="{{ user.id }}"{% if app.request.query.int('user')==user.id %} selected{% endif %}>{{ user.id }}
+                                : {{ user.firstname }} {{ user.surname }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="input-group mb-3">
                     <input type="text" name="q" class="form-control"
-                           placeholder="Найти в тексте комментария или в названии статьи..."
+                           placeholder="Найти в тексте отзыва или в имени..."
                            value="{{ app.request.query.get('q') }}">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary">
@@ -48,7 +48,7 @@
                 <div class="col-sm-12">
 
                     {# table-borderless table-bordered #}
-                    {% for comment in pagination %}
+                    {% for feedback in pagination %}
                         <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
                             <table class="table table-borderless">
                                 <tbody>
@@ -61,40 +61,41 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <td class="td-center">
-                                        <i class="fas fa-lg {{ comment.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
+                                    <td colspan="3">
+                                        {% if feedback.mainPage is not null%}
+                                        <h3>{{ feedback.mainPage }}</h3>
+                                        {% endif %}
+                                        <i class="fas fa-lg {{ feedback.publishedAt ? 'fa-eye text-success' : 'fa-eye-slash text-danger' }}"></i>
+                                        {% if feedback.author is not null %}
+                                            <strong>{{ feedback.author.firstname }} {{ feedback.author.surname }}</strong>
+                                        {% endif %}
+                                        <br>
+                                        {% if feedback.otherAuthor is not null %}
+                                            <i>{{ feedback.otherAuthor }}</i>
+                                        {% endif %}
                                     </td>
-                                    <td colspan="4" class="text-primary"><b>{{ comment.article.title }}</b></td>
-                                    <td>
-                                        {% if comment.publishedAt %}
+                                    <td colspan="2">
+                                        <i>{{ feedback.publishedAt ? feedback.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
+                                    </td>
+                                    <td class="td-center"> {% if feedback.publishedAt %}
                                             <a title="Убрать"
-                                               href="{{ path('app_admin_comment_disallow', {id: comment.id}) }}">
+                                               href="{{ path('app_admin_feedback_disallow', {id: feedback.id}) }}">
                                                 <i class="fas fa-thumbs-down fa-lg text-danger"></i>
                                             </a>
                                         {% else %}
                                             <a title="Опубликовать"
-                                               href="{{ path('app_admin_comment_allow', {id: comment.id}) }}">
+                                               href="{{ path('app_admin_feedback_allow', {id: feedback.id}) }}">
                                                 <i class="fas fa-thumbs-up fa-lg text-success"></i>
                                             </a>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">
-                                        <strong>{{ comment.author.firstname }} {{ comment.author.surname }}</strong>
-                                    </td>
-                                    <td colspan="2">
-                                        <i>{{ comment.publishedAt ? comment.publishedAt|date('d-m-Y H:i:s') : '' }}</i>
-                                    </td>
-                                    <td>&nbsp;</td>
+                                        {% endif %}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="5">
-                                        <p>{{ comment.text | markdown_to_html }}</p>
+                                        <p>{{ feedback.text | markdown_to_html }}</p>
                                     </td>
-                                    <td>
+                                    <td class="td-center">
                                         <a title="Редактировать"
-                                           href="{{ path('app_admin_comment_edit', {id: comment.id}) }}">
+                                           href="{{ path('app_admin_feedback_edit', {id: feedback.id}) }}">
                                             <i class="fas fa-edit text-primary fa-lg"></i>
                                         </a>
                                     </td>

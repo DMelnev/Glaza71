@@ -16,6 +16,88 @@
             </div>
         </div>
     </section>
+
+    {% if form is defined %}
+        <section id="feedback" class="container">
+            <div class="row">
+                <div class="col-sm-12 mb-4">
+                    <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative bg-light featured-border  rounded shadow-lg">
+                        <h3><i class="p-4 far fa-comment text-secondary"></i> Отзывов: {{ feedbacks|length }}
+                        </h3>
+                        <hr id="comment">
+
+                        {% if app.session.flashBag.peek('flash_comment')|length == 0  and app.session.flashBag.peek('flash_error_comment')|length == 0 and not is_granted('ROLE_BANNED') %}
+                            <div class="row mb-4">
+                                <div class="col-sm-12">
+                                    <div class="comment-container align-self-start col-sm-12 p-4">
+                                        {{ form_start(form) }}
+                                        <div class="form-group mb-3">
+
+                                            {{ form_row(form.text) }}
+                                        </div>
+                                        <button type="submit" class="btn btn-info">Оставить отзыв</button>
+                                        {{ form_end(form) }}
+                                    </div>
+                                    <hr class="col-sm-12">
+                                </div>
+                            </div>
+                        {% else %}
+
+                            <div class="row justify-content-center">
+                                <div class="col-sm-12">
+                                    {% if app.session.flashBag.peek('flash_comment')|length > 0 %}
+                                        <div class="alert alert-success" role="alert">
+                                            {% for message in app.flashes('flash_comment') %}
+                                                <p>{{ message }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    {% if app.session.flashBag.peek('flash_error_comment')|length > 0 %}
+                                        <div class="alert alert-danger" role="alert">
+                                            <div class="alert alert-danger" role="alert">
+                                                {% for message in app.flashes('flash_error_comment') %}
+                                                    <p>{{ message }}</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+                        {% for feedback in feedbacks %}
+                            <div class="row m-2">
+                                <div class="col-sm-12">
+                                    <div class="media">
+                                        <div class="media-body align-self-start col-sm-12">
+{#                                            <img class="align-self-start comment-img rounded-circle"#}
+{#                                                 src="{{ 'eye.png'|imagine_filter('logo') }}">#}
+                                            <b class="mx-3">
+                                                {% if feedback.otherAuthor is not null %}
+                                                    {{ feedback.otherAuthor }}
+                                                {% elseif feedback.author is not null %}
+                                                    {{ feedback.author.firstName }} {{ feedback.author.surname }}
+                                                {% else %}
+                                                    Аноним
+                                                {% endif %}</b>
+{#                                            <small class="me-3">{{ feedback.updatedAt|format_date(locale='ru') }}</small>#}
+                                            {% if not feedback.publishedAt %}
+                                                <span class="text-danger">Ждет одобрения модератором</span>
+                                            {% endif %}
+                                            <br>
+                                            <p class="comment">{{ feedback.text | markdown_to_html }}</p>
+                                        </div>
+                                        <hr class="col-sm-12">
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
     {% if articles is not empty and articles|length > 0 %}
         <section class="container mt-4">
             <div class="row">
@@ -69,7 +151,9 @@
                     <div class="row no-gutters border overflow-hidden flex-md-row mb-4 position-relative bg-light featured-border rounded shadow-lg">
                         <div class="media-body d-inline-block align-self-center mx-2">
                             <div class="m-2">
-                                <h3 class="my-4 ms-3"><i class="far fa-comments fa-lg"> Последние {{ comments|length }} {{ comments|length|format_ru_comments_end }}.</i></h3>
+                                <h3 class="my-4 ms-3"><i class="far fa-comments fa-lg">
+                                        Последние {{ comments|length }} {{ comments|length|format_ru_comments_end }}
+                                        .</i></h3>
                                 <hr class="col-sm-12 m-3">
                                 {% for comment in comments %}
                                     <div class="row">
@@ -81,7 +165,8 @@
                                                     <small class="me-3">{{ comment.updatedAt|format_date(locale='ru') }}</small>
 
                                                     <span class="text-primary"><i
-                                                                class="pe-3 fas fa-paste"> Статья:</i><a class="link-unstyled"
+                                                                class="pe-3 fas fa-paste"> Статья:</i><a
+                                                                class="link-unstyled"
                                                                 href="{{ url('app_article_show', {slug: comment.article.slug}) }}">{{ comment.article.title }}</a></span>
 
                                                     <br>

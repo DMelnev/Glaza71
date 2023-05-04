@@ -23,6 +23,8 @@
             <excludedPath path="/public/sitemap.xml" />
             <excludedPath path="/.gitignore" />
             <excludedPath path="/public/yandex_57ac3bca5619c3da.html" />
+            <excludedPath path="/public/update_sitemap.php" />
+            <excludedPath path="/.htaccess" />
           </excludedPaths>
         </serverdata>
       </paths>
@@ -46,6 +48,8 @@
             <excludedPath path="/public/img" />
             <excludedPath local="true" path="$PROJECT_DIR$/public/img" />
             <excludedPath path="/templates/base.html.twig" />
+            <excludedPath path="/public/update_sitemap.php" />
+            <excludedPath path="/.htaccess" />
           </excludedPaths>
         </serverdata>
       </paths>

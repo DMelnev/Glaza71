@@ -49,6 +49,11 @@ class Comment
      */
     private $path;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $likes;
+
 
     public function getId(): ?int
     {
@@ -122,5 +127,17 @@ class Comment
     public function setPath(array $path): void
     {
         $this->path = implode('.', $path);
+    }
+
+    public function getLikes(): ?int
+    {
+        return $this->likes;
+    }
+
+    public function setLikes(?int $likes): self
+    {
+        $this->likes = $likes;
+
+        return $this;
     }
 }
