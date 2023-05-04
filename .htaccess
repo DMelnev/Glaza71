@@ -1,7 +1,8 @@
 RewriteEngine On
 
-RewriteCond %{HTTP_HOST} ^www\.glaza71\.ru$ [NC]
-RewriteRule ^(.*)$ https://glaza71.ru/$1 [R=301,L]
+#redirect from www
+RewriteCond %{HTTP_HOST} ^www\.(.*)$
+RewriteRule ^(.*)$ https://%1/$1 [L,R=301]
 
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
