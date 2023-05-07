@@ -1,11 +1,6 @@
 Sitemap: https://glaza71.ru/sitemap.xml
 
 User-agent: *
-Allow: /
-Allow: /articles
-Allow: /article/*
-Allow: /optic
-Allow: /tomography
 
 Disallow: /build/
 Disallow: /css/
@@ -21,7 +16,6 @@ Disallow: /sitemap
 Disallow: /search
 Disallow: /admin
 Disallow: /admin/*
-Disallow: /index.php
 
 
 
