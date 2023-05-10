@@ -25,13 +25,17 @@
                         <td><a class="link-unstyled" href="{% if page.id == 1 %}{{ url('app_index') }}{% endif %}
                                      {% if page.id == 2 %}{{ url('app_optic') }}{% endif %}
                                      {% if page.id == 3 %}{{ url('app_tomography') }}{% endif %}
-                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}">{{ page.headTitle|u.truncate(100, '...', false) }}</a>
+                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}
+                                     {% if page.id == 5 %}{{ url('app_price') }}{% endif %}
+                                     {% if page.id == 6 %}{{ url('app_certificates') }}{% endif %}">{{ page.headTitle|u.truncate(100, '...', false) }}</a>
                         </td>
                         <td class="align-middle disappeared-380">
                             <a href="{% if page.id == 1 %}{{ url('app_index') }}{% endif %}
                                      {% if page.id == 2 %}{{ url('app_optic') }}{% endif %}
                                      {% if page.id == 3 %}{{ url('app_tomography') }}{% endif %}
-                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}"><i
+                                     {% if page.id == 4 %}{{ url('app_contacts') }}{% endif %}
+                                     {% if page.id == 5 %}{{ url('app_price') }}{% endif %}
+                                     {% if page.id == 6 %}{{ url('app_certificates') }}{% endif %}"><i
                                         class="fas fa-link fa-lg"></i></a>
                         </td>
                     </tr>
