@@ -53,6 +53,18 @@ class ArticleRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllSortedByUpdateNotPublished()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.updatedAt', 'DESC')
+            ->leftJoin('a.author', 'u')
+            ->addSelect('u')
+            ->leftJoin('a.comments', 'c')
+            ->addSelect('c')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findLast(int $num)
     {
         return $this->createQueryBuilder('a')

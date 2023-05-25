@@ -187,7 +187,7 @@ class AdminController extends AbstractController
      */
     public function articlesList(ArticleRepository $repository): Response
     {
-        $articles = $repository->findAllSortedByUpdate();
+        $articles = $repository->findAllSortedByUpdateNotPublished();
         return $this->render('admin/article/articles_list.html.twig', [
             'articles' => $articles
         ]);
