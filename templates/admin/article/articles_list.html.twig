@@ -17,8 +17,10 @@
                     <div class="article-container mb-2">
                         <div class="row no-gutters border rounded-lg overflow-hidden flex-md-row mb-4 shadow-sm position-relative">
                             <div class="col-auto d-none d-sm-block">
+                                {% if article.imageFilename %}
                                 <img class="article-img"
                                      src="{{ article.imageFilename | imagine_filter('article_preview') }}">
+                                {% endif %}
                             </div>
                             <div class="col p-2 px-4 d-flex flex-column article-item">
                                 <h5 class="mb-2">{{ article.title }}

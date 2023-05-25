@@ -56,6 +56,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findAllSortedByUpdateNotPublished()
     {
         return $this->createQueryBuilder('a')
+            ->andWhere('a.id > 0')
             ->orderBy('a.updatedAt', 'DESC')
             ->leftJoin('a.author', 'u')
             ->addSelect('u')
